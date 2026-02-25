@@ -11,12 +11,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600;1,700&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500;1,600;1,700&family=Sora:wght@400;500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;0,900;1,300;1,400;1,500;1,700&display=swap"
       rel="stylesheet"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
     />
     <link rel="stylesheet" href="styles.css" />
   </head>
@@ -33,7 +29,7 @@
         <span class="preloader-rotor"></span>
       </div>
       <div class="preloader-inner">
-        <img src="assets/logo-blc.png" alt="Berecons logo" class="preloader-logo" />
+        <img src="assets/logo-blc-cropped.png" alt="Berecons logo" class="preloader-logo" />
         <p class="preloader-title">BERECONS LLC</p>
         <p class="preloader-subtitle">Mastery Beyond Imagination</p>
         <div class="preloader-track"><span id="preloader-progress"></span></div>
@@ -50,7 +46,7 @@
         <span class="transition-col"></span>
       </div>
       <div class="transition-center">
-        <img src="assets/logo-blc.png" alt="" class="transition-logo" />
+        <img src="assets/logo-blc-cropped.png" alt="" class="transition-logo" />
         <p id="transition-target" class="transition-target">Navigating</p>
       </div>
     </div>
@@ -71,7 +67,7 @@
           aria-label="Berecons homepage"
         >
           <span class="brand-logo-wrap">
-            <img src="assets/logo-blc.png" alt="Berecons LLC logo" class="brand-logo" />
+            <img src="assets/logo-blc-cropped.png" alt="Berecons LLC logo" class="brand-logo" />
           </span>
           <span class="brand-copy">
             <strong>BERECONS LLC</strong>
@@ -116,19 +112,11 @@
           >
           <a
             class="nav-link"
-            data-text="Showcase"
+            data-text="Team"
             data-transition-link
-            data-transition-label="Showcase"
-            href="#showcase"
-            ><span>Showcase</span></a
-          >
-          <a
-            class="nav-link"
-            data-text="Results"
-            data-transition-link
-            data-transition-label="Results"
-            href="#results"
-            ><span>Results</span></a
+            data-transition-label="Team"
+            href="#team"
+            ><span>Team</span></a
           >
           <a
             class="nav-link"
@@ -145,193 +133,355 @@
     <main>
       <section id="home" class="hero panel panel-dark section-anchor">
         <div class="hero-bg" aria-hidden="true">
+          <video
+            class="hero-bg-video"
+            autoplay
+            muted
+            loop
+            playsinline
+            preload="metadata"
+            poster="assets/pexels-kindel-media-7688336.jpg"
+          >
+            <source src="assets/hero.mp4" type="video/mp4" />
+          </video>
           <img src="assets/pexels-kindel-media-7688336.jpg" alt="" class="hero-bg-image hero-bg-image-a" />
           <img src="assets/pexels-william-fortunato-6140697.jpg" alt="" class="hero-bg-image hero-bg-image-b" />
           <span class="hero-bg-overlay"></span>
         </div>
-        <div class="hero-art" aria-hidden="true">
-          <img src="assets/pexels-kindel-media-7688336.jpg" alt="" class="hero-art-photo" />
-          <span class="hero-art-veil"></span>
-          <span class="hero-art-splash"></span>
-        </div>
 
         <div class="container hero-grid">
           <div class="hero-copy">
-            <p class="hero-kicker" data-reveal="fade">Strategic clarity. Premium delivery.</p>
             <h1 class="hero-title">
-              <span class="hero-title-line" data-reveal="hero-line">Mastery Beyond</span>
-              <span class="hero-title-line" data-reveal="hero-line"> <em>Imagination</em> </span>
+              <span class="hero-title-line" data-reveal="hero-line">Mastery</span>
+              <span class="hero-title-line" data-reveal="hero-line">Beyond</span>
+              <span class="hero-title-line" data-reveal="hero-line"><em>Imagination</em></span>
             </h1>
             <p class="hero-subtitle" data-reveal="fade">
-              Research | Business Strategy | Content | Project | IT and Web Solutions
-            </p>
-
-            <div class="hero-actions" data-reveal="fade">
-              <a
-                class="btn btn-primary"
-                data-transition-link
-                data-transition-label="Services"
-                href="#services"
-                >Explore Services</a
-              >
-              <a
-                class="btn btn-secondary"
-                data-transition-link
-                data-transition-label="Contact"
-                href="#contact"
-                >Start Project</a
-              >
-            </div>
-          </div>
-
-          <aside class="hero-side">
-            <div class="hero-logo-stage" data-reveal="zoom">
-              <img src="assets/pexels-kindel-media-7688336.jpg" alt="" class="hero-stage-photo" />
-              <span class="hero-stage-fog"></span>
-              <span class="hero-stage-rotor"></span>
-              <img src="assets/logo-blc.png" alt="Berecons logo" class="hero-logo" />
-            </div>
-
-            <div class="hero-cards" aria-hidden="true">
-              <article class="hero-card" data-reveal="fade-up">
-                <span>01</span>
-                <p>Research that drives decisions</p>
-              </article>
-              <article class="hero-card" data-reveal="fade-up">
-                <span>02</span>
-                <p>Strategy designed for execution</p>
-              </article>
-              <article class="hero-card" data-reveal="fade-up">
-                <span>03</span>
-                <p>Digital delivery with measurable impact</p>
-              </article>
-            </div>
-          </aside>
-        </div>
-      </section>
-
-      <section id="about" class="panel panel-light section section-anchor">
-        <div class="container section-head" data-reveal="fade-up">
-          <p class="section-kicker">About</p>
-          <h2>Clean communication. Stronger outcomes. Less noise.</h2>
-        </div>
-
-        <div class="container about-layout">
-          <figure class="about-media" data-reveal="fade-left">
-            <img src="assets/pexels-kindel-media-7688336.jpg" alt="Team in workshop" />
-          </figure>
-
-          <div class="about-copy" data-reveal="fade-right">
-            <p>
-              Berecons LLC helps organizations connect discovery, planning, and implementation.
-              Every project is structured to remove noise and focus attention on the decisions that
-              move the business forward.
-            </p>
-            <p>
-              The result is a practical strategy system across brand, communication, and digital
-              execution so teams can deliver consistently with confidence.
+              Berecons LLC helps organisations connect discovery, planning, and implementation.
+              Every project is structured to remove noise and focus attention on the decisions
+              that move the business forward.
             </p>
           </div>
         </div>
       </section>
 
-      <section id="services" class="panel panel-dark section section-anchor">
-        <div class="container section-head services-head">
+      <section id="mission" class="panel panel-light section section-anchor mission-section">
+        <div class="container mission-shell mission-grid">
+          <h2 class="mission-title">Mission</h2>
+          <p class="mission-text">
+            Berecons LLC offers <em>qualitative, quantitative, and mixed-method research approaches</em>
+            that connect <em>discovery, planning, and implementation</em>. We support
+            <em>research</em>, <em>fieldwork</em>, <em>data analysis</em>, and
+            <em>data management</em> so organisations can make
+            <em>timely, reliable, and actionable decisions</em>.
+          </p>
+        </div>
+
+        <div class="mission-slab" aria-hidden="true">
+          <span class="mission-slab-mark">Berecons</span>
+        </div>
+      </section>
+
+      <section id="difference" class="panel panel-light section section-anchor difference-section">
+        <div class="container difference-shell difference-head">
+          <h2>
+            FIRST THING: WE ARE
+            <span class="difference-accent-wrap">
+              <span class="difference-accent">DIFFERENT!</span>
+              <span class="difference-scribble" aria-hidden="true"></span>
+            </span>
+          </h2>
+        </div>
+
+        <div class="container difference-shell difference-grid">
+          <div class="difference-big">
+            <p class="difference-number">15<span class="difference-plus">+</span></p>
+          </div>
+
+          <article class="difference-copy">
+            <h3>Decades of Experience</h3>
+            <p>
+              Our consultants’ <strong>150+ years of collective expertise</strong> supports
+              organisations across research, data analysis, and project implementation with
+              practical, ethical, and measurable delivery.
+            </p>
+            <a class="btn difference-cta" href="#contact">Get in touch</a>
+          </article>
+
+          <div class="difference-metrics">
+            <article class="difference-metric difference-metric-a">
+              <p class="difference-metric-value">
+                <span class="stat-value" data-count="20">20</span>
+              </p>
+              <p class="difference-metric-label">Consultants</p>
+            </article>
+
+            <article class="difference-metric difference-metric-b">
+              <p class="difference-metric-value">
+                <span class="stat-value" data-count="98">98</span><span class="difference-suffix">%</span>
+              </p>
+              <p class="difference-metric-label">Customer Retention Rate</p>
+            </article>
+
+            <article class="difference-metric difference-metric-c">
+              <p class="difference-metric-value">
+                <span class="stat-value" data-count="10">10</span>
+              </p>
+              <p class="difference-metric-label">Countries</p>
+            </article>
+
+            <article class="difference-metric difference-metric-d">
+              <p class="difference-metric-value">
+                <span class="stat-value" data-count="100">100</span><span class="difference-suffix">%</span>
+              </p>
+              <p class="difference-metric-label">Customer Referrals</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section id="services" class="panel panel-light section section-anchor process-section">
+        <div class="container process-intro">
           <p class="section-kicker">Services</p>
-          <h2>Built for momentum from first brief to final delivery.</h2>
+          <p class="process-lead">
+            From baseline to breakthrough. Our process follows a straight game plan. Starting with
+            clear <em>strategy</em>, moving through focused <em>design</em>, and finishing with
+            high-performance <em>development</em>. Step by step, Berecons builds practical systems
+            that move teams from ideas to measurable outcomes.
+          </p>
         </div>
 
-        <div class="container services-grid">
-          <article class="service-card" data-reveal="fade-up">
-            <h3>Research</h3>
-            <p>Audience insight, competitive mapping, and strategic recommendations.</p>
+        <div class="container services-grid process-grid">
+          <article class="service-card process-card" data-reveal="fade-up">
+            <div class="process-card-head">
+              <h3>Strategy</h3>
+              <span>3-4 weeks</span>
+            </div>
+            <p>
+              In a focused workshop, we set the baseline together. We map your goals, constraints,
+              and opportunities into a clear project direction.
+            </p>
           </article>
-          <article class="service-card" data-reveal="fade-up">
-            <h3>Business Strategy</h3>
-            <p>Clear operating plans, prioritization, and roadmap alignment.</p>
+          <article class="service-card process-card" data-reveal="fade-up">
+            <div class="process-card-head">
+              <h3>Design</h3>
+              <span>4-6 weeks</span>
+            </div>
+            <p>
+              Building on strategy, we shape the experience and communication system so your
+              audience understands the value quickly and clearly.
+            </p>
           </article>
-          <article class="service-card" data-reveal="fade-up">
-            <h3>Content</h3>
-            <p>Messaging systems and content direction for consistent communication.</p>
-          </article>
-          <article class="service-card" data-reveal="fade-up">
-            <h3>Project</h3>
-            <p>Structured implementation from kickoff to measurable project completion.</p>
-          </article>
-          <article class="service-card" data-reveal="fade-up">
-            <h3>IT and Web Solutions</h3>
-            <p>Technical support and web delivery grounded in business goals.</p>
-          </article>
-          <article class="service-card" data-reveal="fade-up">
-            <h3>Special Engagements</h3>
-            <p>Flexible advisory support for unique and high-priority initiatives.</p>
+          <article class="service-card process-card" data-reveal="fade-up">
+            <div class="process-card-head">
+              <h3>Development</h3>
+              <span>3-4 weeks</span>
+            </div>
+            <p>
+              We deliver robust implementation with performance, maintainability, and handover in
+              mind, so execution continues smoothly after launch.
+            </p>
           </article>
         </div>
       </section>
 
-      <section id="showcase" class="panel panel-light section section-anchor">
-        <div class="container section-head" data-reveal="fade-up">
-          <p class="section-kicker">Showcase</p>
-          <h2>Research-led delivery, strategy, and implementation in action.</h2>
+      <section id="about" class="panel panel-light section section-anchor about-section">
+        <div class="container section-head about-head" data-reveal="fade-up">
+          <p class="section-kicker">About</p>
+          <h2>Disciplined delivery with ethics, accuracy, and measurable outcomes.</h2>
         </div>
 
-        <div class="container showcase-wrap" data-reveal="fade-up">
-          <div class="swiper showcase-swiper">
-            <div class="swiper-wrapper">
-              <article class="swiper-slide showcase-slide">
-                <img src="assets/pexels-kindel-media-7688336.jpg" alt="Research sprint showcase" />
-                <div class="showcase-meta">
-                  <h3>Research Sprint</h3>
-                  <p>Fast discovery and priority mapping for focused execution.</p>
-                </div>
-              </article>
-              <article class="swiper-slide showcase-slide">
-                <img src="assets/pexels-william-fortunato-6140697.jpg" alt="Strategy showcase" />
-                <div class="showcase-meta">
-                  <h3>Strategy Alignment</h3>
-                  <p>Converting leadership direction into practical roadmap actions.</p>
-                </div>
-              </article>
-              <article class="swiper-slide showcase-slide">
-                <img src="assets/pexels-kampus-production-5940841.jpg" alt="Digital delivery showcase" />
-                <div class="showcase-meta">
-                  <h3>Digital Delivery</h3>
-                  <p>Technical implementation with clear business outcomes.</p>
-                </div>
-              </article>
-            </div>
+        <div class="container about-copy about-copy-wide" data-reveal="fade-up">
+          <p>
+            Our consultants are meticulous in service delivery and ensure all ethical guidelines
+            prescribed by clients’ ethics boards, institutions, and host-country requirements are
+            followed from start to finish. We also provide support across research design, data
+            collection, analysis, interpretation, and reporting.
+          </p>
+        </div>
 
-            <div class="showcase-controls">
-              <button class="showcase-arrow showcase-prev" type="button" aria-label="Previous">Prev</button>
-              <div class="showcase-pagination"></div>
-              <button class="showcase-arrow showcase-next" type="button" aria-label="Next">Next</button>
+        <div class="container about-overlap-stage" aria-hidden="true">
+          <div class="about-overlap-sticky">
+            <div class="overlap-circles">
+              <svg class="overlap-svg" viewBox="0 0 1000 480" preserveAspectRatio="xMidYMid meet">
+                <defs>
+                  <clipPath id="about-overlap-right-clip">
+                    <circle id="overlap-clip-right" cx="730" cy="240" r="170"></circle>
+                  </clipPath>
+                </defs>
+                <circle
+                  id="overlap-left-outline"
+                  class="overlap-outline"
+                  cx="270"
+                  cy="240"
+                  r="170"
+                ></circle>
+                <circle
+                  id="overlap-right-outline"
+                  class="overlap-outline"
+                  cx="730"
+                  cy="240"
+                  r="170"
+                ></circle>
+                <circle
+                  id="overlap-intersection"
+                  class="overlap-intersection"
+                  cx="270"
+                  cy="240"
+                  r="170"
+                  clip-path="url(#about-overlap-right-clip)"
+                ></circle>
+                <text id="overlap-label-left" class="overlap-label" x="270" y="240">Strategy</text>
+                <text id="overlap-label-right" class="overlap-label" x="730" y="240">Development</text>
+              </svg>
             </div>
           </div>
         </div>
       </section>
 
-      <section id="results" class="panel panel-dark section section-anchor">
-        <div class="container section-head" data-reveal="fade-up">
-          <p class="section-kicker">Results</p>
-          <h2>Measured progress across research, strategy, and delivery.</h2>
+      <section id="team" class="panel panel-dark section section-anchor team-section">
+        <div class="container team-intro">
+          <div class="team-intro-strip team-reveal-target">
+            <h2 class="team-intro-title">Meet Our Stellar Team</h2>
+            <p class="team-intro-count"><span data-team-count>0</span> team members</p>
+          </div>
+
+          <p class="team-intro-copy team-reveal-target">
+            Berecons specialists work across research, strategy, content, project delivery, and
+            digital systems. Explore each department to see the experts driving implementation.
+          </p>
         </div>
 
-        <div class="container stats-grid">
-          <article class="stat-card" data-reveal="fade-up">
-            <p class="stat-value" data-count="240">0</p>
-            <p class="stat-symbol">+</p>
-            <p class="stat-label">Research and strategy initiatives</p>
-          </article>
-          <article class="stat-card" data-reveal="fade-up">
-            <p class="stat-value" data-count="98">0</p>
-            <p class="stat-symbol">%</p>
-            <p class="stat-label">Client satisfaction benchmark</p>
-          </article>
-          <article class="stat-card" data-reveal="fade-up">
-            <p class="stat-value" data-count="34">0</p>
-            <p class="stat-symbol">+</p>
-            <p class="stat-label">Digital and technical rollouts</p>
-          </article>
+        <div class="container team-stack">
+          <section class="team-dept team-reveal-target is-open">
+            <button class="team-dept-toggle" type="button" aria-expanded="true">
+              <span class="team-dept-name">Research &amp; Data</span>
+              <span class="team-dept-count">5 members</span>
+              <span class="team-dept-chevron" aria-hidden="true"></span>
+            </button>
+            <div class="team-dept-body">
+              <div class="team-members-grid">
+                <article class="team-member-card team-reveal-target" data-member-name="David Korboe">
+                  <p class="team-member-name">David Korboe</p>
+                  <p class="team-member-role">Research, Projects</p>
+                </article>
+                <article class="team-member-card team-reveal-target" data-member-name="Mawutor Ablo">
+                  <p class="team-member-name">Mawutor Ablo</p>
+                  <p class="team-member-role">Research Design &amp; Data Analysis</p>
+                </article>
+                <article class="team-member-card team-reveal-target" data-member-name="Ebenezer Obeng-Nyarko">
+                  <p class="team-member-name">Ebenezer Obeng-Nyarko</p>
+                  <p class="team-member-role">Data Analysis &amp; Data Management</p>
+                </article>
+                <article class="team-member-card team-reveal-target" data-member-name="Raymond A. Atuguba">
+                  <p class="team-member-name">Raymond A. Atuguba</p>
+                  <p class="team-member-role">Legal, Qualitative &amp; Research</p>
+                </article>
+                <article class="team-member-card team-reveal-target" data-member-name="Maxfield J. Peterson">
+                  <p class="team-member-name">Maxfield J. Peterson</p>
+                  <p class="team-member-role">Research &amp; Content</p>
+                </article>
+              </div>
+            </div>
+          </section>
+
+          <section class="team-dept team-reveal-target">
+            <button class="team-dept-toggle" type="button" aria-expanded="false">
+              <span class="team-dept-name">Project &amp; Content Delivery</span>
+              <span class="team-dept-count">5 members</span>
+              <span class="team-dept-chevron" aria-hidden="true"></span>
+            </button>
+            <div class="team-dept-body">
+              <div class="team-members-grid">
+                <article class="team-member-card team-reveal-target" data-member-name="Emmanuelle M. Marchand">
+                  <p class="team-member-name">Emmanuelle M. Marchand</p>
+                  <p class="team-member-role">Project Management</p>
+                </article>
+                <article class="team-member-card team-reveal-target" data-member-name="Lorenda E. A. Parker">
+                  <p class="team-member-name">Lorenda E. A. Parker</p>
+                  <p class="team-member-role">Research, Content, Projects</p>
+                </article>
+                <article class="team-member-card team-reveal-target" data-member-name="Tia Carter">
+                  <p class="team-member-name">Tia Carter</p>
+                  <p class="team-member-role">Content &amp; Projects</p>
+                </article>
+                <article class="team-member-card team-reveal-target" data-member-name="Valerie Gueye">
+                  <p class="team-member-name">Valerie Gueye</p>
+                  <p class="team-member-role">Content, Research &amp; Projects</p>
+                </article>
+                <article class="team-member-card team-reveal-target" data-member-name="Trevor Whiteman">
+                  <p class="team-member-name">Trevor Whiteman</p>
+                  <p class="team-member-role">IT &amp; Project Management (PRINCEII)</p>
+                </article>
+              </div>
+            </div>
+          </section>
+
+          <section class="team-dept team-reveal-target">
+            <button class="team-dept-toggle" type="button" aria-expanded="false">
+              <span class="team-dept-name">Strategy &amp; Advisory</span>
+              <span class="team-dept-count">2 members</span>
+              <span class="team-dept-chevron" aria-hidden="true"></span>
+            </button>
+            <div class="team-dept-body">
+              <div class="team-members-grid">
+                <article class="team-member-card team-reveal-target" data-member-name="Mark Ofori">
+                  <p class="team-member-name">Mark Ofori</p>
+                  <p class="team-member-role">Strategy Consulting</p>
+                </article>
+                <article class="team-member-card team-reveal-target" data-member-name="Diosnel Quiñones Rosales">
+                  <p class="team-member-name">Diosnel Quiñones Rosales</p>
+                  <p class="team-member-role">Consulting</p>
+                </article>
+              </div>
+            </div>
+          </section>
+
+          <section class="team-dept team-reveal-target">
+            <button class="team-dept-toggle" type="button" aria-expanded="false">
+              <span class="team-dept-name">Design, Web &amp; Systems</span>
+              <span class="team-dept-count">3 members</span>
+              <span class="team-dept-chevron" aria-hidden="true"></span>
+            </button>
+            <div class="team-dept-body">
+              <div class="team-members-grid">
+                <article class="team-member-card team-reveal-target" data-member-name="Fabian Williams">
+                  <p class="team-member-name">Fabian Williams</p>
+                  <p class="team-member-role">Graphic Design and Promotions</p>
+                </article>
+                <article class="team-member-card team-reveal-target" data-member-name="Hans Mills-Lamptey">
+                  <p class="team-member-name">Hans Mills-Lamptey</p>
+                  <p class="team-member-role">Web Design and Development</p>
+                </article>
+                <article class="team-member-card team-reveal-target" data-member-name="Brian S. Abbin">
+                  <p class="team-member-name">Brian S. Abbin</p>
+                  <p class="team-member-role">System Administrator</p>
+                </article>
+              </div>
+            </div>
+          </section>
+        </div>
+      </section>
+
+      <section id="zoom-story" class="panel panel-light section section-anchor zoom-story-section">
+        <div class="zoom-story-track">
+          <div class="zoom-story-sticky">
+            <figure class="zoom-story-frame" aria-label="Berecons visual storyboard">
+              <img
+                src="assets/pexels-kindel-media-7688336.jpg"
+                alt="Berecons project wall visual"
+                class="zoom-story-image"
+              />
+              <div class="zoom-story-lines" aria-hidden="true">
+                <span class="zoom-line zoom-line-h zoom-line-h1"></span>
+                <span class="zoom-line zoom-line-h zoom-line-h2"></span>
+                <span class="zoom-line zoom-line-h zoom-line-h3"></span>
+                <span class="zoom-line zoom-line-v zoom-line-v1"></span>
+                <span class="zoom-line zoom-line-v zoom-line-v2"></span>
+              </div>
+              <figcaption class="zoom-story-prompt">Are you ready for us?</figcaption>
+            </figure>
+          </div>
         </div>
       </section>
 
@@ -357,7 +507,6 @@
 
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script src="script.js"></script>
   </body>
 </html>
