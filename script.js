@@ -23,6 +23,15 @@ const transitionTarget = document.getElementById("transition-target");
 
 let transitionBusy = false;
 let shouldForceHomeOnReload = false;
+let headerStateFrame = 0;
+
+function requestHeaderStateSync() {
+  if (headerStateFrame) return;
+  headerStateFrame = window.requestAnimationFrame(() => {
+    headerStateFrame = 0;
+    setHeaderState();
+  });
+}
 
 function closeMenu() {
   if (!siteNav || !menuToggle) return;
@@ -83,26 +92,99 @@ function initHeroMedia() {
   const heroVideo = hero?.querySelector(".hero-bg-video");
   if (!hero || !heroVideo) return;
 
-  let activated = false;
+  let switchedToVideo = false;
+  const retryTimers = new Set();
+  let visibilityHandler = null;
 
-  const activateVideo = () => {
-    if (activated) return;
-    activated = true;
+  const clearRetryTimers = () => {
+    retryTimers.forEach((timerId) => window.clearTimeout(timerId));
+    retryTimers.clear();
+  };
+
+  const scheduleRetry = (delayMs) => {
+    const timerId = window.setTimeout(() => {
+      retryTimers.delete(timerId);
+      tryPlay();
+    }, delayMs);
+    retryTimers.add(timerId);
+  };
+
+  const cleanupActivationHooks = () => {
+    clearRetryTimers();
+    heroVideo.removeEventListener("playing", revealWhenFrameReady);
+    heroVideo.removeEventListener("timeupdate", revealWhenFrameReady);
+    if (visibilityHandler) {
+      document.removeEventListener("visibilitychange", visibilityHandler);
+    }
+  };
+
+  const commitVideoReveal = () => {
+    if (switchedToVideo) return;
+    switchedToVideo = true;
     hero.classList.add("has-video");
+    cleanupActivationHooks();
+  };
+
+  const revealWhenFrameReady = () => {
+    if (switchedToVideo) return;
+    if (heroVideo.readyState < HTMLMediaElement.HAVE_CURRENT_DATA) return;
+
+    if (typeof heroVideo.requestVideoFrameCallback === "function") {
+      heroVideo.requestVideoFrameCallback(() => commitVideoReveal());
+      return;
+    }
+
+    if (heroVideo.currentTime > 0 || !heroVideo.paused) {
+      commitVideoReveal();
+    }
+  };
+
+  const tryPlay = () => {
+    if (switchedToVideo) return;
     const playPromise = heroVideo.play();
-    if (playPromise && typeof playPromise.catch === "function") {
-      playPromise.catch(() => {});
+    if (playPromise && typeof playPromise.then === "function") {
+      playPromise.then(revealWhenFrameReady).catch(() => {});
     }
   };
 
   heroVideo.muted = true;
+  heroVideo.defaultMuted = true;
+  heroVideo.loop = true;
+  heroVideo.preload = "auto";
+  heroVideo.playsInline = true;
   heroVideo.setAttribute("playsinline", "true");
-  heroVideo.addEventListener("loadeddata", activateVideo, { once: true });
-  heroVideo.addEventListener("canplay", activateVideo, { once: true });
+  heroVideo.setAttribute("webkit-playsinline", "true");
+  heroVideo.setAttribute("preload", "auto");
 
-  window.setTimeout(() => {
-    if (heroVideo.readyState >= 2) activateVideo();
-  }, 300);
+  heroVideo.addEventListener("playing", revealWhenFrameReady);
+  heroVideo.addEventListener("timeupdate", revealWhenFrameReady);
+  heroVideo.addEventListener("loadeddata", tryPlay, { once: true });
+  heroVideo.addEventListener("canplay", tryPlay, { once: true });
+  heroVideo.addEventListener("error", clearRetryTimers);
+
+  const nudgePlayback = () => {
+    tryPlay();
+    clearRetryTimers();
+    scheduleRetry(700);
+    scheduleRetry(1700);
+  };
+
+  nudgePlayback();
+  window.addEventListener("load", nudgePlayback, { once: true });
+
+  const unlockPlayback = () => {
+    tryPlay();
+  };
+
+  document.addEventListener("pointerdown", unlockPlayback, { once: true, passive: true });
+  document.addEventListener("touchstart", unlockPlayback, { once: true, passive: true });
+  document.addEventListener("keydown", unlockPlayback, { once: true });
+
+  visibilityHandler = () => {
+    if (document.visibilityState !== "visible") return;
+    tryPlay();
+  };
+  document.addEventListener("visibilitychange", visibilityHandler);
 }
 
 function setHeaderState() {
@@ -195,6 +277,15 @@ function smoothScrollTo(target) {
   target.scrollIntoView({ behavior: "smooth", block: "start" });
 }
 
+function instantScrollTo(target) {
+  if (!target) return;
+  const root = document.documentElement;
+  const previousBehavior = root.style.scrollBehavior;
+  root.style.scrollBehavior = "auto";
+  target.scrollIntoView({ behavior: "auto", block: "start" });
+  root.style.scrollBehavior = previousBehavior;
+}
+
 function formatTransitionLabel(rawLabel, targetId) {
   if (rawLabel && rawLabel.trim()) return rawLabel.trim().toUpperCase();
   if (targetId && targetId.trim()) return targetId.trim().replace(/[-_]/g, " ").toUpperCase();
@@ -203,6 +294,14 @@ function formatTransitionLabel(rawLabel, targetId) {
 
 function runSectionTransition(target, label) {
   if (!target) return;
+
+  const headerOffset = (header?.offsetHeight || 0) + 24;
+  const targetTop = target.getBoundingClientRect().top;
+  if (targetTop >= -24 && targetTop <= headerOffset) {
+    history.replaceState(null, "", `#${target.id}`);
+    syncHeaderTheme();
+    return;
+  }
 
   if (prefersReducedMotion || !window.gsap || !transitionLayer || !transitionPanels.length) {
     smoothScrollTo(target);
@@ -253,7 +352,7 @@ function runSectionTransition(target, label) {
   }
 
   tl.add(() => {
-    target.scrollIntoView({ behavior: "auto", block: "start" });
+    instantScrollTo(target);
     history.replaceState(null, "", `#${target.id}`);
     syncHeaderTheme();
   });
@@ -347,69 +446,17 @@ function initGsapMotion() {
       0.18
     );
 
-  if (hasScrollTrigger) {
-    const heroScrollTl = gsap.timeline({
-      scrollTrigger: {
-        trigger: "#home",
-        start: "top top",
-        end: "bottom top",
-        scrub: 1.05,
-      },
-    });
-
-    heroScrollTl
-      .to(
-        ".hero-title",
-        {
-          xPercent: -3,
-          yPercent: -6,
-          scale: 0.9,
-          rotate: -0.8,
-          opacity: 0.78,
-          ease: "none",
-        },
-        0
-      )
-      .to(
-        ".hero-subtitle",
-        {
-          y: 24,
-          opacity: 0.74,
-          ease: "none",
-        },
-        0
-      )
-      .to(
-        ".hero-bg-image-a",
-        {
-          scale: 1.22,
-          yPercent: 11,
-          ease: "none",
-        },
-        0
-      )
-      .to(
-        ".hero-bg-image-b",
-        {
-          scale: 1.26,
-          yPercent: -8,
-          opacity: 0.52,
-          ease: "none",
-        },
-        0
-      );
-  }
-
   const panels = gsap.utils.toArray(".panel");
   if (hasScrollTrigger) {
     panels.forEach((panel) => {
       if (panel.id === "home") return;
       gsap.from(panel, {
-        y: 110,
+        y: 92,
         opacity: 0,
-        clipPath: "inset(10% 0 10% 0 round 30px)",
-        duration: 1.04,
-        ease: "power3.out",
+        scale: 0.985,
+        duration: 0.9,
+        ease: "power2.out",
+        clearProps: "opacity,transform",
         scrollTrigger: {
           trigger: panel,
           start: "top 86%",
@@ -465,17 +512,10 @@ function initNativeScrollEffects() {
   const missionSection = document.getElementById("mission");
   const missionMark = document.querySelector("#mission .mission-slab-mark");
   const differenceSection = document.getElementById("difference");
-  const aboutSection = document.getElementById("about");
   const servicesSection = document.getElementById("services");
   const serviceCards = [...document.querySelectorAll("#services .service-card")];
 
-  if (!homeSection && !missionSection && !differenceSection && !aboutSection && !servicesSection) return;
-
-  const pulse = (progress, start, end) => {
-    if (progress <= start || progress >= end) return 0;
-    const t = (progress - start) / (end - start);
-    return Math.sin(t * Math.PI);
-  };
+  if (!homeSection && !missionSection && !differenceSection && !servicesSection) return;
 
   const applyDefaults = (forReducedMotion = false) => {
     if (homeSection) homeSection.style.setProperty("--hero-scroll-p", "0");
@@ -502,6 +542,7 @@ function initNativeScrollEffects() {
   }
 
   let ticking = false;
+  let servicesCardsReset = false;
 
   const render = () => {
     ticking = false;
@@ -553,23 +594,27 @@ function initNativeScrollEffects() {
       differenceSection.style.setProperty("--difference-progress", differenceProgress.toFixed(4));
     }
 
-    if (aboutSection) {
-      const aboutRect = aboutSection.getBoundingClientRect();
-      const aboutProgress = clampValue(
-        (viewportHeight - aboutRect.top) / (aboutRect.height + viewportHeight),
-        0,
-        1
-      );
-      const aboutPulseA = pulse(aboutProgress, 0.08, 0.38);
-      const aboutPulseB = pulse(aboutProgress, 0.3, 0.64);
-      const aboutPulseC = pulse(aboutProgress, 0.56, 0.9);
-      const aboutProgressValue = aboutPulseA * 0.2 + aboutPulseB * 0.5 + aboutPulseC * 0.3;
-      aboutSection.style.setProperty("--about-scroll-p", aboutProgressValue.toFixed(4));
-    }
-
     if (servicesSection && serviceCards.length) {
       const isProcessSection = servicesSection.classList.contains("process-section");
       const servicesRect = servicesSection.getBoundingClientRect();
+      const servicesInActiveRange =
+        servicesRect.top < viewportHeight * 1.15 && servicesRect.bottom > -viewportHeight * 0.2;
+
+      if (!servicesInActiveRange) {
+        if (!servicesCardsReset) {
+          servicesSection.style.setProperty("--services-scroll-p", "0");
+          serviceCards.forEach((card) => {
+            card.style.setProperty("--card-y", "0px");
+            card.style.setProperty("--card-rot", "0deg");
+            card.style.setProperty("--card-scale", "1");
+            card.style.setProperty("--card-opacity", "1");
+          });
+          servicesCardsReset = true;
+        }
+        return;
+      }
+
+      servicesCardsReset = false;
       const servicesProgress = clampValue(
         (viewportHeight - servicesRect.top) / (servicesRect.height + viewportHeight),
         0,
@@ -670,53 +715,6 @@ function initServicesScrollReveal() {
       revealCards();
     }
   });
-}
-
-function initProcessCardSelection() {
-  const cards = [...document.querySelectorAll("#services .process-card")];
-  if (!cards.length) return;
-
-  const clearSelected = () => {
-    cards.forEach((card) => {
-      card.classList.remove("is-selected");
-      card.setAttribute("aria-pressed", "false");
-    });
-  };
-
-  cards.forEach((card) => {
-    card.setAttribute("tabindex", "0");
-    card.setAttribute("role", "button");
-    card.setAttribute("aria-pressed", "false");
-
-    const toggleSelected = () => {
-      const wasSelected = card.classList.contains("is-selected");
-      clearSelected();
-      if (!wasSelected) {
-        card.classList.add("is-selected");
-        card.setAttribute("aria-pressed", "true");
-      }
-    };
-
-    card.addEventListener("click", (event) => {
-      event.stopPropagation();
-      toggleSelected();
-    });
-
-    card.addEventListener("keydown", (event) => {
-      if (event.key !== "Enter" && event.key !== " ") return;
-      event.preventDefault();
-      toggleSelected();
-    });
-  });
-
-  document.addEventListener("click", (event) => {
-    const target = event.target;
-    if (!(target instanceof Node)) return;
-    if (cards.some((card) => card.contains(target))) return;
-    clearSelected();
-  });
-
-  window.addEventListener("scroll", clearSelected, { passive: true });
 }
 
 function initAboutOverlapCircles() {
@@ -1320,17 +1318,21 @@ function ensureRefreshStartsAtHome() {
 function forceHomeViewport() {
   const homeSection = document.getElementById("home");
   if (homeSection) {
-    homeSection.scrollIntoView({ behavior: "auto", block: "start" });
+    instantScrollTo(homeSection);
   }
 
+  const root = document.documentElement;
+  const previousBehavior = root.style.scrollBehavior;
+  root.style.scrollBehavior = "auto";
   window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+  root.style.scrollBehavior = previousBehavior;
   document.documentElement.scrollTop = 0;
   document.body.scrollTop = 0;
   syncHeaderTheme();
 }
 
-window.addEventListener("scroll", setHeaderState, { passive: true });
-window.addEventListener("resize", setHeaderState);
+window.addEventListener("scroll", requestHeaderStateSync, { passive: true });
+window.addEventListener("resize", requestHeaderStateSync);
 window.addEventListener("load", initPreloader);
 
 ensureRefreshStartsAtHome();
