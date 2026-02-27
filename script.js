@@ -1,7 +1,7 @@
 const body = document.body;
 body.classList.add("has-js");
 
-const BUILD_VERSION = "20260227-16";
+const BUILD_VERSION = "20260227-18";
 const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
 console.info(`[Berecons] build ${BUILD_VERSION}`);
@@ -1511,6 +1511,258 @@ function initDifferencePointerParticle() {
   pointerTarget.addEventListener("touchcancel", resetPointer, { passive: true });
 }
 
+function initMissionReadyParticles() {
+  const missionSection = document.getElementById("mission");
+  const readyWrap = missionSection?.querySelector(".mission-giant-word-wrap");
+  const readyWord = readyWrap?.querySelector(".mission-slab-mark");
+  const particleCanvas = readyWrap?.querySelector(".mission-ready-particles");
+  if (!readyWrap || !readyWord || !particleCanvas) return;
+
+  const ctx = particleCanvas.getContext("2d");
+  if (!ctx) return;
+
+  let dpr = Math.min(window.devicePixelRatio || 1, 2);
+  let wrapRect = readyWrap.getBoundingClientRect();
+  let rafId = 0;
+  let pointerInside = false;
+  let lastInteractionAt = 0;
+
+  const orb = {
+    x: 0,
+    y: 0,
+    tx: 0,
+    ty: 0,
+    vx: 0,
+    vy: 0,
+  };
+
+  let anchorX = 0;
+  let anchorY = 0;
+
+  const particles = [];
+  const maxParticles = 680;
+
+  const palette = [
+    { r: 255, g: 255, b: 255, a: 0.88 },
+    { r: 255, g: 255, b: 255, a: 0.62 },
+    { r: 58, g: 206, b: 187, a: 0.72 },
+    { r: 10, g: 31, b: 168, a: 0.68 },
+  ];
+
+  const recalcAnchor = () => {
+    wrapRect = readyWrap.getBoundingClientRect();
+    const wordRect = readyWord.getBoundingClientRect();
+    const wordLeft = clampValue(wordRect.left - wrapRect.left, 0, wrapRect.width);
+    const wordTop = clampValue(wordRect.top - wrapRect.top, 0, wrapRect.height);
+    anchorX = wordLeft + wordRect.width * 0.24;
+    anchorY = wordTop + wordRect.height * 0.55;
+
+    const idleX = Math.max(22, wordLeft - Math.min(140, wrapRect.width * 0.2));
+    const idleY = clampValue(wordTop + wordRect.height * 0.44, 18, wrapRect.height - 18);
+    if (!Number.isFinite(orb.x) || orb.x === 0) {
+      orb.x = idleX;
+      orb.y = idleY;
+      orb.tx = idleX;
+      orb.ty = idleY;
+    }
+    if (!pointerInside) {
+      orb.tx = idleX;
+      orb.ty = idleY;
+    }
+  };
+
+  const resizeCanvas = () => {
+    dpr = Math.min(window.devicePixelRatio || 1, 2);
+    recalcAnchor();
+    const width = Math.max(1, Math.round(wrapRect.width));
+    const height = Math.max(1, Math.round(wrapRect.height));
+    particleCanvas.width = Math.max(1, Math.round(width * dpr));
+    particleCanvas.height = Math.max(1, Math.round(height * dpr));
+    particleCanvas.style.width = `${width}px`;
+    particleCanvas.style.height = `${height}px`;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  };
+
+  const startLoop = () => {
+    if (rafId) return;
+    rafId = window.requestAnimationFrame(tick);
+  };
+
+  const stopLoop = () => {
+    if (!rafId) return;
+    window.cancelAnimationFrame(rafId);
+    rafId = 0;
+  };
+
+  const spawnAt = (x, y, burst = 1) => {
+    const emissionCount = Math.max(1, Math.round((9 + Math.random() * 10) * burst));
+    const moveAngle = Math.atan2(orb.vy, orb.vx);
+    const baseAngle = Number.isFinite(moveAngle) ? moveAngle + Math.PI : Math.PI;
+    const moveEnergy = Math.hypot(orb.vx, orb.vy);
+
+    for (let i = 0; i < emissionCount; i += 1) {
+      if (particles.length >= maxParticles) particles.shift();
+      const color = palette[Math.floor(Math.random() * palette.length)];
+      const angle = baseAngle + (Math.random() - 0.5) * 1.45;
+      const speed = 0.45 + Math.random() * 2.5 + moveEnergy * 0.42;
+      const lifespan = 34 + Math.random() * 54;
+      const twirl = (Math.random() - 0.5) * 0.24;
+      const size = 0.7 + Math.random() * 1.85;
+
+      particles.push({
+        x: x + (Math.random() - 0.5) * 2.8,
+        y: y + (Math.random() - 0.5) * 2.8,
+        vx: Math.cos(angle) * speed,
+        vy: Math.sin(angle) * speed - 0.2,
+        life: lifespan,
+        maxLife: lifespan,
+        size,
+        drag: 0.965 - Math.random() * 0.012,
+        twirl,
+        seed: Math.random() * Math.PI * 2,
+        color,
+      });
+    }
+  };
+
+  const emitFromPointer = (clientX, clientY, burst = 1) => {
+    wrapRect = readyWrap.getBoundingClientRect();
+    if (wrapRect.width <= 0 || wrapRect.height <= 0) return;
+    orb.tx = clampValue(clientX - wrapRect.left, 0, wrapRect.width);
+    orb.ty = clampValue(clientY - wrapRect.top, 0, wrapRect.height);
+    lastInteractionAt = performance.now();
+    spawnAt(orb.x || orb.tx, orb.y || orb.ty, burst);
+    startLoop();
+  };
+
+  const tick = () => {
+    rafId = window.requestAnimationFrame(tick);
+    ctx.clearRect(0, 0, wrapRect.width, wrapRect.height);
+
+    const now = performance.now();
+    const sinceLastInteraction = now - lastInteractionAt;
+    const idleDecay = clampValue(1 - sinceLastInteraction / 950, 0, 1);
+    const tension = pointerInside ? 0.14 : 0.065;
+    const damping = pointerInside ? 0.82 : 0.86;
+
+    orb.vx += (orb.tx - orb.x) * tension;
+    orb.vy += (orb.ty - orb.y) * tension;
+    orb.vx *= damping;
+    orb.vy *= damping;
+    orb.x += orb.vx;
+    orb.y += orb.vy;
+
+    const streamBurst = pointerInside ? 1.28 : idleDecay * 0.72;
+    if (streamBurst > 0.05) {
+      spawnAt(orb.x, orb.y, streamBurst);
+    }
+
+    for (let i = particles.length - 1; i >= 0; i -= 1) {
+      const particle = particles[i];
+      particle.life -= 1;
+      if (particle.life <= 0) {
+        particles.splice(i, 1);
+        continue;
+      }
+
+      const age = particle.maxLife - particle.life;
+      particle.vx += Math.sin(age * 0.07 + particle.seed) * particle.twirl;
+      particle.vy += Math.cos(age * 0.06 + particle.seed) * particle.twirl * 0.55;
+      particle.vx += (anchorX - particle.x) * 0.0004;
+      particle.vy += (anchorY - particle.y) * 0.0003;
+      particle.vy += 0.012;
+
+      particle.x += particle.vx;
+      particle.y += particle.vy;
+      particle.vx *= particle.drag;
+      particle.vy *= particle.drag;
+
+      const opacity = Math.pow(particle.life / particle.maxLife, 1.18) * particle.color.a;
+      ctx.fillStyle = `rgba(${particle.color.r}, ${particle.color.g}, ${particle.color.b}, ${opacity})`;
+      ctx.beginPath();
+      ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
+      ctx.fill();
+
+      if (
+        particle.x < -24 ||
+        particle.y < -24 ||
+        particle.x > wrapRect.width + 24 ||
+        particle.y > wrapRect.height + 24
+      ) {
+        particles.splice(i, 1);
+      }
+    }
+
+    if (pointerInside || idleDecay > 0.02 || particles.length > 0) {
+      ctx.save();
+      ctx.shadowColor = "rgba(255, 255, 255, 0.72)";
+      ctx.shadowBlur = 12;
+      ctx.beginPath();
+      ctx.fillStyle = "rgba(255, 255, 255, 0.95)";
+      ctx.arc(orb.x, orb.y, pointerInside ? 8.4 : 7, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.restore();
+
+      ctx.beginPath();
+      ctx.strokeStyle = "rgba(10, 31, 168, 0.2)";
+      ctx.lineWidth = 1.25;
+      ctx.arc(orb.x, orb.y, pointerInside ? 8.9 : 7.4, 0, Math.PI * 2);
+      ctx.stroke();
+    }
+
+    if (!pointerInside && idleDecay <= 0.02 && particles.length === 0 && Math.hypot(orb.vx, orb.vy) < 0.02) {
+      stopLoop();
+      ctx.clearRect(0, 0, wrapRect.width, wrapRect.height);
+    }
+  };
+
+  resizeCanvas();
+  window.addEventListener("resize", resizeCanvas);
+
+  if (prefersReducedMotion) return;
+
+  readyWrap.addEventListener("pointerenter", (event) => {
+    pointerInside = true;
+    emitFromPointer(event.clientX, event.clientY, 2.2);
+  });
+
+  readyWrap.addEventListener("pointermove", (event) => {
+    pointerInside = true;
+    emitFromPointer(event.clientX, event.clientY, 1);
+  });
+
+  readyWrap.addEventListener("pointerleave", () => {
+    pointerInside = false;
+    recalcAnchor();
+  });
+
+  readyWrap.addEventListener("pointercancel", () => {
+    pointerInside = false;
+    recalcAnchor();
+  });
+
+  readyWrap.addEventListener(
+    "touchmove",
+    (event) => {
+      const touch = event.touches[0];
+      if (!touch) return;
+      pointerInside = true;
+      emitFromPointer(touch.clientX, touch.clientY, 1.2);
+    },
+    { passive: true }
+  );
+
+  readyWrap.addEventListener("touchend", () => {
+    pointerInside = false;
+    recalcAnchor();
+  });
+
+  readyWrap.addEventListener("touchcancel", () => {
+    pointerInside = false;
+    recalcAnchor();
+  });
+}
+
 function ensureRefreshStartsAtHome() {
   if ("scrollRestoration" in history) {
     history.scrollRestoration = "manual";
@@ -1572,6 +1824,7 @@ initHeroMedia();
 body.classList.add("motion-ready");
 initGsapMotion();
 initNativeScrollEffects();
+initMissionReadyParticles();
 initDifferenceCanvas();
 if (!document.querySelector("#difference .difference-v2-page")) {
   initDifferenceMainCounter();

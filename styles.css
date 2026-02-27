@@ -983,12 +983,20 @@ main {
 
 .mission-section {
   --mission-progress: 1;
+  --mission-primary: #0a1fa8;
+  --mission-heading: #7038bc;
+  --mission-accent: var(--teal-500);
+  --mission-copy: #4f5668;
   background: #ffffff;
-  color: #333333;
-  padding-top: clamp(5rem, 8vw, 7rem);
-  padding-bottom: clamp(4rem, 7vw, 6rem);
+  color: var(--mission-copy);
+  font-family: "Perfectly Nineties", "Times New Roman", serif;
+  padding: 0;
   min-height: auto;
-  overflow: visible;
+  overflow: hidden;
+}
+
+.mission-section * {
+  font-family: "Perfectly Nineties", "Times New Roman", serif;
 }
 
 .mission-v2-shell {
@@ -1083,34 +1091,36 @@ main {
 
 .mission-shell {
   width: 100%;
-  max-width: none;
-  margin-left: 0;
-  margin-right: 0;
-  padding-left: 0;
-  padding-right: 0;
+  position: relative;
+  padding-top: 100px;
 }
 
-.mission-grid {
-  display: grid;
-  grid-template-columns: minmax(190px, auto) minmax(170px, auto) minmax(460px, 620px);
-  grid-template-rows: auto;
-  justify-content: space-between;
-  column-gap: 16px;
-  row-gap: 16px;
-  align-items: start;
+.mission-top {
+  position: relative;
+  min-height: 240px;
+  padding: 28px 40px 0;
+}
+
+.mission-head-row {
+  display: flex;
+  align-items: flex-start;
+  gap: clamp(1rem, 4.8vw, 5rem);
+}
+
+.mission-grid,
+.mission-intro {
+  display: contents;
 }
 
 .mission-title {
-  grid-column: 1;
-  grid-row: 1;
   margin: 0;
-  color: var(--blue-700);
-  font-family: var(--font-ui);
-  font-size: clamp(2.1rem, 4.4vw, 4.2rem);
-  line-height: 0.94;
+  color: var(--mission-heading);
+  font-family: "Perfectly Nineties", "Times New Roman", serif;
+  font-size: 22px;
+  line-height: 1;
   text-align: left;
   font-weight: 700;
-  letter-spacing: -0.015em;
+  letter-spacing: -0.02em;
   transform: none;
   opacity: 1;
   transition: none;
@@ -1118,19 +1128,15 @@ main {
 }
 
 .mission-mini {
-  grid-column: 2;
-  grid-row: 1;
-  margin: clamp(0.28rem, 0.75vw, 0.7rem) 0 0;
-  justify-self: start;
-  align-self: start;
-  color: var(--blue-700);
-  font-family: var(--font-ui);
-  font-size: clamp(0.86rem, 0.92vw, 1.05rem);
-  line-height: 1.22;
-  font-weight: 600;
+  position: static;
+  margin: 0;
+  color: var(--mission-accent);
+  font-size: 11px;
+  line-height: 1.4;
+  font-weight: 400;
   letter-spacing: 0.01em;
   text-align: left;
-  white-space: nowrap;
+  white-space: normal;
   transform: none;
   opacity: 1;
   transition: none;
@@ -1138,19 +1144,17 @@ main {
 }
 
 .mission-text {
-  grid-column: 3;
-  grid-row: 1;
+  position: absolute;
+  top: 28px;
+  right: 40px;
+  width: 340px;
   margin: 0;
-  margin-left: 0;
-  color: var(--blue-700);
-  font-family: var(--font-base);
-  font-size: clamp(0.84rem, 0.98vw, 1.15rem);
-  line-height: 1.45;
-  font-weight: 700;
-  max-width: 34ch;
+  color: var(--mission-copy);
+  font-size: 15.5px;
+  line-height: 1.6;
+  font-weight: 400;
   text-align: justify;
   text-justify: inter-word;
-  justify-self: start;
   font-style: normal;
   transform: none;
   opacity: 1;
@@ -1158,37 +1162,69 @@ main {
   will-change: auto;
 }
 
+.mission-text p {
+  margin: 0;
+}
+
 .mission-text em {
+  color: var(--mission-accent);
   font-style: italic;
   font-weight: 700;
 }
 
-.mission-slab {
-  margin-top: clamp(2.3rem, 5.8vw, 4.8rem);
-  width: 100%;
-  height: clamp(336px, 40.8vw, 600px);
-  background: #f7f8fb;
-  overflow: hidden;
-  border-bottom: 1px solid rgba(7, 53, 186, 0.48);
-  display: grid;
-  place-items: center;
+.mission-giant-word-wrap {
   position: relative;
+  width: 100%;
+  margin-top: 8px;
+  height: clamp(300px, 52vh, 640px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: visible;
+  line-height: 1;
+}
+
+.mission-ready-particles {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
 }
 
 .mission-slab-mark {
-  display: inline-block;
+  display: block;
+  position: relative;
+  z-index: 1;
   margin: 0;
-  color: var(--blue-700);
-  font-family: var(--font-ui);
-  font-size: clamp(17.8rem, 38.4vw, 29.4rem);
-  font-weight: 700;
-  line-height: 0.86;
+  color: #7038bc;
+  background-image: linear-gradient(128deg, #c2359c 0%, #7038bc 45%, #35b8b2 100%);
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-family: "Perfectly Nineties", "Times New Roman", serif;
+  font-size: clamp(240px, 30vw, 540px);
+  font-weight: 900;
+  white-space: nowrap;
+  padding-left: 0;
+  line-height: 0.84;
+  letter-spacing: -0.03em;
+  text-align: center;
   transform: none;
   user-select: none;
-  white-space: nowrap;
   opacity: 1;
   will-change: auto;
   transition: none;
+}
+
+@supports not ((-webkit-background-clip: text) or (background-clip: text)) {
+  .mission-slab-mark {
+    background-image: none;
+    color: #7038bc;
+  }
 }
 
 .difference-section {
@@ -2975,8 +3011,7 @@ body.has-js.motion-ready [data-reveal]:not([data-reveal="hero-line"]):not(.servi
 }
 
 @media (max-width: 1100px) {
-  .hero-grid,
-  .mission-grid {
+  .hero-grid {
     grid-template-columns: auto 1fr;
   }
 
@@ -2995,49 +3030,44 @@ body.has-js.motion-ready [data-reveal]:not([data-reveal="hero-line"]):not(.servi
   }
 
   .mission-shell {
-    width: min(1200px, calc(100% - 2.8rem));
-    margin-left: auto;
-    margin-right: auto;
+    width: 100%;
+    margin: 0;
+    padding-top: 88px;
   }
 
-  .mission-grid {
-    justify-content: stretch;
-    grid-template-rows: auto;
-    column-gap: 0.75rem;
-    row-gap: 0.4rem;
+  .mission-top {
+    min-height: 220px;
+    padding: 24px 28px 0;
   }
 
-  .mission-text {
-    grid-column: 1 / -1;
-    grid-row: 2;
-    margin-left: 0;
-    max-width: 100%;
-    font-size: clamp(0.86rem, 1.85vw, 1.02rem);
-    line-height: 1.42;
+  .mission-head-row {
+    gap: clamp(1rem, 3.6vw, 2.8rem);
   }
 
   .mission-mini {
-    display: block;
-    grid-column: 2;
-    grid-row: 1;
-    justify-self: start;
-    margin-top: 0.35rem;
-    font-size: clamp(0.72rem, 1.4vw, 0.9rem);
+    position: static;
+    margin: 0;
+  }
+
+  .mission-text {
+    top: 24px;
+    right: 28px;
+    width: min(340px, 43vw);
+    font-size: 15px;
   }
 
   .mission-title {
-    grid-column: 1;
-    grid-row: 1;
-    text-align: left;
-    font-size: clamp(1.82rem, 5.4vw, 2.72rem);
+    font-size: 22px;
   }
 
-  .mission-slab {
-    height: clamp(276px, 43.2vw, 432px);
+  .mission-giant-word-wrap {
+    margin-top: 8px;
+    height: clamp(260px, 48vh, 520px);
   }
 
   .mission-slab-mark {
-    font-size: clamp(12.7rem, 37.2vw, 20.2rem);
+    font-size: clamp(190px, 31vw, 420px);
+    padding-left: 0;
   }
 
   .difference-shell {
@@ -3398,6 +3428,11 @@ body.has-js.motion-ready [data-reveal]:not([data-reveal="hero-line"]):not(.servi
     width: calc(100% - 1.6rem);
   }
 
+  .mission-shell {
+    width: 100%;
+    padding-top: 74px;
+  }
+
   .global-grid {
     row-gap: 0.72rem;
   }
@@ -3486,20 +3521,41 @@ body.has-js.motion-ready [data-reveal]:not([data-reveal="hero-line"]):not(.servi
   }
 
   .mission-title {
-    font-size: clamp(1.46rem, 7.2vw, 1.96rem);
+    font-size: 20px;
     text-align: left;
   }
 
   .mission-mini {
-    font-size: clamp(0.66rem, 2.9vw, 0.76rem);
-    margin-top: 0.28rem;
+    position: static;
+    font-size: 11px;
+    margin-top: 0;
+    margin-bottom: 0;
+    white-space: normal;
   }
 
   .mission-text {
-    font-size: clamp(0.82rem, 3.6vw, 0.92rem);
-    line-height: 1.42;
+    position: static;
+    top: auto;
+    right: auto;
+    width: auto;
+    margin-top: 0;
+    font-size: 14.5px;
+    line-height: 1.55;
     text-align: justify;
-    text-justify: inter-word;
+  }
+
+  .mission-top {
+    min-height: 0;
+    padding: 20px 16px 0;
+  }
+
+  .mission-head-row {
+    gap: 0.85rem;
+  }
+
+  .mission-giant-word-wrap {
+    margin-top: 14px;
+    height: clamp(180px, 42vh, 320px);
   }
 
   .difference-v2-headline {
@@ -3558,12 +3614,9 @@ body.has-js.motion-ready [data-reveal]:not([data-reveal="hero-line"]):not(.servi
     line-height: 1.5;
   }
 
-  .mission-slab {
-    height: clamp(240px, 52.8vw, 324px);
-  }
-
   .mission-slab-mark {
-    font-size: clamp(9.4rem, 45.6vw, 14.9rem);
+    font-size: clamp(130px, 34vw, 240px);
+    padding-left: 0;
   }
 
   .difference-head h2 {
