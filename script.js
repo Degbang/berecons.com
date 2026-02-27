@@ -1,7 +1,10 @@
 const body = document.body;
 body.classList.add("has-js");
 
+const BUILD_VERSION = "20260227-9";
 const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+console.info(`[Berecons] build ${BUILD_VERSION}`);
 
 const header = document.getElementById("site-header");
 const menuToggle = document.getElementById("menu-toggle");
@@ -24,6 +27,35 @@ const transitionTarget = document.getElementById("transition-target");
 let transitionBusy = false;
 let shouldForceHomeOnReload = false;
 let headerStateFrame = 0;
+
+function ensureBuildVersionFreshness() {
+  const buildKey = "berecons-build-version";
+
+  try {
+    const previousBuild = window.sessionStorage.getItem(buildKey);
+    if (previousBuild && previousBuild !== BUILD_VERSION) {
+      window.location.reload();
+      return;
+    }
+    window.sessionStorage.setItem(buildKey, BUILD_VERSION);
+  } catch {
+    // Ignore storage access issues (private mode/security policies).
+  }
+
+  window.addEventListener("pageshow", (event) => {
+    if (!event.persisted) return;
+    try {
+      const activeBuild = window.sessionStorage.getItem(buildKey);
+      if (activeBuild && activeBuild !== BUILD_VERSION) {
+        window.location.reload();
+        return;
+      }
+      window.sessionStorage.setItem(buildKey, BUILD_VERSION);
+    } catch {
+      // Ignore storage access issues (private mode/security policies).
+    }
+  });
+}
 
 function requestHeaderStateSync() {
   if (headerStateFrame) return;
@@ -190,6 +222,9 @@ function initHeroMedia() {
 function setHeaderState() {
   if (!header) return;
   header.classList.add("is-solid");
+  header.classList.add("is-on-hero");
+  header.classList.remove("is-on-light");
+  header.style.setProperty("--header-surface", "transparent");
   syncHeaderTheme();
 }
 
@@ -211,8 +246,13 @@ function syncHeaderTheme() {
     sectionAtProbe = window.scrollY <= 8 ? sectionAnchors[0] : sectionAnchors[sectionAnchors.length - 1];
   }
 
-  const isLightPanel = sectionAtProbe.classList.contains("panel-light");
-  header.classList.toggle("is-on-light", isLightPanel);
+  const isHero = sectionAtProbe.id === "home";
+  const sectionSurface = sectionAtProbe.dataset.headerSurface?.trim();
+  const resolvedSurface = isHero ? "transparent" : sectionSurface || "#ffffff";
+
+  header.classList.toggle("is-on-hero", isHero);
+  header.classList.toggle("is-on-light", !isHero);
+  header.style.setProperty("--header-surface", resolvedSurface);
 }
 
 function initMenu() {
@@ -273,8 +313,17 @@ function initNavSpy() {
   sectionAnchors.forEach((section) => observer.observe(section));
 }
 
+function getTargetScrollTop(target) {
+  if (!target) return 0;
+  const headerOffset = header ? header.offsetHeight : 0;
+  const safeGap = 16;
+  const rawTop = window.scrollY + target.getBoundingClientRect().top - headerOffset - safeGap;
+  return Math.max(0, Math.round(rawTop));
+}
+
 function smoothScrollTo(target) {
-  target.scrollIntoView({ behavior: "smooth", block: "start" });
+  if (!target) return;
+  window.scrollTo({ top: getTargetScrollTop(target), behavior: "smooth" });
 }
 
 function instantScrollTo(target) {
@@ -282,7 +331,7 @@ function instantScrollTo(target) {
   const root = document.documentElement;
   const previousBehavior = root.style.scrollBehavior;
   root.style.scrollBehavior = "auto";
-  target.scrollIntoView({ behavior: "auto", block: "start" });
+  window.scrollTo({ top: getTargetScrollTop(target), behavior: "auto" });
   root.style.scrollBehavior = previousBehavior;
 }
 
@@ -295,9 +344,8 @@ function formatTransitionLabel(rawLabel, targetId) {
 function runSectionTransition(target, label) {
   if (!target) return;
 
-  const headerOffset = (header?.offsetHeight || 0) + 24;
-  const targetTop = target.getBoundingClientRect().top;
-  if (targetTop >= -24 && targetTop <= headerOffset) {
+  const desiredTop = getTargetScrollTop(target);
+  if (Math.abs(window.scrollY - desiredTop) <= 4) {
     history.replaceState(null, "", `#${target.id}`);
     syncHeaderTheme();
     return;
@@ -426,25 +474,30 @@ function initGsapMotion() {
   const hasScrollTrigger = Boolean(ScrollTrigger);
   if (hasScrollTrigger) gsap.registerPlugin(ScrollTrigger);
 
-  const heroTimeline = gsap.timeline({ delay: 0.12 });
-  heroTimeline
-    .from(".hero-title-line", {
-      yPercent: 118,
-      opacity: 0,
-      duration: 0.96,
+  const heroTitleLines = gsap.utils.toArray(".hero-title-line");
+  const heroSubtitle = document.querySelector(".hero-subtitle");
+  const heroTimeline = gsap.timeline({ delay: 0 });
+
+  if (heroTitleLines.length) {
+    heroTimeline.from(heroTitleLines, {
+      yPercent: 24,
+      duration: 0.78,
       ease: "power4.out",
       stagger: 0.12,
-    })
-    .from(
-      ".hero-subtitle",
+    });
+  }
+
+  if (heroSubtitle) {
+    heroTimeline.from(
+      heroSubtitle,
       {
         y: 30,
-        opacity: 0,
         duration: 0.64,
         ease: "power2.out",
       },
       0.18
     );
+  }
 
   const panels = gsap.utils.toArray(".panel");
   if (hasScrollTrigger) {
@@ -452,11 +505,10 @@ function initGsapMotion() {
       if (panel.id === "home") return;
       gsap.from(panel, {
         y: 92,
-        opacity: 0,
         scale: 0.985,
         duration: 0.9,
         ease: "power2.out",
-        clearProps: "opacity,transform",
+        clearProps: "transform",
         scrollTrigger: {
           trigger: panel,
           start: "top 86%",
@@ -474,9 +526,10 @@ function initGsapMotion() {
   revealItems.forEach((item) => {
     if (item.closest("#home")) return;
     if (item.classList.contains("service-card")) return;
+    if (item.closest("#team")) return;
 
     const effect = item.dataset.reveal || "fade-up";
-    const from = { opacity: 0, y: 34, x: 0, scale: 1 };
+    const from = { opacity: 1, y: 34, x: 0, scale: 1 };
 
     if (effect === "fade-left") from.x = -48;
     if (effect === "fade-right") from.x = 48;
@@ -486,7 +539,6 @@ function initGsapMotion() {
     }
 
     const revealTo = {
-      opacity: 1,
       y: 0,
       x: 0,
       scale: 1,
@@ -572,8 +624,8 @@ function initNativeScrollEffects() {
         -1,
         1
       );
-      const missionY = missionCenterOffset * -52;
-      const missionScale = 0.9 + missionProgress * 0.16;
+      const missionY = missionCenterOffset * -18;
+      const missionScale = 0.96 + missionProgress * 0.06;
 
       if (missionMark) {
         missionMark.style.setProperty("--mission-mark-y", `${missionY.toFixed(2)}px`);
@@ -595,60 +647,22 @@ function initNativeScrollEffects() {
     }
 
     if (servicesSection && serviceCards.length) {
-      const isProcessSection = servicesSection.classList.contains("process-section");
       const servicesRect = servicesSection.getBoundingClientRect();
       const servicesInActiveRange =
         servicesRect.top < viewportHeight * 1.15 && servicesRect.bottom > -viewportHeight * 0.2;
 
-      if (!servicesInActiveRange) {
-        if (!servicesCardsReset) {
-          servicesSection.style.setProperty("--services-scroll-p", "0");
-          serviceCards.forEach((card) => {
-            card.style.setProperty("--card-y", "0px");
-            card.style.setProperty("--card-rot", "0deg");
-            card.style.setProperty("--card-scale", "1");
-            card.style.setProperty("--card-opacity", "1");
-          });
-          servicesCardsReset = true;
-        }
+      if (!servicesInActiveRange && servicesCardsReset) {
         return;
       }
 
-      servicesCardsReset = false;
-      const servicesProgress = clampValue(
-        (viewportHeight - servicesRect.top) / (servicesRect.height + viewportHeight),
-        0,
-        1
-      );
+      servicesCardsReset = !servicesInActiveRange;
+      servicesSection.style.setProperty("--services-scroll-p", servicesInActiveRange ? "1" : "0");
 
-      servicesSection.style.setProperty("--services-scroll-p", servicesProgress.toFixed(4));
-
-      serviceCards.forEach((card, index) => {
-        const cardRect = card.getBoundingClientRect();
-        const cardCenter = cardRect.top + cardRect.height * 0.5;
-        const centerOffset = Math.abs(cardCenter - viewportHeight * 0.54);
-        const centerReveal = clampValue(1 - centerOffset / (viewportHeight * 0.62), 0, 1);
-        const edgeReveal = clampValue(
-          (Math.min(cardRect.bottom, viewportHeight) - Math.max(cardRect.top, 0)) / Math.max(cardRect.height, 1),
-          0,
-          1
-        );
-        const cardProgress = clampValue(Math.min(1, centerReveal * 0.68 + edgeReveal * 0.52), 0, 1);
-        const lane = (index % 3) - 1;
-        const driftDirection = index % 2 === 0 ? 1 : -1;
-        const drift = (servicesProgress - 0.5) * (isProcessSection ? 9 : 16) * driftDirection;
-        const direction = cardCenter > viewportHeight * 0.54 ? 1 : -1;
-        const travelBase = isProcessSection ? 40 : 58;
-        const rotationBase = isProcessSection ? 2.4 : 6.8;
-        const y = direction * (1 - cardProgress) * (travelBase + Math.abs(lane) * 10) + drift;
-        const rotation = direction * (1 - cardProgress) * (rotationBase * driftDirection) + lane * 0.6;
-        const scale = (isProcessSection ? 0.9 : 0.84) + cardProgress * (isProcessSection ? 0.1 : 0.16);
-        const opacity = isProcessSection ? 1 : 0.16 + cardProgress * 0.84;
-
-        card.style.setProperty("--card-y", `${y.toFixed(2)}px`);
-        card.style.setProperty("--card-rot", `${rotation.toFixed(2)}deg`);
-        card.style.setProperty("--card-scale", scale.toFixed(3));
-        card.style.setProperty("--card-opacity", opacity.toFixed(3));
+      serviceCards.forEach((card) => {
+        card.style.setProperty("--card-y", "0px");
+        card.style.setProperty("--card-rot", "0deg");
+        card.style.setProperty("--card-scale", "1");
+        card.style.setProperty("--card-opacity", "1");
       });
     }
   };
@@ -666,14 +680,15 @@ function initNativeScrollEffects() {
 
 function initServicesScrollReveal() {
   const servicesSection = document.getElementById("services");
-  const servicesHead = document.querySelector("#services .process-intro");
-  const serviceCards = [...document.querySelectorAll("#services .process-card")];
+  const servicesHead = document.querySelector("#services .services-summary-intro");
+  const serviceCards = [...document.querySelectorAll("#services .services-summary-card")];
 
   if (servicesHead) servicesHead.classList.add("is-in-view");
   if (!servicesSection || !serviceCards.length) return;
 
   if (prefersReducedMotion || !window.gsap || !window.ScrollTrigger) {
     serviceCards.forEach((card) => {
+      card.classList.add("is-in-view");
       card.style.opacity = "1";
       card.style.transform = "none";
     });
@@ -685,17 +700,26 @@ function initServicesScrollReveal() {
     gsap.killTweensOf(serviceCards);
     gsap.set(serviceCards, {
       autoAlpha: 0,
-      y: 132,
-      scale: 0.84,
+      y: 34,
+      scale: 0.98,
     });
     gsap.to(serviceCards, {
       autoAlpha: 1,
       y: 0,
       scale: 1,
-      duration: 1.6,
-      stagger: 0.36,
-      ease: "power3.out",
+      duration: 0.46,
+      stagger: 0.08,
+      ease: "power2.out",
       clearProps: "opacity,transform",
+      onComplete: () => {
+        serviceCards.forEach((card) => {
+          card.classList.add("is-in-view");
+          card.style.setProperty("--card-y", "0px");
+          card.style.setProperty("--card-rot", "0deg");
+          card.style.setProperty("--card-scale", "1");
+          card.style.setProperty("--card-opacity", "1");
+        });
+      },
     });
   };
 
@@ -717,53 +741,167 @@ function initServicesScrollReveal() {
   });
 }
 
-function initAboutOverlapCircles() {
-  const stage = document.querySelector("#about .about-overlap-stage");
-  const circles = document.querySelector("#about .overlap-circles");
-  const leftOutline = document.getElementById("overlap-left-outline");
-  const rightOutline = document.getElementById("overlap-right-outline");
-  const clipRight = document.getElementById("overlap-clip-right");
-  const intersection = document.getElementById("overlap-intersection");
-  const leftLabel = document.getElementById("overlap-label-left");
-  const rightLabel = document.getElementById("overlap-label-right");
+function initServicesSummaryCards() {
+  const cards = [...document.querySelectorAll("#services .services-summary-card")];
+  if (!cards.length) return;
+
+  const mobileQuery = window.matchMedia("(max-width: 980px)");
+
+  const setOpenState = (card, isOpen) => {
+    card.classList.toggle("is-open", isOpen);
+    card.setAttribute("aria-expanded", isOpen ? "true" : "false");
+  };
+
+  const closeAll = (exceptCard = null) => {
+    cards.forEach((card) => {
+      if (card === exceptCard) return;
+      setOpenState(card, false);
+    });
+  };
+
+  const toggleCard = (card) => {
+    const shouldOpen = !card.classList.contains("is-open");
+    closeAll(card);
+    setOpenState(card, shouldOpen);
+  };
+
+  const activateCard = (event) => {
+    if (!mobileQuery.matches) return;
+    const card = event.currentTarget;
+    if (!card) return;
+    toggleCard(card);
+  };
+
+  cards.forEach((card) => {
+    card.setAttribute("aria-expanded", "false");
+    card.addEventListener("click", activateCard);
+    card.addEventListener("keydown", (event) => {
+      if (!mobileQuery.matches) return;
+      if (event.key !== "Enter" && event.key !== " ") return;
+      event.preventDefault();
+      activateCard(event);
+    });
+  });
+
+  const syncLayoutState = () => {
+    if (mobileQuery.matches) return;
+    closeAll();
+  };
+
+  if (typeof mobileQuery.addEventListener === "function") {
+    mobileQuery.addEventListener("change", syncLayoutState);
+  } else if (typeof mobileQuery.addListener === "function") {
+    mobileQuery.addListener(syncLayoutState);
+  }
+
+  window.addEventListener("resize", syncLayoutState);
+  syncLayoutState();
+}
+
+function initProcessTriadCircles() {
+  const stage = document.querySelector("#process .process-venn-stage");
+  const designCircle = document.getElementById("process-circle-design");
+  const strategyCircle = document.getElementById("process-circle-strategy");
+  const developmentCircle = document.getElementById("process-circle-development");
+  const designClipCircle = document.getElementById("process-clip-circle-design");
+  const strategyClipCircle = document.getElementById("process-clip-circle-strategy");
+  const developmentClipCircle = document.getElementById("process-clip-circle-development");
+  const designStrategyIntersection = document.getElementById("process-intersection-design-strategy");
+  const designDevelopmentIntersection = document.getElementById("process-intersection-design-development");
+  const strategyDevelopmentIntersection = document.getElementById("process-intersection-strategy-development");
+  const designLabel = document.getElementById("process-label-design");
+  const strategyLabel = document.getElementById("process-label-strategy");
+  const developmentLabel = document.getElementById("process-label-development");
 
   if (
     !stage ||
-    !circles ||
-    !leftOutline ||
-    !rightOutline ||
-    !clipRight ||
-    !intersection ||
-    !leftLabel ||
-    !rightLabel
+    !designCircle ||
+    !strategyCircle ||
+    !developmentCircle ||
+    !designClipCircle ||
+    !strategyClipCircle ||
+    !developmentClipCircle ||
+    !designStrategyIntersection ||
+    !designDevelopmentIntersection ||
+    !strategyDevelopmentIntersection ||
+    !designLabel ||
+    !strategyLabel ||
+    !developmentLabel
   ) {
     return;
   }
 
   const geometry = {
-    midX: 500,
-    midY: 240,
     radius: 170,
-    startDistance: 460,
-    endDistance: 300,
     durationMs: 4200,
+    start: {
+      design: { x: 500, y: 94 },
+      strategy: { x: 210, y: 468 },
+      development: { x: 790, y: 468 },
+    },
+    end: {
+      design: { x: 500, y: 165 },
+      strategy: { x: 350, y: 395 },
+      development: { x: 650, y: 395 },
+    },
   };
 
-  const setDistance = (distance) => {
-    const half = distance / 2;
-    const leftX = geometry.midX - half;
-    const rightX = geometry.midX + half;
+  const nodes = [
+    {
+      key: "design",
+      circle: designCircle,
+      clipCircle: designClipCircle,
+      label: designLabel,
+    },
+    {
+      key: "strategy",
+      circle: strategyCircle,
+      clipCircle: strategyClipCircle,
+      label: strategyLabel,
+    },
+    {
+      key: "development",
+      circle: developmentCircle,
+      clipCircle: developmentClipCircle,
+      label: developmentLabel,
+    },
+  ];
 
-    leftOutline.setAttribute("cx", String(leftX));
-    intersection.setAttribute("cx", String(leftX));
-    leftLabel.setAttribute("x", String(leftX));
+  const lerp = (from, to, progress) => from + (to - from) * progress;
 
-    rightOutline.setAttribute("cx", String(rightX));
-    clipRight.setAttribute("cx", String(rightX));
-    rightLabel.setAttribute("x", String(rightX));
+  const setProgress = (progress) => {
+    const positions = {};
+    const baseOpacity = (0.52 + progress * 0.48).toFixed(3);
+    const intersectionOpacity = (progress * 0.9).toFixed(3);
 
-    const overlapWidth = Math.max(0, geometry.radius * 2 - distance);
-    intersection.style.opacity = overlapWidth > 0 ? "1" : "0";
+    nodes.forEach((node) => {
+      const start = geometry.start[node.key];
+      const end = geometry.end[node.key];
+      const x = lerp(start.x, end.x, progress);
+      const y = lerp(start.y, end.y, progress);
+      positions[node.key] = { x, y };
+      node.circle.setAttribute("cx", x.toFixed(2));
+      node.circle.setAttribute("cy", y.toFixed(2));
+      node.circle.setAttribute("r", String(geometry.radius));
+      node.circle.style.opacity = baseOpacity;
+      node.clipCircle.setAttribute("cx", x.toFixed(2));
+      node.clipCircle.setAttribute("cy", y.toFixed(2));
+      node.clipCircle.setAttribute("r", String(geometry.radius));
+      node.label.setAttribute("x", x.toFixed(2));
+      node.label.setAttribute("y", y.toFixed(2));
+      node.label.style.opacity = baseOpacity;
+    });
+
+    const syncIntersection = (element, sourcePosition) => {
+      element.setAttribute("cx", sourcePosition.x.toFixed(2));
+      element.setAttribute("cy", sourcePosition.y.toFixed(2));
+      element.setAttribute("r", String(geometry.radius));
+      element.style.opacity = intersectionOpacity;
+    };
+
+    syncIntersection(designStrategyIntersection, positions.design);
+    syncIntersection(designDevelopmentIntersection, positions.design);
+    syncIntersection(strategyDevelopmentIntersection, positions.strategy);
   };
 
   let rafId = 0;
@@ -775,17 +913,16 @@ function initAboutOverlapCircles() {
       window.cancelAnimationFrame(rafId);
       rafId = 0;
     }
-    setDistance(geometry.startDistance);
+    setProgress(0);
   };
 
   const runMerge = () => {
     sequenceId += 1;
     const currentSequenceId = sequenceId;
-    setDistance(geometry.startDistance);
+    setProgress(0);
 
     if (prefersReducedMotion) {
-      setDistance(geometry.endDistance);
-      intersection.style.opacity = "1";
+      setProgress(1);
       return;
     }
 
@@ -796,17 +933,12 @@ function initAboutOverlapCircles() {
       if (currentSequenceId !== sequenceId) return;
       const elapsed = now - startedAt;
       const t = Math.min(1, elapsed / geometry.durationMs);
-      const eased = easeOutCubic(t);
-      const nextDistance =
-        geometry.startDistance - (geometry.startDistance - geometry.endDistance) * eased;
-
-      setDistance(nextDistance);
+      setProgress(easeOutCubic(t));
 
       if (t < 1) {
         rafId = window.requestAnimationFrame(tick);
       } else {
-        setDistance(geometry.endDistance);
-        intersection.style.opacity = "1";
+        setProgress(1);
         rafId = 0;
       }
     };
@@ -840,185 +972,12 @@ function initAboutOverlapCircles() {
   observer.observe(stage);
 }
 
-function initZoomStorySequence() {
-  const section = document.getElementById("zoom-story");
-  const track = section?.querySelector(".zoom-story-track");
-  const frame = section?.querySelector(".zoom-story-frame");
-  const image = section?.querySelector(".zoom-story-image");
-  const prompt = section?.querySelector(".zoom-story-prompt");
-  const lineH1 = section?.querySelector(".zoom-line-h1");
-  const lineH2 = section?.querySelector(".zoom-line-h2");
-  const lineH3 = section?.querySelector(".zoom-line-h3");
-  const lineV1 = section?.querySelector(".zoom-line-v1");
-  const lineV2 = section?.querySelector(".zoom-line-v2");
-
-  if (!section || !track || !frame || !image || !lineH1 || !lineH2 || !lineH3 || !lineV1 || !lineV2) {
-    return;
-  }
-
-  if (prefersReducedMotion || !window.gsap || !window.ScrollTrigger) {
-    frame.style.opacity = "1";
-    frame.style.transform = "none";
-    image.style.transform = "scale(1.05)";
-    if (prompt) {
-      prompt.style.opacity = "1";
-      prompt.style.transform = "translate(-50%, -50%) scale(1)";
-    }
-    [lineH1, lineH2, lineH3].forEach((line) => {
-      line.style.opacity = "1";
-      line.style.transform = "scaleX(1)";
-    });
-    [lineV1, lineV2].forEach((line) => {
-      line.style.opacity = "1";
-      line.style.transform = "scaleY(1)";
-    });
-    return;
-  }
-
-  const gsap = window.gsap;
-
-  gsap.set(frame, {
-    autoAlpha: 1,
-    y: 0,
-    scale: 1,
-    borderRadius: 18,
-  });
-
-  gsap.set([lineH1, lineH2, lineH3], {
-    autoAlpha: 0,
-    scaleX: 0,
-    transformOrigin: "left center",
-  });
-
-  gsap.set([lineV1, lineV2], {
-    autoAlpha: 0,
-    scaleY: 0,
-  });
-
-  gsap.set(lineV1, { transformOrigin: "bottom center" });
-  gsap.set(lineV2, { transformOrigin: "top center" });
-  gsap.set(image, { scale: 1.02 });
-  if (prompt) {
-    gsap.set(prompt, { autoAlpha: 0, scale: 0.72, xPercent: -50, yPercent: -50 });
-  }
-
-  const tl = gsap.timeline({
-    scrollTrigger: {
-      trigger: track,
-      start: "top top",
-      end: "bottom bottom",
-      scrub: 1.05,
-      invalidateOnRefresh: true,
-    },
-  });
-
-  tl.to(
-    [lineH1, lineH2],
-    {
-      autoAlpha: 1,
-      scaleX: 1,
-      duration: 0.18,
-      stagger: 0.04,
-      ease: "none",
-    },
-    0.04
-  )
-    .to(
-      lineH3,
-      {
-        autoAlpha: 1,
-        scaleX: 1,
-        duration: 0.14,
-        ease: "none",
-      },
-      0.14
-    )
-    .to(
-      lineV1,
-      {
-        autoAlpha: 1,
-        scaleY: 1,
-        duration: 0.15,
-        ease: "none",
-      },
-      0.1
-    )
-    .to(
-      lineV2,
-      {
-        autoAlpha: 1,
-        scaleY: 1,
-        duration: 0.15,
-        ease: "none",
-      },
-      0.18
-    )
-    .to(
-      image,
-      {
-        scale: 1.02,
-        duration: 0.2,
-        ease: "none",
-      },
-      0.45
-    )
-    .to(
-      image,
-      {
-        scale: 1.28,
-        duration: 0.2,
-        ease: "none",
-      },
-      0.66
-    )
-    .to(
-      image,
-      {
-        scale: 1.72,
-        duration: 0.2,
-        ease: "none",
-      },
-      0.84
-    )
-    .to(
-      frame,
-      {
-        borderRadius: 2,
-        duration: 0.16,
-        ease: "none",
-      },
-      0.84
-    );
-
-  if (prompt) {
-    tl.to(
-      prompt,
-      {
-        autoAlpha: 1,
-        scale: 1.32,
-        duration: 0.2,
-        ease: "none",
-      },
-      0.84
-    );
-  }
-}
-
 function initTeamSectionReveal() {
   const teamSection = document.getElementById("team");
-  const revealTargets = [...document.querySelectorAll(".team-reveal-target")];
-  const orderedItems = [
-    ...document.querySelectorAll(".team-dept.team-reveal-target"),
-    ...document.querySelectorAll(".team-member-card.team-reveal-target"),
-  ];
-  const teamIntroItems = teamSection
-    ? [...teamSection.querySelectorAll(".team-intro-strip, .team-intro-copy")]
-    : [];
-  const departments = teamSection ? [...teamSection.querySelectorAll(".team-dept")] : [];
+  const revealTargets = teamSection ? [...teamSection.querySelectorAll(".team-reveal-target")] : [];
+  if (!teamSection || !revealTargets.length) return;
 
-  if (!revealTargets.length) return;
-
-  orderedItems.forEach((item, index) => {
+  revealTargets.forEach((item, index) => {
     item.style.setProperty("--team-order", String(index % 10));
   });
 
@@ -1031,83 +990,26 @@ function initTeamSectionReveal() {
   revealTargets.forEach((item) => item.classList.add("is-in-view"));
   body.classList.add("team-reveal-ready");
 
-  if (window.gsap && window.ScrollTrigger && teamSection) {
+  if (window.gsap && window.ScrollTrigger) {
     const gsap = window.gsap;
-
-    let sectionAnimated = false;
-
-    const playSectionReveal = () => {
-      if (sectionAnimated) return;
-      sectionAnimated = true;
-
-      gsap.fromTo(
-        teamIntroItems,
-        { autoAlpha: 0, y: 42 },
-        {
-          autoAlpha: 1,
-          y: 0,
-          duration: 0.86,
-          stagger: 0.12,
-          ease: "power3.out",
-          overwrite: "auto",
-        }
-      );
-
-      gsap.fromTo(
-        departments,
-        { autoAlpha: 0, y: 54, scale: 0.985 },
-        {
-          autoAlpha: 1,
-          y: 0,
-          scale: 1,
-          duration: 0.76,
-          stagger: 0.12,
-          ease: "power3.out",
-          overwrite: "auto",
-        }
-      );
-    };
-
-    const revealDepartmentCards = (dept) => {
-      const members = [...dept.querySelectorAll(".team-member-card")];
-      if (!members.length) return;
-
-      gsap.fromTo(
-        members,
-        { autoAlpha: 0, y: 22 },
-        {
-          autoAlpha: 1,
-          y: 0,
-          duration: 0.48,
-          stagger: 0.06,
-          ease: "power2.out",
-          overwrite: "auto",
-        }
-      );
-    };
-
-    departments.forEach((dept) => {
-      dept.addEventListener("team:dept-toggle", (event) => {
-        const isOpen = Boolean(event.detail?.isOpen);
-        if (isOpen) {
-          revealDepartmentCards(dept);
-        }
-      });
-    });
-
-    const revealCurrentOpenDepartment = () => {
-      const openDept = departments.find((dept) => dept.classList.contains("is-open"));
-      if (!openDept) return;
-      revealDepartmentCards(openDept);
-    };
 
     window.ScrollTrigger.create({
       trigger: teamSection,
-      start: "top 72%",
+      start: "top 76%",
       once: true,
       onEnter: () => {
-        playSectionReveal();
-        revealCurrentOpenDepartment();
+        gsap.fromTo(
+          revealTargets,
+          { y: 34, scale: 0.985 },
+          {
+            y: 0,
+            scale: 1,
+            duration: 0.76,
+            stagger: 0.055,
+            ease: "power3.out",
+            overwrite: "auto",
+          }
+        );
       },
     });
 
@@ -1125,8 +1027,8 @@ function initTeamSectionReveal() {
       });
     },
     {
-      threshold: 0.05,
-      rootMargin: "0px 0px -5% 0px",
+      threshold: 0.06,
+      rootMargin: "0px 0px -6% 0px",
     }
   );
 
@@ -1135,85 +1037,127 @@ function initTeamSectionReveal() {
   // Safety: never leave section invisible if observer is delayed.
   window.setTimeout(() => {
     revealTargets.forEach((item) => item.classList.add("is-in-view"));
-  }, 1200);
+  }, 900);
 }
 
-function initTeamDepartmentAccordions() {
-  const departments = [...document.querySelectorAll(".team-dept")];
-  if (!departments.length) return;
+function initTeamEditorialBoard() {
+  const teamSection = document.getElementById("team");
+  const filters = teamSection ? [...teamSection.querySelectorAll("[data-team-filter]")] : [];
+  const cards = teamSection ? [...teamSection.querySelectorAll(".team-editorial-card[data-team-dept]")] : [];
+  const memberCount = teamSection?.querySelector("#team-members-count");
+  const emptyNote = teamSection?.querySelector("#team-empty-note");
+  const teamGrid = teamSection?.querySelector(".team-editorial-grid");
+  if (!teamSection || !filters.length || !cards.length || !teamGrid) return;
 
-  const getBody = (dept) => dept.querySelector(".team-dept-body");
-  const getToggle = (dept) => dept.querySelector(".team-dept-toggle");
+  let activeFilter =
+    filters.find((button) => button.classList.contains("is-active"))?.dataset.teamFilter || null;
+  const showTimers = new WeakMap();
 
-  const applyState = (dept, isOpen) => {
-    const body = getBody(dept);
-    const toggle = getToggle(dept);
-    if (!body || !toggle) return;
-    const wasOpen = dept.classList.contains("is-open");
-
-    dept.classList.toggle("is-open", isOpen);
-    toggle.setAttribute("aria-expanded", isOpen ? "true" : "false");
-    body.style.maxHeight = isOpen ? `${body.scrollHeight}px` : "0px";
-
-    if (wasOpen !== isOpen) {
-      dept.dispatchEvent(
-        new CustomEvent("team:dept-toggle", {
-          detail: { isOpen },
-        })
-      );
+  const setAwaitingState = (isAwaiting) => {
+    teamGrid.classList.toggle("is-awaiting", isAwaiting);
+    if (emptyNote) {
+      emptyNote.hidden = !isAwaiting;
     }
   };
 
-  const openOnly = (targetDept) => {
-    departments.forEach((dept) => applyState(dept, dept === targetDept));
+  const updateMemberCount = (visibleCount) => {
+    if (!memberCount) return;
+    if (!activeFilter) {
+      memberCount.textContent = "";
+      memberCount.hidden = true;
+      return;
+    }
+    const activeButton = filters.find((button) => button.dataset.teamFilter === activeFilter);
+    const activeLabel = (activeButton?.textContent || "Team").trim();
+    const noun = visibleCount === 1 ? "member" : "members";
+    memberCount.hidden = false;
+    memberCount.textContent = `${visibleCount} ${noun} - ${activeLabel}`;
   };
 
-  departments.forEach((dept, index) => {
-    const toggle = getToggle(dept);
-    if (!toggle) return;
+  const clearTimers = (card) => {
+    const showTimer = showTimers.get(card);
+    if (showTimer) {
+      window.clearTimeout(showTimer);
+      showTimers.delete(card);
+    }
+  };
 
-    if (index === 0 || dept.classList.contains("is-open")) {
-      applyState(dept, true);
-    } else {
-      applyState(dept, false);
+  const syncButtons = () => {
+    filters.forEach((button) => {
+      const isActive = button.dataset.teamFilter === activeFilter;
+      button.classList.toggle("is-active", isActive);
+      button.setAttribute("aria-pressed", isActive ? "true" : "false");
+    });
+  };
+
+  const setCardVisible = (card, visible) => {
+    clearTimers(card);
+
+    if (!visible) {
+      card.hidden = true;
+      card.classList.remove("is-visible", "is-hiding", "is-showing");
+      return;
     }
 
-    toggle.addEventListener("click", () => openOnly(dept));
-  });
+    card.hidden = false;
+    card.classList.add("is-visible");
+    card.classList.remove("is-hiding");
 
-  window.addEventListener("resize", () => {
-    departments.forEach((dept) => {
-      if (!dept.classList.contains("is-open")) return;
-      const body = getBody(dept);
-      if (!body) return;
-      body.style.maxHeight = `${body.scrollHeight}px`;
-    });
-  });
-}
+    if (prefersReducedMotion) {
+      card.classList.remove("is-showing");
+      return;
+    }
 
-function initTeamMemberCount() {
-  const countTargets = [...document.querySelectorAll("[data-team-count]")];
-  const memberItems = [...document.querySelectorAll("[data-member-name]")];
-  if (!countTargets.length || !memberItems.length) return;
-
-  const applyCount = () => {
-    const uniqueNames = new Set();
-
-    memberItems.forEach((item) => {
-      const rawName = item.getAttribute("data-member-name");
-      const name = rawName ? rawName.trim() : "";
-      if (!name) return;
-      uniqueNames.add(name.toLowerCase());
-    });
-
-    const count = String(uniqueNames.size);
-    countTargets.forEach((target) => {
-      target.textContent = count;
-    });
+    card.classList.add("is-showing");
+    const showTimer = window.setTimeout(() => {
+      card.classList.remove("is-showing");
+      showTimers.delete(card);
+    }, 220);
+    showTimers.set(card, showTimer);
   };
 
-  applyCount();
-  window.addEventListener("resize", applyCount);
+  const applyFilter = (nextFilter) => {
+    activeFilter = nextFilter;
+    syncButtons();
+    setAwaitingState(!activeFilter);
+
+    let visibleCount = 0;
+
+    cards.forEach((card) => {
+      const dept = (card.dataset.teamDept || "").trim();
+      const shouldShow = Boolean(activeFilter) && dept === activeFilter;
+      if (shouldShow) visibleCount += 1;
+      setCardVisible(card, shouldShow);
+    });
+
+    updateMemberCount(visibleCount);
+  };
+
+  filters.forEach((button, index) => {
+    button.addEventListener("click", () => {
+      const nextFilter = button.dataset.teamFilter || null;
+      if (nextFilter === activeFilter) {
+        applyFilter(null);
+        return;
+      }
+      applyFilter(nextFilter);
+    });
+
+    button.addEventListener("keydown", (event) => {
+      if (event.key !== "ArrowRight" && event.key !== "ArrowLeft") return;
+      event.preventDefault();
+      const direction = event.key === "ArrowRight" ? 1 : -1;
+      const nextIndex = (index + direction + filters.length) % filters.length;
+      filters[nextIndex].focus();
+    });
+  });
+
+  cards.forEach((card) => {
+    card.hidden = true;
+    card.classList.remove("is-visible", "is-hiding", "is-showing");
+  });
+
+  applyFilter(activeFilter);
 }
 
 function animateCounterFallback(element, target) {
@@ -1284,6 +1228,160 @@ function initCounters() {
   statValues.forEach((element) => observer.observe(element));
 }
 
+function initDifferenceMainCounter() {
+  const differenceSection = document.getElementById("difference");
+  const mainCount = differenceSection?.querySelector("[data-difference-main-count]");
+  if (!differenceSection || !mainCount) return;
+
+  const target = Number(mainCount.getAttribute("data-difference-main-count") || 15);
+  if (!Number.isFinite(target) || target <= 0) return;
+
+  const setValue = (value) => {
+    mainCount.textContent = String(Math.round(value));
+  };
+
+  if (prefersReducedMotion) {
+    setValue(target);
+    return;
+  }
+
+  let activeTween = null;
+  let fallbackTimer = 0;
+  let isInside = false;
+
+  const stopAnimation = () => {
+    if (activeTween && typeof activeTween.kill === "function") {
+      activeTween.kill();
+    }
+    activeTween = null;
+
+    if (fallbackTimer) {
+      window.clearInterval(fallbackTimer);
+      fallbackTimer = 0;
+    }
+  };
+
+  const resetCounter = () => {
+    stopAnimation();
+    setValue(0);
+  };
+
+  const runFallback = () => {
+    const steps = 72;
+    let step = 0;
+    fallbackTimer = window.setInterval(() => {
+      step += 1;
+      setValue((target * step) / steps);
+      if (step >= steps) {
+        window.clearInterval(fallbackTimer);
+        fallbackTimer = 0;
+        setValue(target);
+      }
+    }, 32);
+  };
+
+  const playCounter = () => {
+    resetCounter();
+    if (window.gsap) {
+      const state = { value: 0 };
+      activeTween = window.gsap.to(state, {
+        value: target,
+        duration: 2.25,
+        ease: "power2.out",
+        snap: { value: 1 },
+        onUpdate: () => setValue(state.value),
+        onComplete: () => {
+          setValue(target);
+          activeTween = null;
+        },
+      });
+      return;
+    }
+
+    runFallback();
+  };
+
+  if (!("IntersectionObserver" in window)) {
+    playCounter();
+    return;
+  }
+
+  resetCounter();
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.target !== differenceSection) return;
+
+        if (entry.isIntersecting && !isInside) {
+          isInside = true;
+          playCounter();
+          return;
+        }
+
+        if (!entry.isIntersecting && isInside) {
+          isInside = false;
+          resetCounter();
+        }
+      });
+    },
+    {
+      threshold: 0.42,
+    }
+  );
+
+  observer.observe(differenceSection);
+}
+
+function initDifferencePointerParticle() {
+  const differenceSection = document.getElementById("difference");
+  const pointerTarget = differenceSection?.querySelector("[data-difference-pointer-target]");
+  if (!differenceSection || !pointerTarget) return;
+
+  const setPointer = (normX, normY, percentX, percentY) => {
+    differenceSection.style.setProperty("--diff-pointer-x", normX.toFixed(4));
+    differenceSection.style.setProperty("--diff-pointer-y", normY.toFixed(4));
+    differenceSection.style.setProperty("--diff-pointer-px", `${percentX.toFixed(2)}%`);
+    differenceSection.style.setProperty("--diff-pointer-py", `${percentY.toFixed(2)}%`);
+  };
+
+  const resetPointer = () => setPointer(0, 0, 50, 50);
+
+  const updateFromPoint = (clientX, clientY) => {
+    const rect = pointerTarget.getBoundingClientRect();
+    if (rect.width <= 0 || rect.height <= 0) return;
+
+    const clampedX = clampValue(((clientX - rect.left) / rect.width) * 100, 0, 100);
+    const clampedY = clampValue(((clientY - rect.top) / rect.height) * 100, 0, 100);
+    const normX = clampValue((clampedX - 50) / 50, -1, 1);
+    const normY = clampValue((clampedY - 50) / 50, -1, 1);
+    setPointer(normX, normY, clampedX, clampedY);
+  };
+
+  resetPointer();
+  if (prefersReducedMotion) return;
+
+  pointerTarget.addEventListener("pointermove", (event) => {
+    updateFromPoint(event.clientX, event.clientY);
+  });
+
+  pointerTarget.addEventListener("pointerleave", resetPointer);
+  pointerTarget.addEventListener("pointercancel", resetPointer);
+
+  pointerTarget.addEventListener(
+    "touchmove",
+    (event) => {
+      const touch = event.touches[0];
+      if (!touch) return;
+      updateFromPoint(touch.clientX, touch.clientY);
+    },
+    { passive: true }
+  );
+
+  pointerTarget.addEventListener("touchend", resetPointer, { passive: true });
+  pointerTarget.addEventListener("touchcancel", resetPointer, { passive: true });
+}
+
 function ensureRefreshStartsAtHome() {
   if ("scrollRestoration" in history) {
     history.scrollRestoration = "manual";
@@ -1335,6 +1433,7 @@ window.addEventListener("scroll", requestHeaderStateSync, { passive: true });
 window.addEventListener("resize", requestHeaderStateSync);
 window.addEventListener("load", initPreloader);
 
+ensureBuildVersionFreshness();
 ensureRefreshStartsAtHome();
 setHeaderState();
 initMenu();
@@ -1344,10 +1443,11 @@ initHeroMedia();
 body.classList.add("motion-ready");
 initGsapMotion();
 initNativeScrollEffects();
+initDifferenceMainCounter();
+initDifferencePointerParticle();
+initServicesSummaryCards();
 initServicesScrollReveal();
-initAboutOverlapCircles();
-initZoomStorySequence();
+initProcessTriadCircles();
+initTeamEditorialBoard();
 initTeamSectionReveal();
-initTeamMemberCount();
-initTeamDepartmentAccordions();
 initCounters();

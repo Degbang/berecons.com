@@ -1,0 +1,5 @@
+.DS_Store
+Thumbs.db
+
+# Local reference packs (not part of runtime site)
+assets/reference/
