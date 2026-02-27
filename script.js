@@ -1,7 +1,7 @@
 const body = document.body;
 body.classList.add("has-js");
 
-const BUILD_VERSION = "20260227-9";
+const BUILD_VERSION = "20260227-16";
 const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
 console.info(`[Berecons] build ${BUILD_VERSION}`);
@@ -475,16 +475,33 @@ function initGsapMotion() {
   if (hasScrollTrigger) gsap.registerPlugin(ScrollTrigger);
 
   const heroTitleLines = gsap.utils.toArray(".hero-title-line");
+  const animatedHeroTitleLines = heroTitleLines.filter(
+    (line) => !line.classList.contains("hero-title-line-static")
+  );
+  const heroServicesSlider = document.querySelector(".hero-services-slider");
   const heroSubtitle = document.querySelector(".hero-subtitle");
   const heroTimeline = gsap.timeline({ delay: 0 });
 
-  if (heroTitleLines.length) {
-    heroTimeline.from(heroTitleLines, {
+  if (animatedHeroTitleLines.length) {
+    heroTimeline.from(animatedHeroTitleLines, {
       yPercent: 24,
       duration: 0.78,
       ease: "power4.out",
       stagger: 0.12,
     });
+  }
+
+  if (heroServicesSlider) {
+    heroTimeline.from(
+      heroServicesSlider,
+      {
+        y: 16,
+        opacity: 0,
+        duration: 0.72,
+        ease: "power2.out",
+      },
+      0.08
+    );
   }
 
   if (heroSubtitle) {
@@ -502,7 +519,8 @@ function initGsapMotion() {
   const panels = gsap.utils.toArray(".panel");
   if (hasScrollTrigger) {
     panels.forEach((panel) => {
-      if (panel.id === "home") return;
+      const hasDifferenceV2 = panel.id === "difference" && Boolean(panel.querySelector(".difference-v2-page"));
+      if (panel.id === "home" || hasDifferenceV2) return;
       gsap.from(panel, {
         y: 92,
         scale: 0.985,
@@ -564,6 +582,7 @@ function initNativeScrollEffects() {
   const missionSection = document.getElementById("mission");
   const missionMark = document.querySelector("#mission .mission-slab-mark");
   const differenceSection = document.getElementById("difference");
+  const hasDifferenceV2 = Boolean(differenceSection?.querySelector(".difference-v2-page"));
   const servicesSection = document.getElementById("services");
   const serviceCards = [...document.querySelectorAll("#services .service-card")];
 
@@ -571,9 +590,8 @@ function initNativeScrollEffects() {
 
   const applyDefaults = (forReducedMotion = false) => {
     if (homeSection) homeSection.style.setProperty("--hero-scroll-p", "0");
-    if (missionSection)
-      missionSection.style.setProperty("--mission-progress", forReducedMotion ? "1" : "0");
-    if (differenceSection)
+    if (missionSection) missionSection.style.setProperty("--mission-progress", "1");
+    if (differenceSection && !hasDifferenceV2)
       differenceSection.style.setProperty("--difference-progress", forReducedMotion ? "1" : "0");
     if (missionMark) {
       missionMark.style.setProperty("--mission-mark-y", "0px");
@@ -607,33 +625,13 @@ function initNativeScrollEffects() {
       homeSection.style.setProperty("--hero-scroll-p", heroProgress.toFixed(4));
     }
 
-    if (missionSection) {
-      const missionRect = missionSection.getBoundingClientRect();
-      const visibleMissionPx =
-        Math.min(missionRect.bottom, viewportHeight) - Math.max(missionRect.top, 0);
-      const missionVisibleRatio = clampValue(
-        visibleMissionPx / Math.max(Math.min(missionRect.height, viewportHeight), 1),
-        0,
-        1
-      );
-      const missionProgress = easeInOutCubic(missionVisibleRatio);
-      missionSection.style.setProperty("--mission-progress", missionProgress.toFixed(4));
-      const missionCenter = missionRect.top + missionRect.height * 0.5;
-      const missionCenterOffset = clampValue(
-        (viewportHeight * 0.52 - missionCenter) / viewportHeight,
-        -1,
-        1
-      );
-      const missionY = missionCenterOffset * -18;
-      const missionScale = 0.96 + missionProgress * 0.06;
-
-      if (missionMark) {
-        missionMark.style.setProperty("--mission-mark-y", `${missionY.toFixed(2)}px`);
-        missionMark.style.setProperty("--mission-mark-scale", missionScale.toFixed(4));
-      }
+    if (missionSection) missionSection.style.setProperty("--mission-progress", "1");
+    if (missionMark) {
+      missionMark.style.setProperty("--mission-mark-y", "0px");
+      missionMark.style.setProperty("--mission-mark-scale", "1");
     }
 
-    if (differenceSection) {
+    if (differenceSection && !hasDifferenceV2) {
       const differenceRect = differenceSection.getBoundingClientRect();
       const visibleDifferencePx =
         Math.min(differenceRect.bottom, viewportHeight) - Math.max(differenceRect.top, 0);
@@ -1228,6 +1226,137 @@ function initCounters() {
   statValues.forEach((element) => observer.observe(element));
 }
 
+function initDifferenceCanvas() {
+  const canvas = document.getElementById("numCanvas");
+  if (!canvas) return;
+
+  const ctx = canvas.getContext("2d");
+  if (!ctx) return;
+  const differenceSection = document.getElementById("difference");
+
+  const CW = 420;
+  const CH = 310;
+  const NUM_FONT = '900 270px "Perfectly Nineties", "Times New Roman", serif';
+  const PLUS_SIZE = 82;
+  const NUM_Y = 288;
+  const NUM_X = 4;
+  const TARGET = 15;
+  const DURATION = 1600;
+  const PARTICLE_COUNT = 55;
+  const LINK_DISTANCE = 90;
+  let animationStart = null;
+  let hasStarted = false;
+
+  const points = Array.from({ length: PARTICLE_COUNT }, () => ({
+    x: Math.random() * CW,
+    y: Math.random() * CH,
+    vx: (Math.random() - 0.5) * 0.42,
+    vy: (Math.random() - 0.5) * 0.42,
+    r: Math.random() * 2 + 0.8,
+  }));
+
+  const counterAt = (now) => {
+    if (animationStart == null) animationStart = now;
+    const progress = Math.min((now - animationStart) / DURATION, 1);
+    return Math.round((1 - Math.pow(1 - progress, 3)) * TARGET);
+  };
+
+  const makeNumGradient = () => {
+    const gradient = ctx.createLinearGradient(0, 0, CW * 0.75, CH);
+    gradient.addColorStop(0, "#c2359c");
+    gradient.addColorStop(0.45, "#7038bc");
+    gradient.addColorStop(1, "#35b8b2");
+    return gradient;
+  };
+
+  const makePlusGradient = (x, y) => {
+    const gradient = ctx.createLinearGradient(x, y - PLUS_SIZE, x + PLUS_SIZE, y);
+    gradient.addColorStop(0, "#a035a8");
+    gradient.addColorStop(1, "#7840c8");
+    return gradient;
+  };
+
+  const render = (now) => {
+    ctx.clearRect(0, 0, CW, CH);
+
+    const value = counterAt(now);
+    const numberText = String(value);
+
+    ctx.font = NUM_FONT;
+    ctx.fillStyle = makeNumGradient();
+    ctx.fillText(numberText, NUM_X, NUM_Y);
+
+    const numWidth = ctx.measureText(numberText).width;
+    const plusX = NUM_X + numWidth + 4;
+    const plusY = 148;
+
+    ctx.save();
+    ctx.globalCompositeOperation = "source-atop";
+
+    for (let i = 0; i < PARTICLE_COUNT; i += 1) {
+      for (let j = i + 1; j < PARTICLE_COUNT; j += 1) {
+        const dx = points[i].x - points[j].x;
+        const dy = points[i].y - points[j].y;
+        const distance = Math.hypot(dx, dy);
+        if (distance >= LINK_DISTANCE) continue;
+
+        ctx.beginPath();
+        ctx.moveTo(points[i].x, points[i].y);
+        ctx.lineTo(points[j].x, points[j].y);
+        ctx.strokeStyle = `rgba(255,255,255,${(1 - distance / LINK_DISTANCE) * 0.62})`;
+        ctx.lineWidth = 0.9;
+        ctx.stroke();
+      }
+    }
+
+    points.forEach((point) => {
+      ctx.beginPath();
+      ctx.arc(point.x, point.y, point.r, 0, Math.PI * 2);
+      ctx.fillStyle = "rgba(255,255,255,0.88)";
+      ctx.fill();
+    });
+
+    ctx.restore();
+
+    ctx.font = `900 ${PLUS_SIZE}px "Perfectly Nineties", "Times New Roman", serif`;
+    ctx.fillStyle = makePlusGradient(plusX, plusY);
+    ctx.fillText("+", plusX, plusY);
+
+    points.forEach((point) => {
+      point.x += point.vx;
+      point.y += point.vy;
+      if (point.x < 0 || point.x > CW) point.vx *= -1;
+      if (point.y < 0 || point.y > CH) point.vy *= -1;
+    });
+
+    window.requestAnimationFrame(render);
+  };
+
+  const startCanvas = () => {
+    if (hasStarted) return;
+    hasStarted = true;
+    animationStart = null;
+    window.requestAnimationFrame(render);
+  };
+
+  if ("IntersectionObserver" in window && differenceSection) {
+    const observer = new IntersectionObserver(
+      (entries, obs) => {
+        if (!entries.some((entry) => entry.isIntersecting)) return;
+        startCanvas();
+        obs.disconnect();
+      },
+      {
+        threshold: 0.35,
+      }
+    );
+    observer.observe(differenceSection);
+    return;
+  }
+
+  startCanvas();
+}
+
 function initDifferenceMainCounter() {
   const differenceSection = document.getElementById("difference");
   const mainCount = differenceSection?.querySelector("[data-difference-main-count]");
@@ -1443,8 +1572,11 @@ initHeroMedia();
 body.classList.add("motion-ready");
 initGsapMotion();
 initNativeScrollEffects();
-initDifferenceMainCounter();
-initDifferencePointerParticle();
+initDifferenceCanvas();
+if (!document.querySelector("#difference .difference-v2-page")) {
+  initDifferenceMainCounter();
+  initDifferencePointerParticle();
+}
 initServicesSummaryCards();
 initServicesScrollReveal();
 initProcessTriadCircles();
