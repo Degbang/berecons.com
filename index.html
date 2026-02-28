@@ -12,17 +12,20 @@
       content="Berecons LLC provides Research, Business Strategy, Content, Project, and IT/Web solutions."
     />
     <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap"
+    />
+    <link
       rel="preload"
       href="assets/fonts/perfectly-nineties/web/PerfectlyNineties-Regular.woff2?v=20260227-7"
       as="font"
       type="font/woff2"
       crossorigin
     />
-    <link rel="stylesheet" href="styles.css?v=20260227-35" />
+    <link rel="stylesheet" href="styles.css?v=20260227-94" />
   </head>
   <body class="is-loading">
     <div id="preloader" class="preloader" aria-hidden="true">
-      <div class="preloader-grid"></div>
       <div class="preloader-scene" aria-hidden="true">
         <img
           src="assets/pexels-william-fortunato-6140697.jpg?v=20260227-7"
@@ -33,8 +36,28 @@
         <span class="preloader-rotor"></span>
       </div>
       <div class="preloader-inner">
-        <img src="assets/logo-blc-cropped.png?v=20260227-7" alt="Berecons logo" class="preloader-logo" />
-        <div class="preloader-track"><span id="preloader-progress"></span></div>
+        <div class="preloader-phase preloader-phase-main is-active" data-preloader-phase="main">
+          <h1 class="preloader-beyond">
+            beyond<span class="preloader-ellipsis" aria-hidden="true"
+              ><span>.</span><span>.</span><span>.</span></span
+            >
+          </h1>
+          <div class="preloader-services-slider" aria-label="Services">
+            <div class="preloader-services-track">
+              <span class="preloader-service-item is-visible">Research</span>
+              <span class="preloader-service-item">Business</span>
+              <span class="preloader-service-item">Strategy</span>
+              <span class="preloader-service-item">Content</span>
+              <span class="preloader-service-item">Project</span>
+              <span class="preloader-service-item">Digital Solutions</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="preloader-phase preloader-phase-rethink" data-preloader-phase="rethink" aria-hidden="true">
+          <p class="preloader-rethink-top">Rethink</p>
+          <p class="preloader-rethink-bottom">Consulting!</p>
+        </div>
       </div>
     </div>
 
@@ -110,11 +133,11 @@
           >
           <a
             class="nav-link"
-            data-text="Team"
+            data-text="About"
             data-transition-link
-            data-transition-label="Team"
-            href="#team"
-            ><span>Team</span></a
+            data-transition-label="About"
+            href="#about"
+            ><span>About</span></a
           >
           <a
             class="nav-link"
@@ -146,32 +169,15 @@
           <img src="assets/pexels-william-fortunato-6140697.jpg?v=20260227-7" alt="" class="hero-bg-image hero-bg-image-b" />
           <span class="hero-bg-overlay"></span>
         </div>
-
         <div class="container hero-grid">
           <div class="hero-copy">
-            <h1 class="hero-title">
-              <span class="hero-title-line hero-title-line-static">Beyond</span>
+            <h1 class="hero-title" aria-label="Insight · Strategy · Impact">
+              <span class="hero-title-line">Insight</span>
+              <span class="hero-title-separator" aria-hidden="true">·</span>
+              <span class="hero-title-line">Strategy</span>
+              <span class="hero-title-separator" aria-hidden="true">·</span>
+              <span class="hero-title-line">Impact</span>
             </h1>
-            <div class="hero-services-slider" aria-label="Services">
-              <div class="hero-services-runner">
-                <div class="hero-services-track">
-                  <span class="hero-service-chip">Research</span>
-                  <span class="hero-service-chip">Business</span>
-                  <span class="hero-service-chip">Strategy</span>
-                  <span class="hero-service-chip">Content</span>
-                  <span class="hero-service-chip">Project</span>
-                  <span class="hero-service-chip">Digital Solutions</span>
-                </div>
-                <div class="hero-services-track" aria-hidden="true">
-                  <span class="hero-service-chip">Research</span>
-                  <span class="hero-service-chip">Business</span>
-                  <span class="hero-service-chip">Strategy</span>
-                  <span class="hero-service-chip">Content</span>
-                  <span class="hero-service-chip">Project</span>
-                  <span class="hero-service-chip">Digital Solutions</span>
-                </div>
-              </div>
-            </div>
           </div>
         </div>
       </section>
@@ -181,106 +187,29 @@
         class="panel panel-light section section-anchor difference-section"
         data-header-surface="#ffffff"
       >
-        <div class="container difference-v2-page">
-          <div class="difference-v2-headline">
-            <h2>
-              <span class="difference-v2-line difference-v2-line-top">FIRST, WE ARE</span>
-              <span class="difference-v2-line difference-v2-line-bottom"
-                ><span class="difference-v2-diff">DIFFERENT!</span></span
-              >
-            </h2>
-            <div class="difference-v2-squiggle-wrap">
-              <svg
-                width="300"
-                height="22"
-                viewBox="0 0 300 22"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-                aria-hidden="true"
-              >
-                <path
-                  d="M4 14 C30 3, 70 18, 110 10 C150 2, 190 16, 230 8 C258 2, 285 11, 296 8"
-                  stroke="#e8359a"
-                  stroke-width="4"
-                  stroke-linecap="round"
-                  fill="none"
-                />
-                <path
-                  d="M14 18 C55 11, 105 20, 155 15 C205 10, 258 19, 292 15"
-                  stroke="#e8359a"
-                  stroke-width="3"
-                  stroke-linecap="round"
-                  fill="none"
-                  opacity="0.55"
-                />
-              </svg>
-            </div>
-          </div>
-
-          <div class="difference-v2-main-row">
-            <div class="difference-v2-big-number-area">
-              <canvas id="numCanvas" width="420" height="310" aria-label="15 plus"></canvas>
-            </div>
-
-            <article class="difference-v2-description">
-              <h3>Decades of Experience</h3>
-              <p>
-                Our consultants' 150+ years of collective expertise means we've seen it all and can just
-                as competently tackle it all.
-              </p>
-              <a
-                class="difference-v2-btn"
-                href="#contact"
-                >Get in touch</a
-              >
-            </article>
-
-            <div class="difference-v2-stats-grid">
-              <article class="difference-v2-stat difference-v2-stat-top-left">
-                <p class="difference-v2-stat-num">20</p>
-                <p class="difference-v2-stat-label">Consultants</p>
-              </article>
-
-              <article class="difference-v2-stat difference-v2-stat-top-right">
-                <p class="difference-v2-stat-num">10</p>
-                <p class="difference-v2-stat-label">Countries</p>
-              </article>
-
-              <article class="difference-v2-stat difference-v2-stat-bot-left">
-                <p class="difference-v2-stat-num">98%</p>
-                <p class="difference-v2-stat-label">Customer Retention Rate</p>
-              </article>
-
-              <article class="difference-v2-stat difference-v2-stat-bot-right">
-                <p class="difference-v2-stat-num">100%</p>
-                <p class="difference-v2-stat-label">Customer Referrals</p>
-              </article>
-            </div>
-          </div>
+        <div class="container difference-image-wrap">
+          <img
+            src="assets/different%20image.png"
+            alt="First, we are different"
+            class="difference-image"
+            loading="lazy"
+          />
         </div>
       </section>
 
-      <section id="mission" class="panel panel-light section section-anchor mission-section" data-header-surface="#ffffff">
-        <div class="mission-shell">
-          <div class="mission-top">
-            <div class="mission-head-row">
-              <h2 class="mission-title">Mission</h2>
-              <p class="mission-mini">What is Berecons?</p>
-            </div>
-            <div class="mission-text">
-              <p>
-                <em>Berecons LLC</em> combines <em>qualitative, quantitative, and mixed-method research</em> to
-                connect <em>discovery, planning, and implementation.</em> We deliver focused
-                <em>research, fieldwork, analysis,</em> and <em>data management</em> so teams can make
-                <em>timely, reliable, and actionable decisions.</em>
-              </p>
-            </div>
-          </div>
-
-          <div class="mission-giant-word-wrap">
-            <canvas class="mission-ready-particles" aria-hidden="true"></canvas>
-            <span class="mission-slab-mark">Ready</span>
-          </div>
+      <section id="mission" class="panel panel-dark section section-anchor mission-section" data-header-surface="#00072d">
+        <div class="container mission-story" data-reveal="fade-up">
+          <p class="mission-topic">Mission</p>
+          <h2 class="mission-display">
+            <span class="mission-line"
+              >Berecons is where <span class="mission-accent-turquoise">research</span></span
+            >
+            <span class="mission-line"
+              >becomes <span class="mission-accent-fuchsia">strategy</span> and
+              <span class="mission-accent-grey">strategy</span></span
+            >
+            <span class="mission-line">becomes results.</span>
+          </h2>
         </div>
       </section>
 
@@ -295,90 +224,108 @@
 
         <div class="container services-summary-grid services-grid">
           <article class="service-card services-summary-card" data-reveal="fade-up" tabindex="0">
-            <h3>Research Solutions</h3>
+            <h3>1. Research and Data</h3>
             <div class="services-summary-body">
               <p class="services-summary-brief">
-                Survey design and durable research systems for dependable data.
+                We design and deliver research that turns information into intelligence, from
+                fieldwork and market studies to analytics and data management.
               </p>
               <p class="services-summary-full">
-                We assist clients with general research solutions, survey design, and the
-                implementation of research systems for continuous, timely, and reliable data
-                recording.
+                We design and execute research that turns information into intelligence, from
+                academic and market studies to analytics, fieldwork, and data management.
               </p>
             </div>
             <span class="services-summary-cta">READ MORE</span>
           </article>
 
           <article class="service-card services-summary-card" data-reveal="fade-up" tabindex="0">
-            <h3>Content Solutions</h3>
+            <h3>2. Business Consulting</h3>
             <div class="services-summary-body">
               <p class="services-summary-brief">
-                Precision editing that sharpens clarity and makes content spotless.
+                We strengthen business systems through strategy, risk and financial management,
+                compliance, and process optimisation.
               </p>
               <p class="services-summary-full">
-                Our clients can benefit from a second pair of eyes to polish and make content
-                spotless.
+                Our consulting practice strengthens systems and strategies through practical
+                planning, risk and financial management, compliance, and process optimisation.
               </p>
             </div>
             <span class="services-summary-cta">READ MORE</span>
           </article>
 
           <article class="service-card services-summary-card" data-reveal="fade-up" tabindex="0">
-            <h3>Business | Strategy Solutions</h3>
+            <h3>3. Content Development</h3>
             <div class="services-summary-body">
               <p class="services-summary-brief">
-                Turn strong ideas into viable businesses with strategic structure.
+                We craft and refine proposals, reports, and publications with precision, insight,
+                and purpose, ensuring your message is clear and credible.
               </p>
               <p class="services-summary-full">
-                If done correctly, developing an idea into a business could be the most
-                exhilarating and rewarding in an entrepreneur's life.
+                We create, review, and refine proposals, reports, and written materials that
+                reflect precision, insight, and purpose, in print and online.
               </p>
             </div>
             <span class="services-summary-cta">READ MORE</span>
           </article>
 
           <article class="service-card services-summary-card" data-reveal="fade-up" tabindex="0">
-            <h3>Project Solutions</h3>
+            <h3>4. Project Consulting</h3>
             <div class="services-summary-body">
               <p class="services-summary-brief">
-                End-to-end project design, implementation, and management support.
+                From planning and design to implementation, monitoring, and evaluation, we manage
+                projects with structure, accountability, and measurable outcomes.
               </p>
               <p class="services-summary-full">
-                At our consulting firm, we offer a comprehensive Project Design, Implementation,
-                and Management service that caters to a diverse range of project types.
+                Berecons provides full-cycle project support, from planning and design to
+                implementation, monitoring, and reporting, ensuring focus, compliance, and
+                measurable outcomes.
               </p>
             </div>
             <span class="services-summary-cta">READ MORE</span>
           </article>
 
           <article class="service-card services-summary-card" data-reveal="fade-up" tabindex="0">
-            <h3>Digital Solutions</h3>
+            <h3>5. Digital and Technology</h3>
             <div class="services-summary-body">
               <p class="services-summary-brief">
-                High-impact profiles, infographics, presentations, and business documents.
+                We build and maintain modern digital systems, websites, branding, e-commerce, and
+                smart infrastructure that enhance visibility, security, and efficiency.
               </p>
               <p class="services-summary-full">
-                Our talented designers specialise in creating visually stunning company profiles,
-                infographics, presentations, resumes, business documents, and more.
+                We build and maintain smart digital systems, ranging from websites and branding to
+                e-commerce, as well as surveillance, networking, and security infrastructure that
+                protect and power operations.
               </p>
             </div>
             <span class="services-summary-cta">READ MORE</span>
-          </article>
-
-          <article class="service-card services-summary-card" data-reveal="fade-up" tabindex="0">
-            <h3>Special Solutions</h3>
-            <div class="services-summary-body">
-              <p class="services-summary-brief">
-                Custom requests handled with tailored, practical delivery.
-              </p>
-              <p class="services-summary-full">
-                Our Special Solutions are endless! Contact us with any special requests and we
-                will work with you to find a tailored solution.
-              </p>
-            </div>
-            <span class="services-summary-cta">LEARN MORE</span>
           </article>
         </div>
+
+        <dialog id="services-solutions-dialog" class="services-solutions-dialog" aria-label="Solutions">
+          <div class="services-solutions-panel">
+            <div class="services-solutions-head">
+              <h3>Solutions</h3>
+              <button
+                type="button"
+                class="services-solutions-close"
+                data-dialog-close
+                aria-label="Close solutions"
+              >
+                Close
+              </button>
+            </div>
+
+            <div class="services-solutions-grid">
+              <article class="services-solutions-item">
+                <h4 id="services-solution-title">Research and Data</h4>
+                <p id="services-solution-copy">
+                  We design and execute research that turns information into intelligence, from
+                  academic and market studies to analytics, fieldwork, and data management.
+                </p>
+              </article>
+            </div>
+          </div>
+        </dialog>
       </section>
 
       <section
@@ -386,7 +333,6 @@
         class="panel panel-light section section-anchor process-overview-section"
         data-header-surface="#ffffff"
       >
-        <span id="about" class="legacy-anchor" aria-hidden="true"></span>
         <div class="container section-head process-overview-head" data-reveal="fade-up">
           <p class="section-kicker">Process</p>
           <h2>Strategy, Design, and Development work as one connected process.</h2>
@@ -471,10 +417,22 @@
         </div>
       </section>
 
-      <section id="team" class="panel panel-dark section section-anchor team-section" data-header-surface="#ffffff">
+      <section id="about" class="panel panel-dark section section-anchor team-section" data-header-surface="#00072d">
+        <div class="team-about-media-wrap">
+          <figure class="team-about-media" data-reveal="fade-up">
+            <img
+              src="assets/about.png"
+              alt="About Berecons"
+              class="team-about-image"
+              loading="lazy"
+            />
+            <figcaption class="team-about-label">About</figcaption>
+          </figure>
+        </div>
+
         <div class="container team-editorial-head" data-reveal="fade-up">
           <div class="team-editorial-head-main">
-            <p class="section-kicker">Team</p>
+            <h2>Our team</h2>
           </div>
           <p class="team-editorial-lead">
             Berecons specialists work across research, strategy, project delivery, content, and
@@ -657,58 +615,75 @@
 
       <section
         id="contact"
-        class="panel panel-light section section-anchor contact-section"
-        data-header-surface="#ffffff"
+        class="panel panel-dark section section-anchor contact-section"
+        data-header-surface="#dddee2"
       >
         <div class="container contact-hero" data-reveal="fade-up">
           <p class="section-kicker">Contact</p>
-          <h2 class="contact-hero-title">Ready for your next big game-changing move?</h2>
+          <h2 class="contact-hero-title">Let&rsquo;s Build Something Better</h2>
           <p class="contact-hero-copy">
-            Let’s build a clean, high-performance digital presence with strategy and execution in
-            one aligned workflow.
+            Whether you need sharper data insights, stronger systems, or smarter communication,
+            Berecons is here to help. Get in touch! Let&rsquo;s turn your ideas into results.
           </p>
-          <a class="btn btn-primary contact-hero-cta" href="mailto:hello@berecons.com"
-            >hello@berecons.com</a
-          >
+          <ul class="contact-hero-meta" aria-label="Contact details">
+            <li>
+              <span class="contact-hero-meta-label">📧 Email:</span>
+              <a href="mailto:info@berecons.com">info@berecons.com</a>
+            </li>
+            <li>
+              <span class="contact-hero-meta-label">🌐 Website:</span>
+              <a href="https://www.berecons.com" target="_blank" rel="noopener noreferrer">www.berecons.com</a>
+            </li>
+            <li>
+              <span class="contact-hero-meta-label">📍 Location:</span>
+              <span>Accra, Ghana</span>
+            </li>
+          </ul>
+          <a class="btn btn-primary contact-hero-cta" href="mailto:info@berecons.com">Send a Message</a>
         </div>
       </section>
     </main>
 
-    <footer class="site-footer">
+    <footer class="site-footer" data-reveal="fade-up">
       <div class="container footer-inner">
-        <div class="footer-grid">
-          <section class="footer-block" aria-label="Address">
-            <h3>Address</h3>
-            <p>
-              Mantse Okle Street<br />
-              Baastona, Spintex<br />
-              Accra,<br />
-              GZ-143-3721
-            </p>
-          </section>
+        <div class="footer-top footer-animate">
+          <a href="#home" class="footer-brand" aria-label="Berecons home">
+            <img src="assets/logo-blc-cropped.png?v=20260227-7" alt="Berecons logo" class="footer-logo" />
+          </a>
 
-          <section class="footer-block" aria-label="Phone">
-            <h3>Phone</h3>
-            <p>
-              P: <a href="tel:+233302727291">+233 302 727 291 (Office)</a><br />
-              M: <a href="tel:+233201498115">+233 20 149 8115 (Mobile)</a><br />
-              W: <a href="tel:+14433006748">+1 443 300 6748 (International clients)</a>
-            </p>
-          </section>
+          <div class="footer-links-grid">
+            <section class="footer-links-group" aria-label="Footer menu">
+              <p class="footer-links-title">Menu</p>
+              <a href="#home">Home</a>
+              <a href="#services">Services</a>
+              <a href="#process">Process</a>
+              <a href="#about">Our team</a>
+              <a href="#contact">Contact</a>
+            </section>
 
-          <section class="footer-block" aria-label="Email">
-            <h3>Email</h3>
-            <p>
-              <a href="mailto:Projects@berecons.com">Projects@berecons.com</a><br />
-              <a href="mailto:Support@berecons.com">Support@berecons.com</a>
-            </p>
-          </section>
+            <section class="footer-links-group" aria-label="Footer socials">
+              <p class="footer-links-title">Socials</p>
+              <a
+                href="https://www.linkedin.com/company/bereconsllc"
+                target="_blank"
+                rel="noopener noreferrer"
+                >LinkedIn</a
+              >
+            </section>
+          </div>
+        </div>
+
+        <div class="footer-bottom footer-animate">
+          <p class="footer-copy">&copy; 2025 Berecons LLC. All rights reserved.</p>
+          <p class="footer-services-line">
+            Management Consulting | Research | Content | Projects | Technology
+          </p>
         </div>
       </div>
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
-    <script src="script.js?v=20260227-16"></script>
+    <script src="script.js?v=20260227-37"></script>
   </body>
 </html>
