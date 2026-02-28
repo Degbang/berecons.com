@@ -1,7 +1,7 @@
 const body = document.body;
 body.classList.add("has-js");
 
-const BUILD_VERSION = "20260227-37";
+const BUILD_VERSION = "20260228-52";
 const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
 console.info(`[Berecons] build ${BUILD_VERSION}`);
@@ -1419,15 +1419,21 @@ function initFooterReveal() {
   const revealNodes = footer ? [...footer.querySelectorAll(".footer-animate")] : [];
   if (!footer || !revealNodes.length) return;
 
+  const contactSection = document.getElementById("contact");
+  if (!contactSection) return;
+
   const root = document.documentElement;
-  const showThreshold = 14;
-  const hideThreshold = 88;
-  const minScrollableDistance = 120;
-  const hideDelayMs = 260;
+  const dockedThreshold = 0.985;
+  const interactiveThreshold = 0.32;
+  const smoothFactor = 0.055;
   let hasShown = false;
-  let lastY = window.scrollY;
   let ticking = false;
-  let hideTimeoutId = 0;
+  let progressFrame = 0;
+  let currentProgress = 0;
+  let targetProgress = 0;
+  let footerMounted = false;
+
+  const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
 
   const markFooterVisible = () => {
     if (hasShown) return;
@@ -1435,53 +1441,70 @@ function initFooterReveal() {
     footer.classList.add("is-in-view");
   };
 
-  const dockFooter = () => {
-    if (hideTimeoutId) {
-      window.clearTimeout(hideTimeoutId);
-      hideTimeoutId = 0;
+  const setFooterProgress = (value) => {
+    const progress = clamp(value, 0, 1);
+    if (!footerMounted && progress > 0.015) {
+      footerMounted = true;
+      body.classList.add("footer-mounted");
+    } else if (footerMounted && progress < 0.003) {
+      footerMounted = false;
+      body.classList.remove("footer-mounted");
     }
-    markFooterVisible();
-    footer.classList.add("is-docked");
+    footer.style.setProperty("--footer-reveal", progress.toFixed(3));
+    footer.classList.toggle("is-docked", progress >= dockedThreshold);
+    footer.classList.toggle("is-interactive", progress >= interactiveThreshold);
+    if (progress > 0.01) markFooterVisible();
   };
 
-  const hideFooter = () => {
-    if (!footer.classList.contains("is-docked")) return;
-    if (hideTimeoutId) return;
-    hideTimeoutId = window.setTimeout(() => {
-      footer.classList.remove("is-docked");
-      hideTimeoutId = 0;
-    }, hideDelayMs);
+  const animateFooterProgress = () => {
+    const delta = targetProgress - currentProgress;
+    if (Math.abs(delta) < 0.002) {
+      currentProgress = targetProgress;
+      setFooterProgress(currentProgress);
+      progressFrame = 0;
+      return;
+    }
+    currentProgress += delta * smoothFactor;
+    setFooterProgress(currentProgress);
+    progressFrame = window.requestAnimationFrame(animateFooterProgress);
+  };
+
+  const queueProgressUpdate = () => {
+    if (prefersReducedMotion) {
+      currentProgress = targetProgress;
+      setFooterProgress(currentProgress);
+      return;
+    }
+    if (progressFrame) return;
+    progressFrame = window.requestAnimationFrame(animateFooterProgress);
   };
 
   const syncFooterReserve = () => {
-    const wasDocked = footer.classList.contains("is-docked");
-    if (wasDocked) footer.classList.remove("is-docked");
-
     const footerHeight = Math.max(0, Math.ceil(footer.getBoundingClientRect().height));
-    const reserve = footerHeight > 0 ? footerHeight + 8 : 0;
+    const reserve = footerHeight > 0 ? footerHeight : 0;
     root.style.setProperty("--footer-reserve", `${reserve}px`);
-
-    if (wasDocked) footer.classList.add("is-docked");
   };
 
   const evaluateFooterState = () => {
+    const viewportHeight = Math.max(1, window.innerHeight);
     const currentY = window.scrollY;
-    const direction =
-      currentY > lastY + 1 ? "down" : currentY < lastY - 1 ? "up" : "still";
-    const maxScroll = Math.max(0, root.scrollHeight - window.innerHeight);
-    const distanceToBottom = maxScroll - currentY;
-    const isScrollable = maxScroll > minScrollableDistance;
-    const nearBottomToShow = isScrollable && distanceToBottom <= showThreshold;
-    const nearBottomToStay = isScrollable && distanceToBottom <= hideThreshold;
-    const isDocked = footer.classList.contains("is-docked");
+    const contactTopAbs = contactSection.offsetTop;
+    const revealGate = Math.max(viewportHeight * 0.82, contactTopAbs - viewportHeight * 0.96);
 
-    if (nearBottomToShow && direction !== "up") {
-      dockFooter();
-    } else if (!(isDocked && nearBottomToStay)) {
-      hideFooter();
+    if (currentY < revealGate) {
+      targetProgress = 0;
+      queueProgressUpdate();
+      ticking = false;
+      return;
     }
 
-    lastY = currentY;
+    const rect = contactSection.getBoundingClientRect();
+    const visiblePixels = Math.min(viewportHeight, rect.bottom) - Math.max(0, rect.top);
+    const visibleHeight = Math.max(1, Math.min(viewportHeight, rect.height));
+    const rawProgress = clamp(visiblePixels / visibleHeight, 0, 1);
+
+    targetProgress = prefersReducedMotion ? (rawProgress >= 0.98 ? 1 : 0) : rawProgress;
+    queueProgressUpdate();
     ticking = false;
   };
 
@@ -1492,17 +1515,32 @@ function initFooterReveal() {
   };
 
   syncFooterReserve();
-  evaluateFooterState();
+  body.classList.remove("footer-mounted");
+  setFooterProgress(0);
+  queueProgressUpdate();
 
   window.addEventListener("scroll", onScroll, { passive: true });
   window.addEventListener("resize", () => {
     syncFooterReserve();
     onScroll();
   });
+  window.addEventListener(
+    "load",
+    () => {
+      syncFooterReserve();
+      onScroll();
+      window.setTimeout(onScroll, 320);
+    },
+    { once: true }
+  );
+  window.addEventListener("pageshow", () => {
+    syncFooterReserve();
+    onScroll();
+  });
 
-  if (prefersReducedMotion) {
-    markFooterVisible();
-  }
+  onScroll();
+
+  if (prefersReducedMotion) markFooterVisible();
 }
 
 function animateCounterFallback(element, target) {
