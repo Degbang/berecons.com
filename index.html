@@ -11,9 +11,25 @@
       name="description"
       content="Berecons LLC provides Research, Business Strategy, Content, Project, and IT/Web solutions."
     />
+    <script>
+      (function markSkipPreloaderOnce() {
+        try {
+          const shouldSkip =
+            window.sessionStorage.getItem("berecons-skip-preloader-once") === "1" ||
+            new URLSearchParams(window.location.search).get("skipPreloader") === "1";
+          if (shouldSkip) document.documentElement.classList.add("skip-preloader-once");
+        } catch {
+          // Ignore storage and URL access issues.
+        }
+      })();
+    </script>
     <link
       rel="stylesheet"
       href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500&family=DM+Serif+Display:ital@0;1&display=swap"
     />
     <link
       rel="preload"
@@ -22,7 +38,7 @@
       type="font/woff2"
       crossorigin
     />
-    <link rel="stylesheet" href="styles.css?v=20260228-111" />
+    <link rel="stylesheet" href="styles.css?v=20260303-135" />
   </head>
   <body class="is-loading">
     <div id="preloader" class="preloader" aria-hidden="true">
@@ -108,7 +124,7 @@
 
         <nav id="site-nav" class="site-nav" aria-label="Main navigation">
           <a
-            class="nav-link"
+            class="nav-link is-active"
             data-text="Home"
             data-transition-link
             data-transition-label="Home"
@@ -117,34 +133,26 @@
           >
           <a
             class="nav-link"
-            data-text="Services"
+            data-text="About us"
             data-transition-link
-            data-transition-label="Services"
-            href="#services"
-            ><span>Services</span></a
+            data-transition-label="About us"
+            href="about.html"
+            ><span>About us</span></a
           >
           <a
             class="nav-link"
-            data-text="Process"
+            data-text="Solutions"
             data-transition-link
-            data-transition-label="Process"
-            href="#process"
-            ><span>Process</span></a
-          >
-          <a
-            class="nav-link"
-            data-text="About"
-            data-transition-link
-            data-transition-label="About"
-            href="#about"
-            ><span>About</span></a
+            data-transition-label="Solutions"
+            href="solutions.html"
+            ><span>Solutions</span></a
           >
           <a
             class="nav-link"
             data-text="Contact"
             data-transition-link
             data-transition-label="Contact"
-            href="#contact"
+            href="contact.html"
             ><span>Contact</span></a
           >
         </nav>
@@ -215,117 +223,72 @@
 
       <section
         id="services"
-        class="panel panel-light section section-anchor services-summary-section"
+        class="panel panel-light section section-anchor services-summary-section home-solutions-section"
         data-header-surface="#ffffff"
       >
-        <div class="container section-head services-summary-intro" data-reveal="fade-up">
-          <p class="section-kicker">Services</p>
+        <div class="container section-head services-summary-intro home-solutions-intro" data-reveal="fade-up">
+          <p class="section-kicker">Our Solutions</p>
         </div>
 
-        <div class="container services-summary-grid services-grid">
-          <article class="service-card services-summary-card" data-reveal="fade-up" tabindex="0">
-            <h3>1. Research and Data</h3>
-            <div class="services-summary-body">
-              <p class="services-summary-brief">
-                We design and deliver research that turns information into intelligence, from
-                fieldwork and market studies to analytics and data management.
-              </p>
-              <p class="services-summary-full">
-                We design and execute research that turns information into intelligence, from
-                academic and market studies to analytics, fieldwork, and data management.
-              </p>
-            </div>
-            <span class="services-summary-cta">READ MORE</span>
-          </article>
-
-          <article class="service-card services-summary-card" data-reveal="fade-up" tabindex="0">
-            <h3>2. Business Consulting</h3>
-            <div class="services-summary-body">
-              <p class="services-summary-brief">
-                We strengthen business systems through strategy, risk and financial management,
-                compliance, and process optimisation.
-              </p>
-              <p class="services-summary-full">
-                Our consulting practice strengthens systems and strategies through practical
-                planning, risk and financial management, compliance, and process optimisation.
-              </p>
-            </div>
-            <span class="services-summary-cta">READ MORE</span>
-          </article>
-
-          <article class="service-card services-summary-card" data-reveal="fade-up" tabindex="0">
-            <h3>3. Content Development</h3>
-            <div class="services-summary-body">
-              <p class="services-summary-brief">
-                We craft and refine proposals, reports, and publications with precision, insight,
-                and purpose, ensuring your message is clear and credible.
-              </p>
-              <p class="services-summary-full">
-                We create, review, and refine proposals, reports, and written materials that
-                reflect precision, insight, and purpose, in print and online.
-              </p>
-            </div>
-            <span class="services-summary-cta">READ MORE</span>
-          </article>
-
-          <article class="service-card services-summary-card" data-reveal="fade-up" tabindex="0">
-            <h3>4. Project Consulting</h3>
-            <div class="services-summary-body">
-              <p class="services-summary-brief">
-                From planning and design to implementation, monitoring, and evaluation, we manage
-                projects with structure, accountability, and measurable outcomes.
-              </p>
-              <p class="services-summary-full">
-                Berecons provides full-cycle project support, from planning and design to
-                implementation, monitoring, and reporting, ensuring focus, compliance, and
-                measurable outcomes.
-              </p>
-            </div>
-            <span class="services-summary-cta">READ MORE</span>
-          </article>
-
-          <article class="service-card services-summary-card" data-reveal="fade-up" tabindex="0">
-            <h3>5. Digital and Technology</h3>
-            <div class="services-summary-body">
-              <p class="services-summary-brief">
-                We build and maintain modern digital systems, websites, branding, e-commerce, and
-                smart infrastructure that enhance visibility, security, and efficiency.
-              </p>
-              <p class="services-summary-full">
-                We build and maintain smart digital systems, ranging from websites and branding to
-                e-commerce, as well as surveillance, networking, and security infrastructure that
-                protect and power operations.
-              </p>
-            </div>
-            <span class="services-summary-cta">READ MORE</span>
-          </article>
-        </div>
-
-        <dialog id="services-solutions-dialog" class="services-solutions-dialog" aria-label="Solutions">
-          <div class="services-solutions-panel">
-            <div class="services-solutions-head">
-              <h3>Solutions</h3>
-              <button
-                type="button"
-                class="services-solutions-close"
-                data-dialog-close
-                aria-label="Close solutions"
+        <div class="container home-solutions-stage" data-reveal="fade-up">
+          <div class="home-solution-rings" aria-label="Solution previews">
+            <a class="home-solution-ring home-solution-research" href="solutions.html?solution=research#research">
+              <span class="home-solution-ring-title">Research &amp;<br />Data<br />Analytics</span>
+              <span class="home-solution-ring-tip"
+                >We assist clients with general research solutions, survey design, and the implementation of
+                research systems for continuous, timely, and reliable data recording.</span
               >
-                Close
-              </button>
-            </div>
+            </a>
 
-            <div class="services-solutions-grid">
-              <article class="services-solutions-item">
-                <h4 id="services-solution-title">Research and Data</h4>
-                <p id="services-solution-copy">
-                  We design and execute research that turns information into intelligence, from
-                  academic and market studies to analytics, fieldwork, and data management.
-                </p>
-              </article>
-            </div>
+            <a
+              class="home-solution-ring home-solution-content"
+              href="solutions.html?solution=content#content-solutions"
+            >
+              <span class="home-solution-ring-title">Content</span>
+              <span class="home-solution-ring-tip"
+                >Our clients can benefit from a second pair of eyes to polish and make content spotless.</span
+              >
+            </a>
+
+            <a
+              class="home-solution-ring home-solution-business"
+              href="solutions.html?solution=business#strategic-business-solutions"
+            >
+              <span class="home-solution-ring-title">Business<br />Strategy</span>
+              <span class="home-solution-ring-tip"
+                >If done correctly, developing an idea into a business could be the most exhilarating and
+                rewarding in an entrepreneur&rsquo;s life.</span
+              >
+            </a>
+
+            <a class="home-solution-ring home-solution-project" href="solutions.html?solution=project#project-solutions">
+              <span class="home-solution-ring-title">Projects</span>
+              <span class="home-solution-ring-tip"
+                >At our consulting firm, we offer a comprehensive Project Design, Implementation, and Management
+                service that caters to a diverse range of project types.</span
+              >
+            </a>
+
+            <a
+              class="home-solution-ring home-solution-digital"
+              href="solutions.html?solution=digital#technical-digital-solutions"
+            >
+              <span class="home-solution-ring-title">IT, Graphics<br />&amp; Web</span>
+              <span class="home-solution-ring-tip"
+                >Our talented designers specialise in creating visually stunning company profiles, infographics,
+                presentations, resumes, business documents, and more.</span
+              >
+            </a>
+
+            <a class="home-solution-ring home-solution-special" href="solutions.html?solution=special#special-solutions">
+              <span class="home-solution-ring-title">Integrated<br />Solutions</span>
+              <span class="home-solution-ring-tip"
+                >Our Special Solutions are endless! Contact us with any special requests and we will work with you
+                to find a tailored solution.</span
+              >
+            </a>
           </div>
-        </dialog>
+        </div>
       </section>
 
       <section
@@ -333,318 +296,80 @@
         class="panel panel-light section section-anchor process-overview-section"
         data-header-surface="#ffffff"
       >
-        <div class="container section-head process-overview-head" data-reveal="fade-up">
-          <p class="section-kicker">Process</p>
-          <h2>Strategy, Design, and Development work as one connected process.</h2>
-        </div>
-
-        <div class="container process-overview-copy process-overview-copy-wide" data-reveal="fade-up">
-          <p>
+        <div class="container process-flow-wrap">
+          <p class="section-kicker process-flow-kicker">Processes</p>
+          <p class="process-flow-headline" id="process-flow-headline">
+            Strategy, Design, and Development work as one connected process.
             <em>Strategy</em> defines direction and priorities, <em>Design</em> shapes the experience
             and message, and <em>Development</em> turns that plan into a fast, reliable build.
-            The circle overlaps show how each phase informs the next so execution stays aligned.
           </p>
-        </div>
 
-        <div class="container process-venn-stage" aria-hidden="true">
-          <div class="process-venn-sticky">
-            <div class="process-venn">
-              <svg class="process-venn-svg" viewBox="0 -28 1000 728" preserveAspectRatio="xMidYMid meet">
-                <defs>
-                  <clipPath id="process-clip-design">
-                    <circle id="process-clip-circle-design" cx="500" cy="165" r="170"></circle>
-                  </clipPath>
-                  <clipPath id="process-clip-strategy">
-                    <circle id="process-clip-circle-strategy" cx="350" cy="395" r="170"></circle>
-                  </clipPath>
-                  <clipPath id="process-clip-development">
-                    <circle id="process-clip-circle-development" cx="650" cy="395" r="170"></circle>
-                  </clipPath>
-                </defs>
-                <circle
-                  id="process-intersection-design-strategy"
-                  class="process-venn-intersection"
-                  cx="500"
-                  cy="165"
-                  r="170"
-                  clip-path="url(#process-clip-strategy)"
-                ></circle>
-                <circle
-                  id="process-intersection-design-development"
-                  class="process-venn-intersection"
-                  cx="500"
-                  cy="165"
-                  r="170"
-                  clip-path="url(#process-clip-development)"
-                ></circle>
-                <circle
-                  id="process-intersection-strategy-development"
-                  class="process-venn-intersection"
-                  cx="350"
-                  cy="395"
-                  r="170"
-                  clip-path="url(#process-clip-development)"
-                ></circle>
-                <circle
-                  id="process-circle-design"
-                  class="process-venn-circle process-venn-circle-design"
-                  cx="500"
-                  cy="165"
-                  r="170"
-                ></circle>
-                <circle
-                  id="process-circle-strategy"
-                  class="process-venn-circle process-venn-circle-strategy"
-                  cx="350"
-                  cy="395"
-                  r="170"
-                ></circle>
-                <circle
-                  id="process-circle-development"
-                  class="process-venn-circle process-venn-circle-development"
-                  cx="650"
-                  cy="395"
-                  r="170"
-                ></circle>
-                <text id="process-label-design" class="process-venn-label" x="500" y="165">Design</text>
-                <text id="process-label-strategy" class="process-venn-label" x="350" y="395">Strategy</text>
-                <text id="process-label-development" class="process-venn-label" x="650" y="395">
+          <div class="process-flow-grid">
+            <article class="process-flow-column" id="process-flow-col-strategy">
+              <header class="process-flow-col-header">
+                <h3 class="process-flow-col-title">
+                  <svg class="process-flow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <circle cx="12" cy="12" r="4"></circle>
+                    <line x1="12" y1="2" x2="12" y2="8"></line>
+                    <line x1="12" y1="16" x2="12" y2="22"></line>
+                    <line x1="2" y1="12" x2="8" y2="12"></line>
+                    <line x1="16" y1="12" x2="22" y2="12"></line>
+                  </svg>
+                  Strategy
+                </h3>
+              </header>
+              <p class="process-flow-body">
+                Strategy defines direction and priorities. Through a focused discovery process, we analyze your
+                business, clarify goals, and establish the conceptual foundation &mdash; the lens through which every
+                design and development decision will be made.
+              </p>
+            </article>
+
+            <span class="process-flow-divider" id="process-flow-div-1" aria-hidden="true"></span>
+
+            <article class="process-flow-column" id="process-flow-col-design">
+              <header class="process-flow-col-header">
+                <h3 class="process-flow-col-title">
+                  <svg class="process-flow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <path d="M8 12 Q12 6 16 12 Q12 18 8 12Z"></path>
+                  </svg>
+                  Design
+                </h3>
+              </header>
+              <p class="process-flow-body">
+                Design shapes the experience and message. Building on the strategic foundation, every detail is
+                crafted to communicate clearly, create immersion, and convert &mdash; so the visual system becomes an
+                extension of the strategy, not a separate layer.
+              </p>
+            </article>
+
+            <span class="process-flow-divider" id="process-flow-div-2" aria-hidden="true"></span>
+
+            <article class="process-flow-column" id="process-flow-col-development">
+              <header class="process-flow-col-header">
+                <h3 class="process-flow-col-title">
+                  <svg class="process-flow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <polyline points="16 18 22 12 16 6"></polyline>
+                    <polyline points="8 6 2 12 8 18"></polyline>
+                    <line x1="12" y1="4" x2="12" y2="20" stroke-dasharray="2 2"></line>
+                  </svg>
                   Development
-                </text>
-              </svg>
-            </div>
+                </h3>
+              </header>
+              <p class="process-flow-body">
+                Development turns that plan into a fast, reliable build. Each phase informs the next &mdash; so execution
+                stays aligned with the original intent, and nothing is lost in translation from concept to code.
+              </p>
+            </article>
           </div>
         </div>
       </section>
 
-      <section id="about" class="panel panel-dark section section-anchor team-section" data-header-surface="#00072d">
-        <div class="team-about-media-wrap">
-          <figure class="team-about-media" data-reveal="fade-up">
-            <img
-              src="assets/about.png"
-              alt="About Berecons"
-              class="team-about-image"
-              loading="lazy"
-            />
-            <figcaption class="team-about-label">About</figcaption>
-          </figure>
-        </div>
-
-        <div class="container team-editorial-head" data-reveal="fade-up">
-          <div class="team-editorial-head-main">
-            <h2>Our team</h2>
-          </div>
-          <p class="team-editorial-lead">
-            Berecons specialists work across research, strategy, project delivery, content, and
-            digital systems. Filter by discipline to see the people shaping execution.
-          </p>
-        </div>
-
-        <div class="container team-editorial-controls team-reveal-target" data-reveal="fade-up">
-          <p class="team-members-count" id="team-members-count" aria-live="polite" hidden></p>
-          <div class="team-filter-row">
-            <button class="team-filter" type="button" data-team-filter="research-data" aria-pressed="false">
-              Research &amp; Data
-            </button>
-            <button class="team-filter" type="button" data-team-filter="project-content" aria-pressed="false">
-              Project &amp; Content
-            </button>
-            <button class="team-filter" type="button" data-team-filter="strategy-advisory" aria-pressed="false">
-              Strategy &amp; Advisory
-            </button>
-            <button class="team-filter" type="button" data-team-filter="design-web" aria-pressed="false">
-              Design, Web &amp; Systems
-            </button>
-          </div>
-          <p class="team-empty-note" id="team-empty-note">Click a group to view team members.</p>
-        </div>
-
-        <div class="container team-editorial-grid is-awaiting">
-          <article
-            class="team-editorial-card team-reveal-target" hidden
-            data-team-dept="research-data"
-            data-member-name="David Korboe"
-            data-reveal="fade-up"
-          >
-            <p class="team-editorial-tag">Research &amp; Data</p>
-            <h3 class="team-editorial-name">David Korboe</h3>
-            <p class="team-editorial-role">Research, Projects</p>
-          </article>
-          <article
-            class="team-editorial-card team-reveal-target" hidden
-            data-team-dept="research-data"
-            data-member-name="Mawutor Ablo"
-            data-reveal="fade-up"
-          >
-            <p class="team-editorial-tag">Research &amp; Data</p>
-            <h3 class="team-editorial-name">Mawutor Ablo</h3>
-            <p class="team-editorial-role">Research Design &amp; Data Analysis</p>
-          </article>
-          <article
-            class="team-editorial-card team-reveal-target" hidden
-            data-team-dept="research-data"
-            data-member-name="Ebenezer Obeng-Nyarko"
-            data-reveal="fade-up"
-          >
-            <p class="team-editorial-tag">Research &amp; Data</p>
-            <h3 class="team-editorial-name">Ebenezer Obeng-Nyarko</h3>
-            <p class="team-editorial-role">Data Analysis &amp; Data Management</p>
-          </article>
-          <article
-            class="team-editorial-card team-reveal-target" hidden
-            data-team-dept="research-data"
-            data-member-name="Raymond A. Atuguba"
-            data-reveal="fade-up"
-          >
-            <p class="team-editorial-tag">Research &amp; Data</p>
-            <h3 class="team-editorial-name">Raymond A. Atuguba</h3>
-            <p class="team-editorial-role">Legal, Qualitative &amp; Research</p>
-          </article>
-          <article
-            class="team-editorial-card team-reveal-target" hidden
-            data-team-dept="research-data"
-            data-member-name="Maxfield J. Peterson"
-            data-reveal="fade-up"
-          >
-            <p class="team-editorial-tag">Research &amp; Data</p>
-            <h3 class="team-editorial-name">Maxfield J. Peterson</h3>
-            <p class="team-editorial-role">Research &amp; Content</p>
-          </article>
-          <article
-            class="team-editorial-card team-reveal-target" hidden
-            data-team-dept="project-content"
-            data-member-name="Emmanuelle M. Marchand"
-            data-reveal="fade-up"
-          >
-            <p class="team-editorial-tag">Project &amp; Content</p>
-            <h3 class="team-editorial-name">Emmanuelle M. Marchand</h3>
-            <p class="team-editorial-role">Project Management</p>
-          </article>
-          <article
-            class="team-editorial-card team-reveal-target" hidden
-            data-team-dept="project-content"
-            data-member-name="Lorenda E. A. Parker"
-            data-reveal="fade-up"
-          >
-            <p class="team-editorial-tag">Project &amp; Content</p>
-            <h3 class="team-editorial-name">Lorenda E. A. Parker</h3>
-            <p class="team-editorial-role">Research, Content, Projects</p>
-          </article>
-          <article
-            class="team-editorial-card team-reveal-target" hidden
-            data-team-dept="project-content"
-            data-member-name="Tia Carter"
-            data-reveal="fade-up"
-          >
-            <p class="team-editorial-tag">Project &amp; Content</p>
-            <h3 class="team-editorial-name">Tia Carter</h3>
-            <p class="team-editorial-role">Content &amp; Projects</p>
-          </article>
-          <article
-            class="team-editorial-card team-reveal-target" hidden
-            data-team-dept="project-content"
-            data-member-name="Valerie Gueye"
-            data-reveal="fade-up"
-          >
-            <p class="team-editorial-tag">Project &amp; Content</p>
-            <h3 class="team-editorial-name">Valerie Gueye</h3>
-            <p class="team-editorial-role">Content, Research &amp; Projects</p>
-          </article>
-          <article
-            class="team-editorial-card team-reveal-target" hidden
-            data-team-dept="project-content"
-            data-member-name="Trevor Whiteman"
-            data-reveal="fade-up"
-          >
-            <p class="team-editorial-tag">Project &amp; Content</p>
-            <h3 class="team-editorial-name">Trevor Whiteman</h3>
-            <p class="team-editorial-role">IT &amp; Project Management (PRINCEII)</p>
-          </article>
-          <article
-            class="team-editorial-card team-reveal-target" hidden
-            data-team-dept="strategy-advisory"
-            data-member-name="Mark Ofori"
-            data-reveal="fade-up"
-          >
-            <p class="team-editorial-tag">Strategy &amp; Advisory</p>
-            <h3 class="team-editorial-name">Mark Ofori</h3>
-            <p class="team-editorial-role">Strategy Consulting</p>
-          </article>
-          <article
-            class="team-editorial-card team-reveal-target" hidden
-            data-team-dept="strategy-advisory"
-            data-member-name="Diosnel Quiñones Rosales"
-            data-reveal="fade-up"
-          >
-            <p class="team-editorial-tag">Strategy &amp; Advisory</p>
-            <h3 class="team-editorial-name">Diosnel Quiñones Rosales</h3>
-            <p class="team-editorial-role">Consulting</p>
-          </article>
-          <article
-            class="team-editorial-card team-reveal-target" hidden
-            data-team-dept="design-web"
-            data-member-name="Fabian Williams"
-            data-reveal="fade-up"
-          >
-            <p class="team-editorial-tag">Design, Web &amp; Systems</p>
-            <h3 class="team-editorial-name">Fabian Williams</h3>
-            <p class="team-editorial-role">Graphic Design and Promotions</p>
-          </article>
-          <article
-            class="team-editorial-card team-reveal-target" hidden
-            data-team-dept="design-web"
-            data-member-name="Hans Mills-Lamptey"
-            data-reveal="fade-up"
-          >
-            <p class="team-editorial-tag">Design, Web &amp; Systems</p>
-            <h3 class="team-editorial-name">Hans Mills-Lamptey</h3>
-            <p class="team-editorial-role">Web Design and Development</p>
-          </article>
-          <article
-            class="team-editorial-card team-reveal-target" hidden
-            data-team-dept="design-web"
-            data-member-name="Brian S. Abbin"
-            data-reveal="fade-up"
-          >
-            <p class="team-editorial-tag">Design, Web &amp; Systems</p>
-            <h3 class="team-editorial-name">Brian S. Abbin</h3>
-            <p class="team-editorial-role">System Administrator</p>
-          </article>
-        </div>
-      </section>
-
-      <section
-        id="contact"
-        class="panel panel-dark section section-anchor contact-section"
-        data-header-surface="#dddee2"
-      >
-        <div class="container contact-hero" data-reveal="fade-up">
-          <p class="section-kicker">Contact</p>
-          <h2 class="contact-hero-title">Let&rsquo;s Build Something Better</h2>
-          <p class="contact-hero-copy">
-            Whether you need sharper data insights, stronger systems, or smarter communication,
-            Berecons is here to help. Get in touch! Let&rsquo;s turn your ideas into results.
-          </p>
-          <ul class="contact-hero-meta" aria-label="Contact details">
-            <li>
-              <span class="contact-hero-meta-label">📧 Email:</span>
-              <a href="mailto:info@berecons.com">info@berecons.com</a>
-            </li>
-            <li>
-              <span class="contact-hero-meta-label">🌐 Website:</span>
-              <a href="https://www.berecons.com" target="_blank" rel="noopener noreferrer">www.berecons.com</a>
-            </li>
-            <li>
-              <span class="contact-hero-meta-label">📍 Location:</span>
-              <span>Accra, Ghana</span>
-            </li>
-          </ul>
-          <a class="btn btn-primary contact-hero-cta" href="mailto:info@berecons.com">Send a Message</a>
-        </div>
-      </section>
     </main>
 
-    <footer class="site-footer" data-reveal="fade-up">
+    <footer class="site-footer">
       <div class="container footer-inner">
         <div class="footer-top footer-animate">
           <a href="#home" class="footer-brand" aria-label="Berecons home" data-transition-link>
@@ -655,10 +380,9 @@
             <section class="footer-links-group" aria-label="Footer menu">
               <p class="footer-links-title">Menu</p>
               <a href="#home" data-transition-link>Home</a>
-              <a href="#services" data-transition-link>Services</a>
-              <a href="#process" data-transition-link>Process</a>
-              <a href="#about" data-transition-link>Our team</a>
-              <a href="#contact" data-transition-link>Contact</a>
+              <a href="about.html">About us</a>
+              <a href="solutions.html">Solutions</a>
+              <a href="contact.html">Contact</a>
             </section>
 
             <section class="footer-links-group" aria-label="Footer socials">
@@ -684,6 +408,6 @@
 
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
-    <script src="script.js?v=20260228-52"></script>
+    <script src="script.js?v=20260303-23"></script>
   </body>
 </html>

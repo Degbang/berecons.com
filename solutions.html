@@ -1,0 +1,1573 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Berecons LLC — Solutions</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap">
+<link rel="preload" href="assets/fonts/perfectly-nineties/web/PerfectlyNineties-Regular.woff2?v=20260227-7" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="styles.css?v=20260303-135">
+<style>
+  :root {
+    --font-base: "Neue Montreal", Arial, sans-serif;
+    --font-header: "Neue Montreal", Arial, sans-serif;
+    --navy: var(--ink-900);
+    --navy-mid: var(--blue-700);
+    --gold: var(--blue-600);
+    --gold-light: var(--blue-500);
+    --cream: #ffffff;
+    --white: #ffffff;
+    --text: var(--ink-700);
+    --muted: var(--ink-500);
+    --border: var(--line-light);
+    --card-bg: #ffffff;
+    --sidebar-w: 258px;
+    --transition: 0.3s cubic-bezier(0.4,0,0.2,1);
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--cream);
+    color: var(--ink-900);
+    font-family: var(--font-base);
+    font-weight: 400;
+    line-height: 1.7;
+    min-height: 100vh;
+  }
+
+  /* ── SIDEBAR ── */
+  .sidebar {
+    position: fixed;
+    top: 0; left: 0;
+    width: var(--sidebar-w);
+    height: 100vh;
+    background: #ffffff;
+    display: flex;
+    flex-direction: column;
+    z-index: 100;
+    overflow-y: auto;
+    border-right: 1px solid var(--border);
+    box-shadow: 8px 0 24px rgba(8, 26, 80, 0.06);
+  }
+
+  .sidebar-logo {
+    padding: 36px 28px 24px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .sidebar-logo .sidebar-brand {
+    font-family: var(--font-base);
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--navy);
+    letter-spacing: 1px;
+  }
+
+  .sidebar-logo .sidebar-brand span {
+    color: var(--gold);
+  }
+
+  .sidebar-logo .tagline {
+    font-family: var(--font-header);
+    font-size: 10px;
+    color: var(--ink-500);
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    margin-top: 5px;
+  }
+
+  .nav-label {
+    font-family: var(--font-header);
+    padding: 22px 28px 10px;
+    font-size: 9px;
+    letter-spacing: 3px;
+    color: var(--ink-500);
+    text-transform: uppercase;
+  }
+
+  .nav-item {
+    font-family: var(--font-header);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 13px 28px;
+    cursor: pointer;
+    transition: var(--transition);
+    border-left: 2px solid transparent;
+    color: var(--ink-700);
+    font-size: 13px;
+    font-weight: 400;
+    letter-spacing: 0.3px;
+    text-decoration: none;
+  }
+
+  .nav-item:hover {
+    background: #ffffff;
+    color: var(--navy);
+    border-left-color: rgba(7,53,186,0.5);
+  }
+
+  .nav-item.active {
+    background: #ffffff;
+    color: var(--navy-mid);
+    border-left-color: var(--gold);
+    font-weight: 700;
+  }
+
+  .nav-item .icon {
+    width: 22px;
+    height: 22px;
+    opacity: 0.82;
+    flex-shrink: 0;
+  }
+
+  .nav-item.active .icon { opacity: 1; }
+
+  /* ── MAIN ── */
+  .main {
+    margin-left: var(--sidebar-w);
+    min-height: 100vh;
+    background: #ffffff;
+    padding-top: calc(var(--header-stack-height) + 4px);
+  }
+
+  /* ── TOP HERO ── */
+  .hero {
+    background: #ffffff;
+    padding: 60px 64px 56px;
+    position: relative;
+    overflow: hidden;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .hero::before {
+    display: none;
+  }
+
+  .hero-label {
+    font-family: var(--font-header);
+    font-size: 10px;
+    letter-spacing: 4px;
+    color: var(--navy-mid);
+    text-transform: uppercase;
+    margin-bottom: 14px;
+  }
+
+  .hero h1 {
+    font-family: var(--font-base);
+    font-size: 44px;
+    font-weight: 700;
+    color: var(--navy-mid);
+    line-height: 1.2;
+    margin-bottom: 16px;
+  }
+
+  .hero p {
+    font-size: 15px;
+    color: var(--text);
+    max-width: 560px;
+    line-height: 1.8;
+  }
+
+  /* ── SECTION WRAPPER ── */
+  .section {
+    padding: 60px 64px;
+    display: none;
+  }
+
+  .section.active {
+    display: block;
+    animation: fadeUp 0.45s ease both;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(18px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .section-header {
+    margin-bottom: 44px;
+  }
+
+  .section-header .overline {
+    font-family: var(--font-header);
+    font-size: 10px;
+    letter-spacing: 4px;
+    color: var(--navy-mid);
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+
+  .section-header h2 {
+    font-family: var(--font-base);
+    font-size: 34px;
+    font-weight: 600;
+    color: var(--navy-mid);
+    margin-bottom: 10px;
+  }
+
+  .section-header .sub {
+    font-size: 14px;
+    color: var(--text);
+    max-width: 600px;
+    line-height: 1.8;
+  }
+
+  .divider {
+    width: 52px;
+    height: 3px;
+    background: var(--navy-mid);
+    border-radius: 2px;
+    margin: 14px 0 0;
+  }
+
+  /* ── CARDS GRID ── */
+  .cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 24px;
+  }
+
+  .card {
+    background: var(--card-bg);
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    overflow: hidden;
+    transition: var(--transition);
+    cursor: pointer;
+  }
+
+  .card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 14px 34px rgba(15,31,86,0.09);
+    border-color: rgba(43,99,255,0.35);
+  }
+
+  .card-header {
+    padding: 26px 26px 18px;
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+  }
+
+  #sec-content .card-header {
+    align-items: center;
+  }
+
+  #sec-overview .card-header {
+    align-items: center;
+  }
+
+  #sec-content .card-header > div:last-child {
+    min-width: 0;
+  }
+
+  #sec-overview .card-header > div:last-child {
+    min-width: 0;
+  }
+
+  #sec-content .card-title {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-bottom: 0;
+  }
+
+  #sec-overview .card-title {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-bottom: 0;
+  }
+
+  .card-icon {
+    width: 46px;
+    height: 46px;
+    border-radius: 10px;
+    background: #ffffff;
+    color: var(--navy-mid);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-size: 20px;
+  }
+
+  .card-title {
+    font-family: var(--font-base);
+    font-size: 17px;
+    font-weight: 600;
+    color: var(--navy-mid);
+    line-height: 1.3;
+    margin-bottom: 4px;
+  }
+
+  .card-subtitle {
+    font-family: var(--font-header);
+    font-size: 11px;
+    letter-spacing: 2px;
+    color: var(--navy-mid);
+    text-transform: uppercase;
+  }
+
+  .card-body {
+    padding: 0 26px 24px;
+    font-size: 13.5px;
+    color: var(--text);
+    line-height: 1.75;
+  }
+
+  .card-footer {
+    display: none;
+  }
+
+  .tag {
+    display: none;
+  }
+
+  /* ── EXPANDABLE CARD (accordion style) ── */
+  .accord-item {
+    background: var(--card-bg);
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    margin-bottom: 14px;
+    overflow: hidden;
+    transition: var(--transition);
+  }
+
+  .accord-item:hover {
+    border-color: rgba(43,99,255,0.35);
+  }
+
+  .accord-trigger {
+    padding: 22px 26px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    gap: 16px;
+  }
+
+  .accord-trigger-left {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .accord-icon {
+    width: 40px; height: 40px;
+    border-radius: 8px;
+    background: #ffffff;
+    color: var(--navy-mid);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px; flex-shrink: 0;
+  }
+
+  .accord-title {
+    font-family: var(--font-base);
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--navy-mid);
+  }
+
+  .accord-subtitle {
+    display: none;
+  }
+
+  .accord-arrow {
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    border: 1.5px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    transition: var(--transition);
+    color: var(--muted);
+    font-size: 14px;
+  }
+
+  .accord-item.open .accord-arrow {
+    transform: rotate(180deg);
+    border-color: var(--navy-mid);
+    color: var(--navy-mid);
+  }
+
+  .accord-body {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s cubic-bezier(0.4,0,0.2,1);
+  }
+
+  .accord-item.open .accord-body {
+    max-height: 1400px;
+  }
+
+  .accord-content {
+    padding: 0 26px 26px;
+    border-top: 1px solid var(--border);
+    padding-top: 22px;
+  }
+
+  .accord-content p {
+    font-size: 13.5px;
+    color: var(--text);
+    line-height: 1.8;
+    margin-bottom: 14px;
+  }
+
+  .accord-content ul {
+    list-style: none;
+    padding: 0;
+  }
+
+  .accord-content ul li {
+    font-size: 13px;
+    color: var(--text);
+    padding: 5px 0 5px 18px;
+    position: relative;
+    line-height: 1.6;
+  }
+
+  .accord-content ul li::before {
+    content: '›';
+    position: absolute;
+    left: 0;
+    color: var(--navy-mid);
+    font-size: 16px;
+    font-weight: 700;
+  }
+
+  .accord-tags {
+    display: none;
+  }
+
+  /* ── SERVICES LIST (two column) ── */
+  .services-2col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin-top: 16px;
+  }
+
+  .services-2col .svc-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: 13px;
+    color: var(--text);
+    line-height: 1.5;
+  }
+
+  .services-2col .svc-item::before {
+    content: '✦';
+    color: var(--navy-mid);
+    font-size: 8px;
+    margin-top: 5px;
+    flex-shrink: 0;
+  }
+
+  /* ── SPECIAL SOLUTIONS big cards ── */
+  .special-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 26px;
+  }
+
+  .special-card {
+    background: var(--card-bg);
+    border-radius: 14px;
+    border: 1px solid var(--border);
+    padding: 32px;
+    transition: var(--transition);
+  }
+
+  .special-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 14px 34px rgba(15,31,86,0.09);
+    border-color: rgba(43,99,255,0.35);
+  }
+
+  .special-card-head {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 12px;
+  }
+
+  .special-card .s-icon {
+    font-size: 30px;
+    line-height: 1;
+    flex: 0 0 auto;
+  }
+
+  .special-card h3 {
+    font-family: var(--font-base);
+    font-size: 18px;
+    color: var(--navy-mid);
+    margin-bottom: 0;
+  }
+
+  .special-card p {
+    font-size: 13.5px;
+    color: var(--text);
+    line-height: 1.8;
+    margin-bottom: 14px;
+  }
+
+  .cta-link {
+    font-family: var(--font-header);
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--navy-mid);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: var(--transition);
+  }
+
+  .cta-link:hover { color: var(--navy); }
+
+  /* ── OVERVIEW STATS ── */
+  .stats-row {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 16px;
+    margin-bottom: 50px;
+  }
+
+  .stat-box {
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 22px 18px;
+    text-align: center;
+    cursor: pointer;
+    transition: var(--transition);
+    border: 1px solid var(--border);
+  }
+
+  .stat-box:hover, .stat-box.active {
+    background: #ffffff;
+    border-color: rgba(43,99,255,0.55);
+    transform: translateY(-3px);
+  }
+
+  .stat-box .s-emoji { font-size: 24px; margin-bottom: 8px; }
+  .stat-box .s-num {
+    font-family: var(--font-base);
+    font-size: 22px;
+    color: var(--navy-mid);
+    font-weight: 700;
+    line-height: 1;
+  }
+  .stat-box .s-label {
+    font-family: var(--font-header);
+    font-size: 10px;
+    color: var(--text);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-top: 5px;
+  }
+
+  @media (max-width: 1200px) {
+    :root { --sidebar-w: 240px; }
+    .hero, .section { padding-left: 40px; padding-right: 40px; }
+    .stats-row { grid-template-columns: repeat(3, 1fr); }
+  }
+
+  @media (max-width: 900px) {
+    .sidebar {
+      position: relative;
+      width: 100%;
+      height: auto;
+      border-right: 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .main { margin-left: 0; }
+
+    .sidebar-logo,
+    .nav-label { padding-left: 18px; padding-right: 18px; }
+
+    .nav-item { padding: 11px 18px; }
+
+    .hero {
+      padding: 44px 18px 36px;
+    }
+
+    .hero h1 {
+      font-size: clamp(30px, 8vw, 42px);
+    }
+
+    .section {
+      padding: 36px 18px;
+    }
+
+    .section-header h2 {
+      font-size: clamp(27px, 6.8vw, 34px);
+    }
+
+    .cards-grid,
+    .special-grid,
+    .services-2col,
+    .stats-row,
+    .section [style*="grid-template-columns:1fr 1fr"] {
+      grid-template-columns: 1fr !important;
+    }
+  }
+
+  .site-header {
+    left: var(--sidebar-w);
+    right: 0;
+    --header-surface: #ffffff;
+  }
+
+  @media (max-width: 900px) {
+    .site-header {
+      left: 0;
+    }
+  }
+</style>
+</head>
+<body class="is-loading">
+
+<div id="page-transition" class="page-transition" aria-hidden="true">
+  <div class="transition-columns">
+    <span class="transition-col"></span>
+    <span class="transition-col"></span>
+    <span class="transition-col"></span>
+    <span class="transition-col"></span>
+    <span class="transition-col"></span>
+    <span class="transition-col"></span>
+  </div>
+  <div class="transition-center">
+    <img src="assets/logo-blc-cropped.png?v=20260227-7" alt="" class="transition-logo" />
+    <p id="transition-target" class="transition-target">Navigating</p>
+  </div>
+</div>
+
+<!-- SIDEBAR -->
+<nav class="sidebar">
+  <div class="sidebar-logo">
+    <div class="sidebar-brand">Berecons <span>LLC</span></div>
+    <div class="tagline">Solutions Portfolio</div>
+  </div>
+  <div class="nav-label">Solution Areas</div>
+
+  <a class="nav-item active" data-section="overview" onclick="showSection('overview', this)">
+    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+    Overview
+  </a>
+  <a class="nav-item" data-section="research" onclick="showSection('research', this)">
+    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+    Research
+  </a>
+  <a class="nav-item" data-section="content" onclick="showSection('content', this)">
+    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14,2 14,8 20,8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10,9 9,9 8,9"/></svg>
+    Content Solutions
+  </a>
+  <a class="nav-item" data-section="strategy" onclick="showSection('strategy', this)">
+    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polyline points="22,12 18,12 15,21 9,3 6,12 2,12"/></svg>
+    Strategic Business
+  </a>
+  <a class="nav-item" data-section="projects" onclick="showSection('projects', this)">
+    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/><line x1="12" y1="12" x2="12" y2="16"/><line x1="10" y1="14" x2="14" y2="14"/></svg>
+    Project Solutions
+  </a>
+  <a class="nav-item" data-section="technical" onclick="showSection('technical', this)">
+    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="3" width="20" height="14" rx="2"/><polyline points="8,21 12,17 16,21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+    Technical & Digital
+  </a>
+  <a class="nav-item" data-section="special" onclick="showSection('special', this)">
+    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>
+    Special Solutions
+  </a>
+
+</nav>
+
+<!-- MAIN CONTENT -->
+<div class="main">
+
+  <header id="site-header" class="site-header is-on-light" style="--header-surface:#ffffff;">
+    <div class="container nav-shell">
+      <a
+        href="index.html?skipPreloader=1#home"
+        class="brand"
+        data-transition-link
+        data-transition-label="Home"
+        aria-label="Berecons homepage"
+      >
+        <span class="brand-logo-wrap">
+          <img src="assets/logo-blc-cropped.png?v=20260227-7" alt="Berecons LLC logo" class="brand-logo" />
+        </span>
+      </a>
+
+      <button
+        id="menu-toggle"
+        class="menu-toggle"
+        type="button"
+        aria-expanded="false"
+        aria-controls="site-nav"
+      >
+        Menu
+      </button>
+
+      <nav id="site-nav" class="site-nav" aria-label="Main navigation">
+        <a class="nav-link" data-text="Home" data-transition-link data-transition-label="Home" href="index.html?skipPreloader=1#home"
+          ><span>Home</span></a
+        >
+        <a class="nav-link" data-text="About us" data-transition-link data-transition-label="About us" href="about.html"
+          ><span>About us</span></a
+        >
+        <a
+          class="nav-link is-active"
+          data-text="Solutions"
+          data-transition-link
+          data-transition-label="Solutions"
+          href="solutions.html"
+          ><span>Solutions</span></a
+        >
+        <a class="nav-link" data-text="Contact" data-transition-link data-transition-label="Contact" href="contact.html"
+          ><span>Contact</span></a
+        >
+      </nav>
+    </div>
+  </header>
+
+  <!-- ══════════════════════════════════════ -->
+  <!-- OVERVIEW -->
+  <!-- ══════════════════════════════════════ -->
+  <div class="section section-anchor active" id="sec-overview" data-header-surface="#ffffff">
+    <div class="stats-row">
+      <div class="stat-box" onclick="showSection('research', document.querySelector('[data-section=research]'))">
+        <div class="s-emoji">🔍</div>
+        <div class="s-num">6</div>
+        <div class="s-label">Research Services</div>
+      </div>
+      <div class="stat-box" onclick="showSection('content', document.querySelector('[data-section=content]'))">
+        <div class="s-emoji">✍️</div>
+        <div class="s-num">10+</div>
+        <div class="s-label">Content Types</div>
+      </div>
+      <div class="stat-box" onclick="showSection('strategy', document.querySelector('[data-section=strategy]'))">
+        <div class="s-emoji">📈</div>
+        <div class="s-num">8</div>
+        <div class="s-label">Strategy Services</div>
+      </div>
+      <div class="stat-box" onclick="showSection('projects', document.querySelector('[data-section=projects]'))">
+        <div class="s-emoji">🗂️</div>
+        <div class="s-num">6</div>
+        <div class="s-label">Project Services</div>
+      </div>
+      <div class="stat-box" onclick="showSection('technical', document.querySelector('[data-section=technical]'))">
+        <div class="s-emoji">💻</div>
+        <div class="s-num">15+</div>
+        <div class="s-label">Tech & Digital</div>
+      </div>
+      <div class="stat-box" onclick="showSection('special', document.querySelector('[data-section=special]'))">
+        <div class="s-emoji">⭐</div>
+        <div class="s-num">4</div>
+        <div class="s-label">Special Solutions</div>
+      </div>
+    </div>
+
+    <div class="cards-grid">
+      <div class="card" onclick="showSection('research', document.querySelector('[data-section=research]'))">
+        <div class="card-header">
+          <div class="card-icon">🔍</div>
+          <div>
+            <div class="card-title">Research</div>
+          </div>
+        </div>
+        <div class="card-body">Academic fieldwork, market research, business intelligence, data analytics, and competitive intelligence. Rigorous methodology from design to delivery.</div>
+        <div class="card-footer">
+          <span class="tag">Academic</span><span class="tag">Market Research</span><span class="tag">Data Analytics</span><span class="tag">BI</span>
+        </div>
+      </div>
+
+      <div class="card" onclick="showSection('content', document.querySelector('[data-section=content]'))">
+        <div class="card-header">
+          <div class="card-icon">✍️</div>
+          <div>
+            <div class="card-title">Content Solutions</div>
+          </div>
+        </div>
+        <div class="card-body">Superior-quality technical, business, and creative writing. From grant proposals to website content, our writers exceed editorial expectations every time.</div>
+        <div class="card-footer">
+          <span class="tag">Proposals</span><span class="tag">Reports</span><span class="tag">Editing</span><span class="tag">Web Content</span>
+        </div>
+      </div>
+
+      <div class="card" onclick="showSection('strategy', document.querySelector('[data-section=strategy]'))">
+        <div class="card-header">
+          <div class="card-icon">📈</div>
+          <div>
+            <div class="card-title">Strategic Business Solutions</div>
+          </div>
+        </div>
+        <div class="card-body">Comprehensive business strategy from SWOT analysis and market research to financial management, risk mitigation, and brand development.</div>
+        <div class="card-footer">
+          <span class="tag">Strategic Planning</span><span class="tag">Financial Mgmt</span><span class="tag">Risk</span>
+        </div>
+      </div>
+
+      <div class="card" onclick="showSection('projects', document.querySelector('[data-section=projects]'))">
+        <div class="card-header">
+          <div class="card-icon">🗂️</div>
+          <div>
+            <div class="card-title">Project Solutions</div>
+          </div>
+        </div>
+        <div class="card-body">End-to-end project delivery: planning, implementation, risk mitigation, impact monitoring, and comprehensive reporting aligned to the highest standards.</div>
+        <div class="card-footer">
+          <span class="tag">Agile</span><span class="tag">Waterfall</span><span class="tag">M&E</span><span class="tag">Reporting</span>
+        </div>
+      </div>
+
+      <div class="card" onclick="showSection('technical', document.querySelector('[data-section=technical]'))">
+        <div class="card-header">
+          <div class="card-icon">💻</div>
+          <div>
+            <div class="card-title">Technical & Digital Solutions</div>
+          </div>
+        </div>
+        <div class="card-body">Web design, graphic design, UI/UX, e-commerce, geo-mapping, software development — plus CCTV, biometric access, networking, and fire alarm systems.</div>
+        <div class="card-footer">
+          <span class="tag">Web Dev</span><span class="tag">Branding</span><span class="tag">CCTV</span><span class="tag">Networking</span>
+        </div>
+      </div>
+
+      <div class="card" onclick="showSection('special', document.querySelector('[data-section=special]'))">
+        <div class="card-header">
+          <div class="card-icon">⭐</div>
+          <div>
+            <div class="card-title">Special Solutions</div>
+          </div>
+        </div>
+        <div class="card-body">Unique offerings including document control systems, practicum placements for visiting scholars, realty assistance, and curated tours across West Africa.</div>
+        <div class="card-footer">
+          <span class="tag">Doc Control</span><span class="tag">Scholar Support</span><span class="tag">West Africa</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════ -->
+  <!-- RESEARCH -->
+  <!-- ══════════════════════════════════════ -->
+  <div class="section" id="sec-research">
+    <div class="section-header">
+      <div class="overline">Research</div>
+      <h2>Fieldwork, Data Analysis &amp; Management</h2>
+      <div class="divider"></div>
+      <p class="sub" style="margin-top:12px;">Rigorous qualitative, quantitative, and mixed-method approaches — from survey design to data delivery — with full ethical compliance.</p>
+    </div>
+
+    <div id="research-accord">
+
+      <div class="accord-item">
+        <div class="accord-trigger" onclick="toggleAccord(this)">
+          <div class="accord-trigger-left">
+            <div class="accord-icon">🎓</div>
+            <div>
+              <div class="accord-title">Academic Research & Fieldwork</div>
+              <div class="accord-subtitle">Qualitative · Quantitative · Mixed Methods</div>
+            </div>
+          </div>
+          <div class="accord-arrow">▾</div>
+        </div>
+        <div class="accord-body">
+          <div class="accord-content">
+            <p>Berecons LLC offers qualitative, quantitative, and mixed-method research approaches. We assist clients with survey design and the implementation of research systems for continuous, timely, and reliable data record. Where necessary, we work closely with community leaders to develop survey instruments and recruitment plans using recognised and inventive methodologies.</p>
+            <p>We also cater to graduate students carrying out practicum assignments. Our consultants ensure all ethical guidelines from your Ethics Board and host country regulations are followed from start to finish. Transcription services are available in non-English settings.</p>
+            <p><strong style="color:var(--ink-900)">Your request should include:</strong></p>
+            <ul>
+              <li>A research topic and writing style (APA, MLA, Harvard, etc.)</li>
+              <li>Location and institution ethics guidelines</li>
+              <li>Delivery date and any other relevant project details</li>
+            </ul>
+            <div class="accord-tags">
+              <span class="tag">Survey Design</span><span class="tag">Ethics Compliance</span><span class="tag">Transcription</span><span class="tag">Graduate Support</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="accord-item">
+        <div class="accord-trigger" onclick="toggleAccord(this)">
+          <div class="accord-trigger-left">
+            <div class="accord-icon">📊</div>
+            <div>
+              <div class="accord-title">Market Research Consultancy</div>
+              <div class="accord-subtitle">Trends · Consumer Behaviour · Market Intelligence</div>
+            </div>
+          </div>
+          <div class="accord-arrow">▾</div>
+        </div>
+        <div class="accord-body">
+          <div class="accord-content">
+            <p>In-depth analysis and understanding of market trends, consumer behaviour, and industry dynamics. Our team of experienced analysts employs surveys, interviews, focus groups, and data analysis to gather comprehensive market intelligence tailored to your specific needs.</p>
+            <p>Whether exploring new markets, launching a new product, or optimising marketing strategies, our services are designed to support your business objectives and drive growth.</p>
+            <div class="accord-tags">
+              <span class="tag">Surveys</span><span class="tag">Focus Groups</span><span class="tag">Consumer Insights</span><span class="tag">Product Launch</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="accord-item">
+        <div class="accord-trigger" onclick="toggleAccord(this)">
+          <div class="accord-trigger-left">
+            <div class="accord-icon">🏭</div>
+            <div>
+              <div class="accord-title">Industry Analysis</div>
+              <div class="accord-subtitle">Competitive Landscape · Regulatory Environment</div>
+            </div>
+          </div>
+          <div class="accord-arrow">▾</div>
+        </div>
+        <div class="accord-body">
+          <div class="accord-content">
+            <p>Comprehensive examination of market trends, competitive landscape, regulatory environment, and emerging opportunities and threats. Leveraging both primary and secondary research, our analysts deliver in-depth reports that help clients understand their industry and anticipate future trends.</p>
+            <div class="accord-tags">
+              <span class="tag">Market Entry</span><span class="tag">Investment Evaluation</span><span class="tag">Benchmarking</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="accord-item">
+        <div class="accord-trigger" onclick="toggleAccord(this)">
+          <div class="accord-trigger-left">
+            <div class="accord-icon">🧠</div>
+            <div>
+              <div class="accord-title">Business Intelligence Research</div>
+              <div class="accord-subtitle">Predictive Modelling · Advanced Analytics</div>
+            </div>
+          </div>
+          <div class="accord-arrow">▾</div>
+        </div>
+        <div class="accord-body">
+          <div class="accord-content">
+            <p>Beyond traditional market analysis — strategic insights derived from data-driven approaches. Through advanced analytics, predictive modelling, and visualisation techniques, our team uncovers valuable patterns, correlations, and trends to enable smarter, faster decisions.</p>
+            <p>Clients can refine customer segmentation, elevate product development, and streamline supply chain management.</p>
+            <div class="accord-tags">
+              <span class="tag">Predictive Modelling</span><span class="tag">Visualisation</span><span class="tag">Segmentation</span><span class="tag">Supply Chain</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="accord-item">
+        <div class="accord-trigger" onclick="toggleAccord(this)">
+          <div class="accord-trigger-left">
+            <div class="accord-icon">📉</div>
+            <div>
+              <div class="accord-title">Data Analytics Consulting</div>
+              <div class="accord-subtitle">Strategy · Infrastructure · Machine Learning</div>
+            </div>
+          </div>
+          <div class="accord-arrow">▾</div>
+        </div>
+        <div class="accord-body">
+          <div class="accord-content">
+            <p>From data strategy development and infrastructure design to predictive modelling and machine learning implementation, our team provides end-to-end support. Our customisable and scalable packages let you select the depth of analysis that's right for your needs — from fundamental trend identification to complex insight discovery.</p>
+            <div class="accord-tags">
+              <span class="tag">Data Strategy</span><span class="tag">Machine Learning</span><span class="tag">End-to-End</span><span class="tag">Scalable</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="accord-item">
+        <div class="accord-trigger" onclick="toggleAccord(this)">
+          <div class="accord-trigger-left">
+            <div class="accord-icon">🕵️</div>
+            <div>
+              <div class="accord-title">Competitive Intelligence Services</div>
+              <div class="accord-subtitle">Competitor Analysis · Strategic Advantage</div>
+            </div>
+          </div>
+          <div class="accord-arrow">▾</div>
+        </div>
+        <div class="accord-body">
+          <div class="accord-content">
+            <p>Understand your competitors' strategies, strengths, and weaknesses. Through primary research, secondary research, and advanced analysis, our team uncovers key competitor activities, market trends, and industry developments to help you outmanoeuvre the competition and drive sustainable growth.</p>
+            <div class="accord-tags">
+              <span class="tag">Competitor Analysis</span><span class="tag">Market Positioning</span><span class="tag">Growth Strategy</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="accord-item">
+        <div class="accord-trigger" onclick="toggleAccord(this)">
+          <div class="accord-trigger-left">
+            <div class="accord-icon">🗄️</div>
+            <div>
+              <div class="accord-title">Data Management</div>
+              <div class="accord-subtitle">Governance · Cloud Storage · Version Control</div>
+            </div>
+          </div>
+          <div class="accord-arrow">▾</div>
+        </div>
+        <div class="accord-body">
+          <div class="accord-content">
+            <p>Organised, secure, and accessible data governance including data cleaning, organisation, and documentation. We use industry-acclaimed tools including cloud-based storage (Azure Blob, Google Cloud, Amazon S3), data management software (Oracle, Collibra, Informatica), and version control systems (Git, SVN, Mercurial).</p>
+            <div class="accord-tags">
+              <span class="tag">Azure / AWS / GCP</span><span class="tag">Data Cleaning</span><span class="tag">Git / SVN</span><span class="tag">Documentation</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════ -->
+  <!-- CONTENT -->
+  <!-- ══════════════════════════════════════ -->
+  <div class="section" id="sec-content">
+    <div class="section-header">
+      <div class="overline">Content Solutions</div>
+      <h2>Proposals, Reports, Articles &amp; More</h2>
+      <div class="divider"></div>
+      <p class="sub" style="margin-top:12px;">Superior-quality content from versatile writers with extensive experience in technical, business, and creative writing. We exceed your editorial expectations.</p>
+    </div>
+
+    <div class="cards-grid">
+      <div class="card">
+        <div class="card-header">
+          <div class="card-icon">📋</div>
+          <div>
+            <div class="card-title">Proposals & Plans</div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="services-2col">
+            <div class="svc-item">Grant Applications</div>
+            <div class="svc-item">Research Proposals</div>
+            <div class="svc-item">Strategic Plans</div>
+            <div class="svc-item">Business Plans</div>
+            <div class="svc-item">Press Releases</div>
+            <div class="svc-item">White Papers</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-icon">📑</div>
+          <div>
+            <div class="card-title">Reports & Reviews</div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="services-2col">
+            <div class="svc-item">Policy Briefs</div>
+            <div class="svc-item">Inception Reports</div>
+            <div class="svc-item">Desk Reviews</div>
+            <div class="svc-item">Field Reports</div>
+            <div class="svc-item">Annual Reports</div>
+            <div class="svc-item">Incident Reports</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-icon">📚</div>
+          <div>
+            <div class="card-title">Literature Reviews</div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="services-2col">
+            <div class="svc-item">Theoretical</div>
+            <div class="svc-item">Argumentative</div>
+            <div class="svc-item">Narrative / Traditional</div>
+            <div class="svc-item">Systematic</div>
+            <div class="svc-item">Interrogative</div>
+            <div class="svc-item">Scoping</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-icon">📰</div>
+          <div>
+            <div class="card-title">Articles & Concept Notes</div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="services-2col">
+            <div class="svc-item">Opinion / Commentary</div>
+            <div class="svc-item">Feature Articles</div>
+            <div class="svc-item">Editorial</div>
+            <div class="svc-item">News Articles</div>
+            <div class="svc-item">Project Summaries</div>
+            <div class="svc-item">Project Guidelines</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-icon">🌐</div>
+          <div>
+            <div class="card-title">Website & Social Content</div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="services-2col">
+            <div class="svc-item">Content Creation</div>
+            <div class="svc-item">Content Refresh</div>
+            <div class="svc-item">Newsletters</div>
+            <div class="svc-item">Blog Articles</div>
+            <div class="svc-item">Social Media</div>
+            <div class="svc-item">Profile Makeovers</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-icon">✒️</div>
+          <div>
+            <div class="card-title">Editing & Proofreading</div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="services-2col">
+            <div class="svc-item">Proofreading</div>
+            <div class="svc-item">Copy Editing</div>
+            <div class="svc-item">Line Editing</div>
+            <div class="svc-item">Manuscript Appraisal</div>
+            <div class="svc-item">Conceptual Editing</div>
+            <div class="svc-item">Evaluation Editing</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-icon">👤</div>
+          <div>
+            <div class="card-title">Career Documents</div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="services-2col">
+            <div class="svc-item">Resumes & CVs</div>
+            <div class="svc-item">Cover Letters</div>
+            <div class="svc-item">Full Biographies</div>
+            <div class="svc-item">LinkedIn Profiles</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════ -->
+  <!-- STRATEGY -->
+  <!-- ══════════════════════════════════════ -->
+  <div class="section" id="sec-strategy">
+    <div class="section-header">
+      <div class="overline">Strategic Business Solutions</div>
+      <h2>Strategy, Analysis &amp; Management</h2>
+      <div class="divider"></div>
+      <p class="sub" style="margin-top:12px;">Tailored services spanning ideation through growth — helping businesses overcome challenges, accelerate performance, and stay legally compliant.</p>
+    </div>
+
+    <div id="strategy-accord">
+      <div class="accord-item">
+        <div class="accord-trigger" onclick="toggleAccord(this)">
+          <div class="accord-trigger-left"><div class="accord-icon">🗺️</div>
+            <div><div class="accord-title">Strategic Planning Consulting</div><div class="accord-subtitle">SWOT · Goal Setting · Registration</div></div></div>
+          <div class="accord-arrow">▾</div>
+        </div>
+        <div class="accord-body"><div class="accord-content">
+          <p>Comprehensive business strategies built on thorough SWOT analysis and market research. Berecons LLC formulates short and long-term goals, providing a roadmap for sustained success. We also handle regulatory processes: business name searches, auditing firm selection, statutory obligations (taxes, pensions, permits), and company registration.</p>
+          <div class="accord-tags"><span class="tag">SWOT Analysis</span><span class="tag">Market Research</span><span class="tag">Business Registration</span><span class="tag">Regulatory Compliance</span></div>
+        </div></div>
+      </div>
+
+      <div class="accord-item">
+        <div class="accord-trigger" onclick="toggleAccord(this)">
+          <div class="accord-trigger-left"><div class="accord-icon">🏢</div>
+            <div><div class="accord-title">Management Consulting</div><div class="accord-subtitle">Operations · Efficiency · Organisational Development</div></div></div>
+          <div class="accord-arrow">▾</div>
+        </div>
+        <div class="accord-body"><div class="accord-content">
+          <p>Seasoned consultants empowering organisations to navigate challenges and achieve strategic objectives. Tailored solutions covering strategic planning, operational efficiency, financial management, technology integration, and risk management — for startups and established enterprises alike.</p>
+          <div class="accord-tags"><span class="tag">Operational Efficiency</span><span class="tag">Org Development</span><span class="tag">Technology Integration</span><span class="tag">Risk Management</span></div>
+        </div></div>
+      </div>
+
+      <div class="accord-item">
+        <div class="accord-trigger" onclick="toggleAccord(this)">
+          <div class="accord-trigger-left"><div class="accord-icon">💰</div>
+            <div><div class="accord-title">Financial Management Consulting</div><div class="accord-subtitle">Budgeting · Forecasting · Reporting</div></div></div>
+          <div class="accord-arrow">▾</div>
+        </div>
+        <div class="accord-body"><div class="accord-content">
+          <p>Meticulous fiscal stewardship: strategic budget development, financial forecasting, cost analysis, expense optimisation, and transparent financial reporting. Performance analysis evaluates the impact of financial strategies on overall business objectives.</p>
+          <p>Our team also handles complete financial accountability cycles — annual accounts, auditing, and filing with relevant authorities (GRA, SSNIT, RGD, GIPC).</p>
+          <div class="accord-tags"><span class="tag">Budgeting</span><span class="tag">Forecasting</span><span class="tag">Auditing</span><span class="tag">Annual Returns</span><span class="tag">GRA / SSNIT</span></div>
+        </div></div>
+      </div>
+
+      <div class="accord-item">
+        <div class="accord-trigger" onclick="toggleAccord(this)">
+          <div class="accord-trigger-left"><div class="accord-icon">⚙️</div>
+            <div><div class="accord-title">Business Process Optimisation</div><div class="accord-subtitle">Workflows · Quality Management · Continuous Improvement</div></div></div>
+          <div class="accord-arrow">▾</div>
+        </div>
+        <div class="accord-body"><div class="accord-content">
+          <p>Streamlining and improving operational workflows with a commitment to continuous improvement and quality management. Our approach enables SMEs to enhance performance, responsiveness, and adaptability in Ghana's dynamic business landscape.</p>
+          <div class="accord-tags"><span class="tag">Workflow Design</span><span class="tag">Quality Management</span><span class="tag">SME Focused</span></div>
+        </div></div>
+      </div>
+
+      <div class="accord-item">
+        <div class="accord-trigger" onclick="toggleAccord(this)">
+          <div class="accord-trigger-left"><div class="accord-icon">📣</div>
+            <div><div class="accord-title">Market Expansion & Brand Development</div><div class="accord-subtitle">Brand Positioning · Marketing Strategy · PR</div></div></div>
+          <div class="accord-arrow">▾</div>
+        </div>
+        <div class="accord-body"><div class="accord-content">
+          <p>Market research and analysis, brand positioning and differentiation, and the development and execution of extensive marketing strategies. We help clients convey their unique value propositions, engage target markets, and cultivate a compelling brand identity.</p>
+          <div class="accord-tags"><span class="tag">Brand Positioning</span><span class="tag">Market Analysis</span><span class="tag">Marketing Strategy</span><span class="tag">PR</span></div>
+        </div></div>
+      </div>
+
+      <div class="accord-item">
+        <div class="accord-trigger" onclick="toggleAccord(this)">
+          <div class="accord-trigger-left"><div class="accord-icon">🛡️</div>
+            <div><div class="accord-title">Risk Management Consulting</div><div class="accord-subtitle">Identification · Mitigation · Legal Compliance</div></div></div>
+          <div class="accord-arrow">▾</div>
+        </div>
+        <div class="accord-body"><div class="accord-content">
+          <p>Our team of legal experts, accountants, auditors, and financial advisors identifies and assesses potential risks, then implements strategic mitigation strategies. Dedicated focus on regulatory compliance and robust legal support ensures businesses navigate complexities with confidence.</p>
+          <div class="accord-tags"><span class="tag">Risk Assessment</span><span class="tag">Compliance Mgmt</span><span class="tag">Legal Support</span><span class="tag">Regulatory</span></div>
+        </div></div>
+      </div>
+
+      <div class="accord-item">
+        <div class="accord-trigger" onclick="toggleAccord(this)">
+          <div class="accord-trigger-left"><div class="accord-icon">📝</div>
+            <div><div class="accord-title">Business Writing Services</div><div class="accord-subtitle">Plans · Profiles · Proposals</div></div></div>
+          <div class="accord-arrow">▾</div>
+        </div>
+        <div class="accord-body"><div class="accord-content">
+          <p>Professional business documents including business plans, persuasive proposals, company profiles, cover letters, director and staff profiles, corporate resumes, and website content — all crafted with clarity and professionalism.</p>
+          <div class="accord-tags"><span class="tag">Business Plans</span><span class="tag">Company Profiles</span><span class="tag">Corporate Resumes</span><span class="tag">Web Content</span></div>
+        </div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════ -->
+  <!-- PROJECTS -->
+  <!-- ══════════════════════════════════════ -->
+  <div class="section" id="sec-projects">
+    <div class="section-header">
+      <div class="overline">Project Solutions</div>
+      <h2>Design, Management &amp; Implementation</h2>
+      <div class="divider"></div>
+      <p class="sub" style="margin-top:12px;">Comprehensive project services for all scopes and complexities — on time, within budget, and to the highest industry-quality standards.</p>
+    </div>
+    <div id="projects-accord">
+      <div class="accord-item">
+        <div class="accord-trigger" onclick="toggleAccord(this)">
+          <div class="accord-trigger-left"><div class="accord-icon">🗓️</div>
+            <div><div class="accord-title">Project Planning & Design (PP&D)</div><div class="accord-subtitle">Feasibility · Stakeholder Engagement · Scalability</div></div></div>
+          <div class="accord-arrow">▾</div>
+        </div>
+        <div class="accord-body"><div class="accord-content">
+          <p>Thorough groundwork including in-depth analysis, feasibility studies, and active stakeholder engagement through workshops and surveys. Market analysis evaluates current and former trends for project viability. The final project plan is a strategic document carefully considering long-term goals and scalability, with foresight to anticipate technology and regulatory changes.</p>
+          <div class="accord-tags"><span class="tag">Feasibility Studies</span><span class="tag">Stakeholder Engagement</span><span class="tag">Market Analysis</span><span class="tag">Scalability</span></div>
+        </div></div>
+      </div>
+      <div class="accord-item">
+        <div class="accord-trigger" onclick="toggleAccord(this)">
+          <div class="accord-trigger-left"><div class="accord-icon">🚀</div>
+            <div><div class="accord-title">Project Implementation</div><div class="accord-subtitle">Resource Allocation · Workflow · Change Management</div></div></div>
+          <div class="accord-arrow">▾</div>
+        </div>
+        <div class="accord-body"><div class="accord-content">
+          <p>Three key strategies guide our implementation: Resource Allocation & Optimisation (meticulous distribution of human resources, technology, and finances), Task Assignment & Workflow Management (breaking down projects and leveraging team strengths), and Change Management & Adaptability (facilitating smooth transitions and promptly addressing challenges).</p>
+          <div class="accord-tags"><span class="tag">Resource Allocation</span><span class="tag">Workflow Management</span><span class="tag">Change Management</span></div>
+        </div></div>
+      </div>
+      <div class="accord-item">
+        <div class="accord-trigger" onclick="toggleAccord(this)">
+          <div class="accord-trigger-left"><div class="accord-icon">📌</div>
+            <div><div class="accord-title">Project Management (PM)</div><div class="accord-subtitle">Agile · Waterfall · Scrum · Hybrid</div></div></div>
+          <div class="accord-arrow">▾</div>
+        </div>
+        <div class="accord-body"><div class="accord-content">
+          <p>Methodology selection and customisation (Agile, Waterfall, Scrum, hybrid) tailored to each project's needs. Our managers identify risks early, develop mitigation plans, and implement proactive resolution strategies. Stringent quality assurance and lessons-learned documentation foster continuous improvement.</p>
+          <div class="accord-tags"><span class="tag">Agile</span><span class="tag">Waterfall</span><span class="tag">Scrum</span><span class="tag">QA</span><span class="tag">Continuous Improvement</span></div>
+        </div></div>
+      </div>
+      <div class="accord-item">
+        <div class="accord-trigger" onclick="toggleAccord(this)">
+          <div class="accord-trigger-left"><div class="accord-icon">⚠️</div>
+            <div><div class="accord-title">Risk Management & Mitigation</div><div class="accord-subtitle">Assessment · Contingency Planning · Monitoring</div></div></div>
+          <div class="accord-arrow">▾</div>
+        </div>
+        <div class="accord-body"><div class="accord-content">
+          <p>Comprehensive Risk Assessment identifies, categorises, and prioritises risks by impact and likelihood. Mitigation strategies and contingency plans are developed proactively. Ongoing monitoring and quick adjustments ensure the project remains resilient and adaptive throughout its lifecycle.</p>
+          <div class="accord-tags"><span class="tag">Risk Assessment</span><span class="tag">Contingency Plans</span><span class="tag">Real-time Monitoring</span></div>
+        </div></div>
+      </div>
+      <div class="accord-item">
+        <div class="accord-trigger" onclick="toggleAccord(this)">
+          <div class="accord-trigger-left"><div class="accord-icon">📡</div>
+            <div><div class="accord-title">Impact Monitoring & Outcome Evaluation</div><div class="accord-subtitle">KPIs · Stakeholder Feedback · Outcome Analysis</div></div></div>
+          <div class="accord-arrow">▾</div>
+        </div>
+        <div class="accord-body"><div class="accord-content">
+          <p>Real-time KPI monitoring enables agile decision-making. Regular surveys, interviews, and feedback sessions gauge stakeholder satisfaction using both quantitative metrics and qualitative insights. A comprehensive outcome evaluation at project conclusion analyses impact across social, economic, and environmental dimensions.</p>
+          <div class="accord-tags"><span class="tag">KPI Monitoring</span><span class="tag">Stakeholder Feedback</span><span class="tag">Outcome Evaluation</span><span class="tag">Social Impact</span></div>
+        </div></div>
+      </div>
+      <div class="accord-item">
+        <div class="accord-trigger" onclick="toggleAccord(this)">
+          <div class="accord-trigger-left"><div class="accord-icon">📊</div>
+            <div><div class="accord-title">Project Reporting</div><div class="accord-subtitle">Data Analysis · Visualisation · Lessons Learned</div></div></div>
+          <div class="accord-arrow">▾</div>
+        </div>
+        <div class="accord-body"><div class="accord-content">
+          <p>Advanced data analysis identifies trends, patterns, and outliers. Reports are designed for strategic communication using visualisation tools that present complex data in easily understandable form. Lessons-learned documentation is included in every report, contributing to ongoing improvement and future project planning.</p>
+          <div class="accord-tags"><span class="tag">Data Analysis</span><span class="tag">Visualisation</span><span class="tag">Strategic Communication</span><span class="tag">Lessons Learned</span></div>
+        </div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════ -->
+  <!-- TECHNICAL -->
+  <!-- ══════════════════════════════════════ -->
+  <div class="section" id="sec-technical">
+    <div class="section-header">
+      <div class="overline">Technical & Digital Solutions</div>
+      <h2>Websites, Branding, IT &amp; Infrastructure</h2>
+      <div class="divider"></div>
+      <p class="sub" style="margin-top:12px;">A comprehensive suite of digital and technical services enhancing your brand presence and securing your physical and digital infrastructure — serving Ghana and Togo.</p>
+    </div>
+
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:26px;">
+      <div>
+        <h3 style="font-family:var(--font-base); color:var(--navy); font-size:18px; margin-bottom:20px; padding-bottom:10px; border-bottom:2px solid var(--gold);">Digital Solutions</h3>
+        <div id="digital-accord">
+          <div class="accord-item">
+            <div class="accord-trigger" onclick="toggleAccord(this)">
+              <div class="accord-trigger-left"><div class="accord-icon">🌐</div>
+                <div><div class="accord-title">Web Design & Development</div><div class="accord-subtitle">UI/UX · CMS · E-Commerce · SEO</div></div></div>
+              <div class="accord-arrow">▾</div>
+            </div>
+            <div class="accord-body"><div class="accord-content">
+              <p>Visually captivating websites with intuitive user experiences. We provide CMS solutions, reliable hosting, performance optimisation, search engine visibility, ongoing maintenance, and e-commerce solutions with social media integration.</p>
+              <div class="accord-tags"><span class="tag">UI/UX</span><span class="tag">CMS</span><span class="tag">E-Commerce</span><span class="tag">SEO</span><span class="tag">Web Hosting</span></div>
+            </div></div>
+          </div>
+          <div class="accord-item">
+            <div class="accord-trigger" onclick="toggleAccord(this)">
+              <div class="accord-trigger-left"><div class="accord-icon">🎨</div>
+                <div><div class="accord-title">Graphic Design & Branding</div><div class="accord-subtitle">Logos · Brand Manuals · Company Profiles</div></div></div>
+              <div class="accord-arrow">▾</div>
+            </div>
+            <div class="accord-body"><div class="accord-content">
+              <p>Strong brand identities through comprehensive graphic design and branding services — logos, brand manuals, company profiles, and visual identity systems that communicate your values and differentiate you in the market.</p>
+              <div class="accord-tags"><span class="tag">Logo Design</span><span class="tag">Brand Manuals</span><span class="tag">Visual Identity</span></div>
+            </div></div>
+          </div>
+          <div class="accord-item">
+            <div class="accord-trigger" onclick="toggleAccord(this)">
+              <div class="accord-trigger-left"><div class="accord-icon">🗺️</div>
+                <div><div class="accord-title">Geo-mapping & Software Dev</div><div class="accord-subtitle">Location Intelligence · Custom Software</div></div></div>
+              <div class="accord-arrow">▾</div>
+            </div>
+            <div class="accord-body"><div class="accord-content">
+              <p>Leveraging location-based data for informed decision-making and developing custom software solutions tailored to your unique needs. Berecons LLC delivers innovative digital solutions that propel businesses forward.</p>
+              <div class="accord-tags"><span class="tag">Geo-mapping</span><span class="tag">Custom Software</span><span class="tag">Location Intelligence</span></div>
+            </div></div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <h3 style="font-family:var(--font-base); color:var(--navy); font-size:18px; margin-bottom:20px; padding-bottom:10px; border-bottom:2px solid var(--gold);">Technical Infrastructure</h3>
+        <div id="tech-accord">
+          <div class="accord-item">
+            <div class="accord-trigger" onclick="toggleAccord(this)">
+              <div class="accord-trigger-left"><div class="accord-icon">📹</div>
+                <div><div class="accord-title">CCTV Surveillance Systems</div><div class="accord-subtitle">Installation · Monitoring · Maintenance</div></div></div>
+              <div class="accord-arrow">▾</div>
+            </div>
+            <div class="accord-body"><div class="accord-content">
+              <p>Round-the-clock security with professional CCTV surveillance system installation, configuration, and maintenance. Serving businesses and residences across Ghana and Togo.</p>
+              <div class="accord-tags"><span class="tag">Installation</span><span class="tag">Monitoring</span><span class="tag">Maintenance</span></div>
+            </div></div>
+          </div>
+          <div class="accord-item">
+            <div class="accord-trigger" onclick="toggleAccord(this)">
+              <div class="accord-trigger-left"><div class="accord-icon">🔐</div>
+                <div><div class="accord-title">Biometric Access Control</div><div class="accord-subtitle">Access Management · Time & Attendance</div></div></div>
+              <div class="accord-arrow">▾</div>
+            </div>
+            <div class="accord-body"><div class="accord-content">
+              <p>Streamlined access management and time attendance systems using biometric solutions. Enhances security while providing accurate attendance data for HR and payroll processes.</p>
+              <div class="accord-tags"><span class="tag">Biometric Access</span><span class="tag">Time Attendance</span><span class="tag">HR Integration</span></div>
+            </div></div>
+          </div>
+          <div class="accord-item">
+            <div class="accord-trigger" onclick="toggleAccord(this)">
+              <div class="accord-trigger-left"><div class="accord-icon">🌐</div>
+                <div><div class="accord-title">Networking, Alarms & Fencing</div><div class="accord-subtitle">Computer Networking · Fire · Intruder · Electric Fence</div></div></div>
+              <div class="accord-arrow">▾</div>
+            </div>
+            <div class="accord-body"><div class="accord-content">
+              <p>Seamless connectivity and efficient data transfer through professional computer networking services. Reliable installation and maintenance for fire and intruder alarm systems, and electric and razor fence installations.</p>
+              <div class="accord-tags"><span class="tag">Computer Networking</span><span class="tag">Fire Alarms</span><span class="tag">Intruder Alarms</span><span class="tag">Electric Fence</span></div>
+            </div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════ -->
+  <!-- SPECIAL -->
+  <!-- ══════════════════════════════════════ -->
+  <div class="section" id="sec-special">
+    <div class="section-header">
+      <div class="overline">Special Solutions</div>
+      <h2>Unique Offerings, Rarely Found Elsewhere</h2>
+      <div class="divider"></div>
+      <p class="sub" style="margin-top:12px;">Niche, high-value services extending beyond the typical consultancy scope — from document systems to scholar support and West African touring.</p>
+    </div>
+
+    <div class="special-grid">
+      <div class="special-card">
+        <div class="special-card-head">
+          <div class="s-icon">🗂️</div>
+          <h3>Document Control & Management</h3>
+        </div>
+        <p>A structured document management system covering creation, review, modification, issuance, distribution, and accessibility of official documents. Berecons institutes a harmonised, integrated approach eliminating duplication, missed partnerships, and auditing challenges. Post-integration, clients may retain Berecons to manage the system or have their own staff trained.</p>
+        <a
+          class="cta-link"
+          data-transition-link
+          data-transition-label="Contact"
+          href="contact.html#contact"
+          >Get in Touch →</a
+        >
+      </div>
+
+      <div class="special-card">
+        <div class="special-card-head">
+          <div class="s-icon">🎓</div>
+          <h3>Practicum Placement for Visiting Scholars</h3>
+        </div>
+        <p>Consultancy services for students and researchers exploring West Africa — Ghana, The Gambia, Liberia, and Sierra Leone. Offerings include tailored research strategies, survey area identification, comprehensive logistical support, cultural immersion facilitation, and impactful academic partnerships with institutions and government agencies.</p>
+        <a
+          class="cta-link"
+          data-transition-link
+          data-transition-label="Contact"
+          href="contact.html#contact"
+          >Schedule a Consultation →</a
+        >
+      </div>
+
+      <div class="special-card">
+        <div class="special-card-head">
+          <div class="s-icon">🏠</div>
+          <h3>Realty & Logistical Assistance</h3>
+        </div>
+        <p>Partnering with Berecons Development Initiative (BDI) through the Snug Haven project, Berecons provides affordable rentals in the heart of Accra for international travellers, students, researchers, expatriates, and young professionals. We also partner with reliable realty companies nationwide to find accommodation within your budget in safe communities.</p>
+        <a
+          class="cta-link"
+          data-transition-link
+          data-transition-label="Contact"
+          href="contact.html#contact"
+          >Housing Assistance →</a
+        >
+      </div>
+
+      <div class="special-card">
+        <div class="special-card-head">
+          <div class="s-icon">✈️</div>
+          <h3>Tour of Selected Regions & Localities</h3>
+        </div>
+        <p>Curated tourism packages across Ghana and selected African countries. Whether you're drawn to urban landscapes pulsating with life or serene rural communities rich in cultural heritage, Berecons facilitates access to diverse environments and removes bureaucratic and traditional hurdles for a seamless travel experience.</p>
+        <a
+          class="cta-link"
+          data-transition-link
+          data-transition-label="Contact"
+          href="contact.html#contact"
+          >Plan Your Tour →</a
+        >
+      </div>
+    </div>
+  </div>
+
+</div><!-- /main -->
+
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+<script src="script.js?v=20260303-23"></script>
+
+<script>
+  function showSection(id, navEl) {
+    // Hide all sections
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    // Deactivate all nav items
+    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+    // Show target
+    document.getElementById('sec-' + id).classList.add('active');
+    // Activate nav
+    if (navEl) navEl.classList.add('active');
+    // Scroll to top of main
+    document.querySelector('.main').scrollTo({ top: 0 });
+    window.scrollTo({ top: 0 });
+  }
+
+  function toggleAccord(trigger) {
+    const item = trigger.closest('.accord-item');
+    const isOpen = item.classList.contains('open');
+    // Close siblings
+    const siblings = item.parentElement.querySelectorAll('.accord-item');
+    siblings.forEach(s => s.classList.remove('open'));
+    // Toggle self
+    if (!isOpen) item.classList.add('open');
+  }
+
+  (function applyInitialSectionFromQuery() {
+    const key = (new URLSearchParams(window.location.search).get('solution') || '').toLowerCase();
+    const map = {
+      research: 'research',
+      content: 'content',
+      business: 'strategy',
+      strategy: 'strategy',
+      project: 'projects',
+      projects: 'projects',
+      digital: 'technical',
+      technical: 'technical',
+      special: 'special'
+    };
+
+    const section = map[key];
+    if (!section) return;
+    const navEl = document.querySelector('.nav-item[data-section="' + section + '"]');
+    showSection(section, navEl);
+  })();
+</script>
+</body>
+</html>
