@@ -22,7 +22,7 @@
       type="font/woff2"
       crossorigin
     />
-    <link rel="stylesheet" href="styles.css?v=20260303-135" />
+    <link rel="stylesheet" href="styles.css?v=20260303-143" />
   </head>
   <body class="is-loading">
     <div class="site-ambient" aria-hidden="true">
@@ -100,33 +100,168 @@
     <main>
       <section
         id="contact"
-        class="panel panel-dark section section-anchor contact-section"
-        data-header-surface="#dddee2"
+        class="panel panel-light section section-anchor contact-section"
+        data-header-surface="#ffffff"
       >
-        <div class="container contact-hero" data-reveal="fade-up">
-          <p class="section-kicker">Contact</p>
-          <h2 class="contact-hero-title">Let&rsquo;s Build Something Better</h2>
-          <p class="contact-hero-copy">
-            Whether you need sharper data insights, stronger systems, or smarter communication,
-            Berecons is here to help. Get in touch! Let&rsquo;s turn your ideas into results.
-          </p>
-          <ul class="contact-hero-meta" aria-label="Contact details">
-            <li>
-              <span class="contact-hero-meta-label">📧 Email:</span>
-              <a href="mailto:info@berecons.com">info@berecons.com</a>
-            </li>
-            <li>
-              <span class="contact-hero-meta-label">🌐 Website:</span>
-              <a href="https://www.berecons.com" target="_blank" rel="noopener noreferrer">www.berecons.com</a>
-            </li>
-            <li>
-              <span class="contact-hero-meta-label">📍 Location:</span>
-              <span>Accra, Ghana</span>
-            </li>
-          </ul>
-          <a class="btn btn-primary contact-hero-cta" href="#contact" data-transition-link data-transition-label="Contact"
-            >Send a Message</a
-          >
+        <div class="container contact-request-shell">
+          <header class="contact-request-top" data-reveal="fade-up">
+            <div class="contact-request-title-wrap">
+              <h1 class="contact-request-title">Contact</h1>
+            </div>
+            <p class="contact-request-top-copy">
+              Want to work with us? To request a project, simply book a discovery call with Calendly or reach out using
+              our contact form.
+            </p>
+          </header>
+
+          <div class="contact-request-grid">
+            <article class="contact-request-col-left" data-reveal="fade-up">
+              <div class="contact-request-option-line">
+                <h2 class="contact-request-option-title"><span>Option 1</span> | Calendly</h2>
+                <a href="https://calendly.com" target="_blank" rel="noopener noreferrer" class="contact-request-book"
+                  >Book discovery call</a
+                >
+              </div>
+
+              <p class="contact-request-note">100% free &amp; non-binding</p>
+
+              <figure class="contact-request-visual">
+                <img
+                  src="assets/about.png?v=20260227-7"
+                  alt="Two man with tennis rackets in an office smiling into the camera"
+                  loading="lazy"
+                />
+              </figure>
+            </article>
+
+            <article class="contact-request-col-right" data-reveal="fade-up">
+              <h2 class="contact-request-option-title"><span>Option 2</span> | Contact form</h2>
+
+              <form class="contact-request-form" action="#" method="post">
+                <section class="contact-request-block" aria-labelledby="project-info-title">
+                  <h3 class="contact-request-block-title" id="project-info-title">
+                    <span>01</span> | About your project
+                  </h3>
+
+                  <div class="contact-request-row">
+                    <label for="industry">Which industry do you work in?*</label>
+                    <input
+                      id="industry"
+                      name="industry"
+                      type="text"
+                      placeholder="Industry"
+                      autocomplete="organization-title"
+                      required
+                    />
+                  </div>
+
+                  <div class="contact-request-row">
+                    <label for="website-type">What website type do you need?*</label>
+                    <select id="website-type" name="website_type" required>
+                      <option value="">Please select...</option>
+                      <option value="brochure">Brochure / Portfolio</option>
+                      <option value="ecommerce">E-Commerce</option>
+                      <option value="web-app">Web Application</option>
+                      <option value="blog">Blog / Media</option>
+                      <option value="other">Other</option>
+                    </select>
+                  </div>
+
+                  <div class="contact-request-row">
+                    <label for="go-live">When do you want to go live?*</label>
+                    <input id="go-live" name="go_live_date" type="text" placeholder="Date" required />
+                  </div>
+
+                  <div class="contact-request-row">
+                    <label for="current-site">Link to your current website</label>
+                    <input
+                      id="current-site"
+                      name="current_website"
+                      type="url"
+                      placeholder="URL (optional)"
+                      autocomplete="url"
+                    />
+                  </div>
+                </section>
+
+                <section class="contact-request-block" aria-labelledby="about-you-title">
+                  <h3 class="contact-request-block-title" id="about-you-title"><span>02</span> | About yourself</h3>
+
+                  <div class="contact-request-row">
+                    <label for="full-name">What's your name?*</label>
+                    <input id="full-name" name="full_name" type="text" placeholder="Full name" autocomplete="name" required />
+                  </div>
+
+                  <div class="contact-request-row">
+                    <label for="company-name">Name of your company*</label>
+                    <input
+                      id="company-name"
+                      name="company_name"
+                      type="text"
+                      placeholder="Company"
+                      autocomplete="organization"
+                      required
+                    />
+                  </div>
+
+                  <div class="contact-request-row">
+                    <label for="email-address">What's your mail?*</label>
+                    <input
+                      id="email-address"
+                      name="email_address"
+                      type="email"
+                      placeholder="Mail"
+                      autocomplete="email"
+                      required
+                    />
+                  </div>
+
+                  <div class="contact-request-row">
+                    <label for="phone-number">What's your phone number?</label>
+                    <input
+                      id="phone-number"
+                      name="phone_number"
+                      type="tel"
+                      placeholder="Phone (optional)"
+                      autocomplete="tel"
+                    />
+                  </div>
+                </section>
+
+                <section class="contact-request-block" aria-labelledby="feedback-title">
+                  <h3 class="contact-request-block-title" id="feedback-title">
+                    <span>03</span> | We appreciate your feedback
+                  </h3>
+
+                  <div class="contact-request-row">
+                    <label for="source">How did you learn about us?*</label>
+                    <select id="source" name="source" required>
+                      <option value="">Please select...</option>
+                      <option value="google">Google</option>
+                      <option value="linkedin">LinkedIn</option>
+                      <option value="referral">Referral</option>
+                      <option value="social">Social Media</option>
+                      <option value="other">Other</option>
+                    </select>
+                  </div>
+                </section>
+
+                <section class="contact-request-consent">
+                  <div class="contact-request-check">
+                    <input id="privacy" name="privacy" type="checkbox" required />
+                    <label for="privacy">
+                      I agree to the processing of my personal data in accordance with the <a href="#">Privacy Policy</a>.
+                    </label>
+                  </div>
+                </section>
+
+                <div class="contact-request-submit-wrap">
+                  <button class="contact-request-submit" type="submit">Send project request</button>
+                  <p class="contact-request-submit-note">100% free &amp; non-binding</p>
+                </div>
+              </form>
+            </article>
+          </div>
         </div>
       </section>
     </main>
