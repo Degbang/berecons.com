@@ -1,0 +1,331 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <title>Get Quote | Berecons LLC</title>
+    <meta
+      name="description"
+      content="Complete the Berecons website development questionnaire and prepare your quote request."
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap"
+    />
+    <link
+      rel="preload"
+      href="assets/fonts/perfectly-nineties/web/PerfectlyNineties-Regular.woff2?v=20260227-7"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <link rel="stylesheet" href="styles.css?v=20260420-12" />
+  </head>
+  <body class="is-loading quote-page">
+    <div id="page-transition" class="page-transition" aria-hidden="true">
+      <div class="transition-columns">
+        <span class="transition-col"></span>
+        <span class="transition-col"></span>
+        <span class="transition-col"></span>
+        <span class="transition-col"></span>
+        <span class="transition-col"></span>
+        <span class="transition-col"></span>
+      </div>
+      <div class="transition-center">
+        <img src="assets/logo-blc-cropped.png?v=20260227-7" alt="" class="transition-logo" />
+        <p id="transition-target" class="transition-target">Get Quote</p>
+      </div>
+    </div>
+
+    <header id="site-header" class="site-header">
+      <div class="container nav-shell">
+        <a
+          href="index.html?skipPreloader=1#home"
+          class="brand"
+          data-transition-link
+          data-transition-label="Home"
+          aria-label="Berecons homepage"
+        >
+          <span class="brand-logo-wrap">
+            <img src="assets/logo-blc-cropped.png?v=20260227-7" alt="Berecons LLC logo" class="brand-logo" />
+          </span>
+        </a>
+
+        <button
+          id="menu-toggle"
+          class="menu-toggle"
+          type="button"
+          aria-expanded="false"
+          aria-controls="site-nav"
+        >
+          Menu
+        </button>
+
+        <nav id="site-nav" class="site-nav" aria-label="Main navigation">
+          <a class="nav-link" data-text="Home" data-transition-link data-transition-label="Home" href="index.html?skipPreloader=1#home"
+            ><span>Home</span></a
+          >
+          <a class="nav-link" data-text="About us" data-transition-link data-transition-label="About us" href="about.html"
+            ><span>About us</span></a
+          >
+          <a
+            class="nav-link"
+            data-text="Solutions"
+            data-transition-link
+            data-transition-label="Solutions"
+            href="solutions.html"
+            ><span>Solutions</span></a
+          >
+          <div class="site-nav-right">
+            <a
+              class="nav-link"
+              data-text="Contact"
+              data-transition-link
+              data-transition-label="Contact"
+              href="contact.html"
+              ><span>Contact</span></a
+            >
+            <a
+              class="nav-link is-active"
+              data-text="Get Quote"
+              data-transition-link
+              data-transition-label="Get Quote"
+              href="get-quote.html"
+              ><span>Get Quote</span></a
+            >
+          </div>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <section
+        id="quote"
+        class="panel panel-light section section-anchor quote-page-section"
+        data-header-surface="#ffffff"
+      >
+        <div class="container quote-shell">
+          <header class="quote-hero" data-reveal="fade-up">
+            <p class="quote-brand-word">berecons</p>
+            <h1 class="quote-title">Website Development Request</h1>
+            <p class="quote-lead">
+              Open the panel below to fill the questionnaire or request pricing.
+            </p>
+            <div class="quote-entry-actions">
+              <button class="quote-entry-button is-primary" type="button" data-quote-open="questionnaire">
+                Fill Questionnaire
+              </button>
+              <button class="quote-entry-button" type="button" data-quote-open="quote">Get Billing</button>
+            </div>
+          </header>
+        </div>
+
+        <aside class="quote-drawer" data-quote-drawer aria-hidden="true">
+          <button class="quote-drawer-scrim" type="button" tabindex="-1" aria-label="Close panel" data-quote-close></button>
+
+          <div class="quote-drawer-panel" role="dialog" aria-modal="true" aria-labelledby="quote-drawer-title">
+            <header class="quote-drawer-head">
+              <div>
+                <p id="quote-drawer-title" class="quote-drawer-title">Fill Questionnaire</p>
+                <p class="quote-drawer-subtitle">Berecons LLC</p>
+              </div>
+              <button class="quote-drawer-close" type="button" data-quote-close aria-label="Close panel">
+                Close
+              </button>
+            </header>
+
+            <div class="quote-drawer-body">
+              <section class="quote-drawer-view is-active" data-quote-view="questionnaire">
+                <form id="quote-form" class="quote-modular-form" novalidate>
+                  <div class="quote-modular-top" data-reveal="fade-up">
+                    <div class="quote-meta-grid">
+                      <label class="quote-meta-field">
+                        <span>Client</span>
+                        <input
+                          id="client_name"
+                          name="client_name"
+                          form="quote-form"
+                          type="text"
+                          placeholder="Client name"
+                          required
+                        />
+                      </label>
+                      <label class="quote-meta-field">
+                        <span>Date</span>
+                        <input
+                          id="questionnaire_date"
+                          name="questionnaire_date"
+                          form="quote-form"
+                          type="date"
+                          required
+                        />
+                      </label>
+                    </div>
+                    <div class="quote-top-controls">
+                      <button id="quote-prev" class="quote-action-secondary" type="button">Previous</button>
+                      <button id="quote-next" class="quote-action-secondary" type="button">Next</button>
+                      <button id="quote-submit" class="quote-submit-button" type="submit">Prepare email draft</button>
+                    </div>
+                    <div class="quote-progress-bar" aria-hidden="true">
+                      <span id="quote-progress-fill" class="quote-progress-fill"></span>
+                    </div>
+                  </div>
+
+                  <div class="quote-step-stack">
+                    <section
+                      class="quote-step-card is-active"
+                      data-quote-step
+                      data-step-title="Company overview and value proposition"
+                      data-reveal="fade-up"
+                    >
+                      <div class="quote-question-list quote-question-list--two">
+                        <label class="quote-question-block">
+                          <span class="quote-question-text">
+                            <span class="quote-question-text-line">1. What is your company/organisation's name?</span>
+                            <span class="quote-question-text-line">What products/services do you offer?*</span>
+                          </span>
+                          <textarea id="q_company_overview" name="q_company_overview" rows="5" placeholder="Answer here" required></textarea>
+                        </label>
+
+                        <label class="quote-question-block">
+                          <span class="quote-question-text">
+                            <span class="quote-question-text-line">2. What is your unique value proposition?</span>
+                            <span class="quote-question-text-line">What makes you different/better than your competitors?*</span>
+                          </span>
+                          <textarea id="q_value_proposition" name="q_value_proposition" rows="5" placeholder="Answer here" required></textarea>
+                        </label>
+                      </div>
+                    </section>
+
+                    <section
+                      class="quote-step-card"
+                      data-quote-step
+                      data-step-title="Competitors and primary goal"
+                      data-reveal="fade-up"
+                      hidden
+                    >
+                      <div class="quote-question-list quote-question-list--two">
+                        <label class="quote-question-block">
+                          <span class="quote-question-text">
+                            <span class="quote-question-text-line">3. Who are your top 3 main competitors?</span>
+                            <span class="quote-question-text-line">Please provide their website URLs if possible.*</span>
+                          </span>
+                          <textarea id="q_competitors" name="q_competitors" rows="5" placeholder="Answer here" required></textarea>
+                        </label>
+
+                        <label class="quote-question-block">
+                          <span class="quote-question-text">
+                            <span class="quote-question-text-line">4. What is the single most important goal for this new website?*</span>
+                            <span class="quote-question-text-line">Examples: generate leads, sell products online, build an email list.</span>
+                          </span>
+                          <textarea id="q_primary_goal" name="q_primary_goal" rows="5" placeholder="Answer here" required></textarea>
+                        </label>
+                      </div>
+                    </section>
+
+                    <section
+                      class="quote-step-card"
+                      data-quote-step
+                      data-step-title="Secondary goals and ideal customer"
+                      data-reveal="fade-up"
+                      hidden
+                    >
+                      <div class="quote-question-list quote-question-list--two">
+                        <label class="quote-question-block">
+                          <span class="quote-question-text">
+                            <span class="quote-question-text-line">5. What are 2-3 secondary goals?*</span>
+                          </span>
+                          <textarea id="q_secondary_goals" name="q_secondary_goals" rows="5" placeholder="Answer here" required></textarea>
+                        </label>
+
+                        <label class="quote-question-block">
+                          <span class="quote-question-text">
+                            <span class="quote-question-text-line">6. Who is your ideal customer?*</span>
+                            <span class="quote-question-text-line">Describe their demographics, interests, and pain points.</span>
+                          </span>
+                          <textarea id="q_ideal_customer" name="q_ideal_customer" rows="5" placeholder="Answer here" required></textarea>
+                        </label>
+                      </div>
+                    </section>
+
+                    <section
+                      class="quote-step-card"
+                      data-quote-step
+                      data-step-title="Target action and success metrics"
+                      data-reveal="fade-up"
+                      hidden
+                    >
+                      <div class="quote-question-list quote-question-list--two">
+                        <label class="quote-question-block">
+                          <span class="quote-question-text">
+                            <span class="quote-question-text-line">7. What action do you want them to take when they visit your site?*</span>
+                            <span class="quote-question-text-line">Examples: Contact Us, Download a Whitepaper, Buy Now.</span>
+                          </span>
+                          <textarea id="q_target_action" name="q_target_action" rows="5" placeholder="Answer here" required></textarea>
+                        </label>
+
+                        <label class="quote-question-block">
+                          <span class="quote-question-text">
+                            <span class="quote-question-text-line">8. How will we measure the success of the website?*</span>
+                            <span class="quote-question-text-line">Examples: contact form submissions, conversion rate, online sales revenue.</span>
+                          </span>
+                          <textarea id="q_success_metrics" name="q_success_metrics" rows="5" placeholder="Answer here" required></textarea>
+                        </label>
+                      </div>
+                    </section>
+
+                    <section
+                      class="quote-step-card"
+                      data-quote-step
+                      data-step-title="Contact details"
+                      data-reveal="fade-up"
+                      hidden
+                    >
+                      <div class="quote-question-list quote-question-list--two">
+                        <label class="quote-question-block">
+                          <span class="quote-question-text">Contact name*</span>
+                          <input id="contact_name" name="contact_name" type="text" placeholder="Answer here" required />
+                        </label>
+
+                        <label class="quote-question-block">
+                          <span class="quote-question-text">Contact email*</span>
+                          <input id="contact_email" name="contact_email" type="email" placeholder="Answer here" required />
+                        </label>
+                      </div>
+                    </section>
+                  </div>
+
+                  <p id="quote-feedback" class="quote-feedback" aria-live="polite"></p>
+                </form>
+              </section>
+
+              <section class="quote-drawer-view" data-quote-view="quote" hidden>
+                <div class="quote-quote-card">
+                  <p class="quote-part-label">Get Billing</p>
+                  <h2 class="quote-quote-title">Billing will be added here.</h2>
+                  <p class="quote-quote-lead">
+                    The pricing section will stay compact and open inside this panel.
+                  </p>
+                  <div class="quote-quote-list">
+                    <p>Website creation estimate</p>
+                    <p>Questionnaire review</p>
+                    <p>Timeline and budget inputs</p>
+                  </div>
+                  <a class="quote-submit-button quote-quote-button" href="mailto:bereconsllc@gmail.com">Request by email</a>
+                </div>
+              </section>
+            </div>
+          </div>
+        </aside>
+      </section>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+    <script src="script.js?v=20260303-23"></script>
+    <script src="get-quote.js?v=20260420-7"></script>
+  </body>
+</html>

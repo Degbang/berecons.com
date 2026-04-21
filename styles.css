@@ -718,8 +718,11 @@ body.about-page .site-header.is-on-dark .nav-shell {
   gap: clamp(0.9rem, 1.35vw, 1.4rem);
 }
 
-.site-nav .nav-link:last-child {
+.site-nav-right {
   margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: clamp(0.9rem, 1.35vw, 1.4rem);
 }
 
 .nav-link {
@@ -4500,6 +4503,488 @@ body.has-js #services.process-section .process-card:not(.is-in-view) {
   font-weight: 400;
 }
 
+.quote-page {
+  --quote-primary: #0d4bd6;
+  --quote-primary-strong: #083ca8;
+  --quote-ink: #081234;
+  --quote-ink-soft: #5f6b80;
+  --quote-border: #d9e3f0;
+  --quote-surface: #ffffff;
+  --quote-surface-soft: #f8fbff;
+  --quote-shadow: 0 10px 24px rgba(15, 23, 42, 0.05);
+  background: #ffffff;
+  color: var(--quote-ink);
+}
+
+body.quote-page {
+  overflow: hidden;
+}
+
+.quote-page .site-header {
+  background: rgba(255, 255, 255, 0.96);
+  border-bottom: 1px solid rgba(13, 31, 86, 0.08);
+  backdrop-filter: blur(12px);
+}
+
+.quote-page-section {
+  background: #ffffff;
+  min-height: calc(100svh - var(--header-stack-height, 88px));
+  overflow: visible;
+  position: relative;
+}
+
+.quote-page .quote-page-section.section-anchor {
+  border-top: 0;
+}
+
+.quote-shell {
+  display: grid;
+  gap: 0.9rem;
+  width: 100%;
+  max-width: none;
+  min-height: calc(100svh - var(--header-stack-height, 88px));
+  grid-template-rows: auto auto;
+  align-content: start;
+  justify-items: center;
+  padding-top: clamp(1rem, 2vw, 1.5rem);
+}
+
+.quote-hero {
+  display: grid;
+  gap: 0.55rem;
+  padding-top: 0;
+  max-width: 720px;
+  width: min(720px, calc(100% - 40px));
+  margin: 0 auto;
+  justify-items: center;
+  text-align: center;
+}
+
+.quote-brand-word,
+.quote-part-label,
+.quote-module-index {
+  margin: 0;
+  color: var(--quote-primary);
+  font-family: "Neue Montreal", Arial, sans-serif;
+  font-size: 12px;
+  line-height: 14px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.quote-title {
+  margin: 0;
+  color: var(--quote-primary);
+  font-family: var(--font-header);
+  font-size: clamp(1.85rem, 3.5vw, 2.85rem);
+  line-height: 1;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  max-width: 15ch;
+}
+
+.quote-meta-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.8rem;
+  max-width: 760px;
+  width: 100%;
+}
+
+.quote-meta-field,
+.quote-question-block {
+  display: grid;
+  gap: 0.45rem;
+}
+
+.quote-meta-field span,
+.quote-question-text {
+  color: var(--quote-primary);
+  font-family: var(--font-header);
+  font-size: 0.84rem;
+  font-weight: 600;
+  line-height: 1.18;
+}
+
+.quote-lead {
+  margin: 0;
+  max-width: 42ch;
+  color: var(--quote-ink-soft);
+  font-size: 0.98rem;
+  line-height: 1.6;
+}
+
+.quote-entry-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.7rem;
+  margin-top: 0.2rem;
+  justify-content: center;
+}
+
+.quote-entry-button {
+  min-height: 2.8rem;
+  padding: 0.72rem 1rem;
+  border: 1px solid var(--quote-border);
+  border-radius: 8px;
+  background: #ffffff;
+  color: var(--quote-primary);
+  font-family: var(--font-header);
+  font-size: 0.92rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: border-color 0.22s ease, color 0.22s ease, background-color 0.22s ease, transform 0.22s ease;
+}
+
+.quote-entry-button.is-primary,
+.quote-entry-button.is-active {
+  border-color: var(--quote-primary);
+  background: var(--quote-primary);
+  color: #ffffff;
+}
+
+.quote-entry-button:hover {
+  transform: translateY(-1px);
+}
+
+.quote-entry-button:hover:not(.is-primary):not(.is-active) {
+  border-color: var(--quote-primary);
+  background: rgba(13, 75, 214, 0.04);
+}
+
+.quote-entry-button.is-primary:hover,
+.quote-entry-button.is-active:hover {
+  background: var(--quote-primary-strong);
+  border-color: var(--quote-primary-strong);
+}
+
+.quote-drawer {
+  position: fixed;
+  left: 20px;
+  right: 20px;
+  top: var(--quote-drawer-top, clamp(15rem, 34svh, 18rem));
+  bottom: 20px;
+  z-index: 180;
+  display: block;
+  width: auto;
+  overflow: visible;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.24s ease;
+}
+
+.quote-drawer.is-open {
+  pointer-events: auto;
+  opacity: 1;
+}
+
+.quote-drawer-scrim {
+  display: none;
+  border: 0;
+  background: rgba(8, 18, 52, 0.12);
+  cursor: pointer;
+}
+
+.quote-drawer-panel {
+  position: relative;
+  left: auto;
+  bottom: auto;
+  width: 100%;
+  height: 100%;
+  max-height: 100%;
+  border: 1px solid var(--quote-border);
+  border-bottom: 0;
+  border-radius: 18px 18px 0 0;
+  background: #ffffff;
+  box-shadow: 0 -20px 38px rgba(15, 23, 42, 0.08);
+  transform: translateY(18px);
+  transition: transform 0.28s ease;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+  min-width: 0;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.quote-drawer.is-open .quote-drawer-panel {
+  transform: translateY(0);
+}
+
+.quote-drawer-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem 1rem 0.85rem;
+  border-bottom: 1px solid var(--quote-border);
+}
+
+.quote-drawer-title {
+  margin: 0;
+  color: var(--quote-primary);
+  font-family: var(--font-header);
+  font-size: 1.05rem;
+  font-weight: 700;
+}
+
+.quote-drawer-subtitle {
+  margin: 0.18rem 0 0;
+  color: var(--quote-ink-soft);
+  font-size: 0.88rem;
+}
+
+.quote-drawer-close {
+  min-height: 2.5rem;
+  padding: 0.55rem 0.8rem;
+  border: 1px solid var(--quote-border);
+  border-radius: 8px;
+  background: #ffffff;
+  color: var(--quote-primary);
+  font-family: var(--font-header);
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.quote-drawer-body {
+  display: block;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.quote-drawer-view {
+  display: none;
+  min-height: 0;
+}
+
+.quote-drawer-view.is-active {
+  display: grid;
+  overflow: auto;
+  padding: 0.85rem 1rem 1rem;
+  min-height: 0;
+}
+
+.quote-quote-card {
+  height: 100%;
+  padding: 0.8rem;
+  display: grid;
+  align-content: start;
+  gap: 0.5rem;
+}
+
+.quote-quote-title {
+  margin: 0;
+  color: var(--quote-primary);
+  font-family: var(--font-header);
+  font-size: clamp(1.55rem, 3vw, 2rem);
+  line-height: 1.08;
+}
+
+.quote-quote-lead {
+  margin: 0;
+  color: var(--quote-primary);
+  font-size: 0.95rem;
+  line-height: 1.55;
+  max-width: 34ch;
+}
+
+.quote-quote-list {
+  display: grid;
+  gap: 0.5rem;
+  padding: 0.8rem 0 0.2rem;
+  color: var(--quote-ink);
+  font-size: 0.94rem;
+}
+
+.quote-quote-list p {
+  margin: 0;
+  padding: 0.7rem 0.8rem;
+  border: 1px solid var(--quote-border);
+  border-radius: 8px;
+  background: #f9fbff;
+  color: var(--quote-primary);
+}
+
+.quote-quote-button {
+  justify-self: start;
+  text-decoration: none;
+}
+
+.quote-modular-form {
+  display: grid;
+  gap: 0.85rem;
+  width: 100%;
+}
+
+.quote-modular-top,
+.quote-step-card {
+  border: 1px solid var(--quote-border);
+  border-radius: 12px;
+  background: var(--quote-surface);
+  box-shadow: var(--quote-shadow);
+}
+
+.quote-modular-top {
+  display: grid;
+  gap: 0.55rem;
+  padding: 0.7rem 0.85rem;
+  background: linear-gradient(180deg, #ffffff 0%, #fbfdff 100%);
+}
+
+.quote-top-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.7rem;
+}
+
+.quote-progress-bar {
+  width: 100%;
+  height: 6px;
+  border-radius: 999px;
+  background: rgba(13, 75, 214, 0.1);
+  overflow: hidden;
+}
+
+.quote-progress-fill {
+  display: block;
+  width: 0;
+  height: 100%;
+  background: var(--quote-primary);
+  border-radius: inherit;
+  transition: width 0.24s ease;
+}
+
+.quote-step-stack {
+  display: grid;
+  gap: 0.7rem;
+}
+
+.quote-step-card {
+  display: grid;
+  gap: 0.7rem;
+  padding: 0.8rem;
+}
+
+.quote-step-card[hidden] {
+  display: none;
+}
+
+.quote-question-list {
+  display: grid;
+  gap: 0.7rem;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.quote-question-block {
+  padding: 0.7rem;
+  border: 1px solid var(--quote-border);
+  border-radius: 8px;
+  background: #ffffff;
+}
+
+.quote-meta-field input,
+.quote-question-block input,
+.quote-question-block textarea {
+  width: 100%;
+  margin: 0;
+  border: 1px solid #cfd9e7;
+  border-radius: 8px;
+  background: #ffffff;
+  color: var(--quote-ink);
+  font-family: "Neue Montreal", Arial, sans-serif;
+  font-size: 0.84rem;
+  line-height: 1.4;
+  padding: 0.58rem 0.72rem;
+  outline: none;
+  transition: border-color 0.22s ease, box-shadow 0.22s ease;
+}
+
+.quote-question-block textarea {
+  min-height: 6.3rem;
+  resize: none;
+}
+
+.quote-question-text-line {
+  display: block;
+}
+
+.quote-meta-field input::placeholder,
+.quote-question-block input::placeholder,
+.quote-question-block textarea::placeholder {
+  color: #8a95aa;
+}
+
+.quote-meta-field input:focus,
+.quote-question-block input:focus,
+.quote-question-block textarea:focus {
+  border-color: var(--quote-primary);
+  box-shadow: 0 0 0 3px rgba(13, 75, 214, 0.1);
+}
+
+.quote-contact-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.9rem;
+  grid-column: 1 / -1;
+}
+
+.quote-action-secondary,
+.quote-submit-button {
+  min-height: 2.5rem;
+  padding: 0.58rem 0.9rem;
+  border-radius: 8px;
+  font-family: var(--font-header);
+  font-size: 0.86rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: border-color 0.22s ease, background-color 0.22s ease, color 0.22s ease, transform 0.22s ease;
+}
+
+.quote-action-secondary {
+  border: 1px solid var(--quote-border);
+  background: #ffffff;
+  color: var(--quote-primary);
+}
+
+.quote-action-secondary:hover:not(:disabled),
+.quote-submit-button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 18px rgba(13, 75, 214, 0.08);
+}
+
+.quote-action-secondary:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.quote-submit-button {
+  border: 1px solid var(--quote-primary);
+  background: var(--quote-primary);
+  color: #ffffff;
+}
+
+.quote-submit-button:hover {
+  background: var(--quote-primary-strong);
+  border-color: var(--quote-primary-strong);
+}
+
+.quote-feedback {
+  margin: 0;
+  color: var(--quote-ink-soft);
+  font-size: 0.92rem;
+  line-height: 1.5;
+}
+
+.quote-feedback.is-error {
+  color: #b42318;
+}
+
+.quote-feedback.is-success {
+  color: var(--quote-primary);
+}
+
 .site-footer {
   padding: clamp(1.6rem, 3.8vw, 2.6rem) 0 clamp(1.6rem, 3.8vw, 2.4rem);
   background: #00072d;
@@ -5133,6 +5618,12 @@ body.has-js.motion-ready [data-reveal]:not([data-reveal="hero-line"]):not(.servi
     box-shadow: 0 18px 40px rgba(8, 18, 52, 0.18);
   }
 
+  .site-nav-right {
+    margin-left: 0;
+    display: grid;
+    gap: 0.5rem;
+  }
+
   .site-nav.is-open {
     opacity: 1;
     transform: translateY(0);
@@ -5160,6 +5651,74 @@ body.has-js.motion-ready [data-reveal]:not([data-reveal="hero-line"]):not(.servi
 
   .nav-link span {
     transform: none !important;
+  }
+
+  .quote-hero,
+  .quote-layout,
+  .quote-submit-card {
+    grid-template-columns: 1fr;
+  }
+
+  .quote-shell {
+    max-width: 100%;
+  }
+
+  .quote-drawer {
+    left: 20px;
+    right: 20px;
+    top: var(--quote-drawer-top, clamp(13rem, 40svh, 18rem));
+    bottom: 20px;
+  }
+
+  .quote-drawer-scrim {
+    display: none;
+  }
+
+  .quote-drawer-panel {
+    width: 100%;
+    height: 100%;
+    max-height: 100%;
+    border-radius: 18px 18px 0 0;
+    transform: translateY(24px);
+  }
+
+  .quote-drawer.is-open .quote-drawer-panel {
+    transform: translateY(0);
+  }
+
+  .quote-drawer-head {
+    padding: 0.9rem 0.9rem 0.8rem;
+  }
+
+  .quote-drawer-view {
+    overflow: hidden;
+  }
+
+  .quote-drawer-view.is-active {
+    padding: 0.75rem;
+  }
+
+  .quote-quote-card {
+    padding: 0.95rem;
+  }
+
+  .quote-meta-grid,
+  .quote-contact-grid,
+  .quote-question-list {
+    grid-template-columns: 1fr;
+  }
+
+  .quote-top-controls {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .quote-entry-actions {
+    flex-direction: column;
+  }
+
+  .quote-entry-button {
+    width: 100%;
   }
 
   .nav-link.is-active span {
