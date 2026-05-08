@@ -112,13 +112,13 @@
             <p class="quote-brand-word">berecons</p>
             <h1 class="quote-title">Website Development Request</h1>
             <p class="quote-lead">
-              Open the panel below to fill the questionnaire or request pricing.
+              Open the panel below to fill the questionnaire or prepare a quote request.
             </p>
             <div class="quote-entry-actions">
               <button class="quote-entry-button is-primary" type="button" data-quote-open="questionnaire">
                 Fill Questionnaire
               </button>
-              <button class="quote-entry-button" type="button" data-quote-open="quote">Get Billing</button>
+              <button class="quote-entry-button" type="button" data-quote-open="quote">Get Quote</button>
             </div>
           </header>
         </div>
@@ -139,7 +139,13 @@
 
             <div class="quote-drawer-body">
               <section class="quote-drawer-view is-active" data-quote-view="questionnaire">
-                <form id="quote-form" class="quote-modular-form" novalidate>
+                <form
+                  id="quote-form"
+                  class="quote-modular-form"
+                  name="website-development-questionnaire"
+                  method="POST"
+                  novalidate
+                >
                   <div class="quote-modular-top" data-reveal="fade-up">
                     <div class="quote-meta-grid">
                       <label class="quote-meta-field">
@@ -167,7 +173,7 @@
                     <div class="quote-top-controls">
                       <button id="quote-prev" class="quote-action-secondary" type="button">Previous</button>
                       <button id="quote-next" class="quote-action-secondary" type="button">Next</button>
-                      <button id="quote-submit" class="quote-submit-button" type="submit">Prepare email draft</button>
+                      <button id="quote-submit" class="quote-submit-button" type="submit">Send questionnaire</button>
                     </div>
                     <div class="quote-progress-bar" aria-hidden="true">
                       <span id="quote-progress-fill" class="quote-progress-fill"></span>
@@ -304,17 +310,53 @@
 
               <section class="quote-drawer-view" data-quote-view="quote" hidden>
                 <div class="quote-quote-card">
-                  <p class="quote-part-label">Get Billing</p>
-                  <h2 class="quote-quote-title">Billing will be added here.</h2>
+                  <p class="quote-part-label">Get Quote</p>
+                  <h2 class="quote-quote-title">Send a quote request.</h2>
                   <p class="quote-quote-lead">
-                    The pricing section will stay compact and open inside this panel.
+                    Share the essentials below and Berecons will have the right context to respond with pricing.
                   </p>
-                  <div class="quote-quote-list">
-                    <p>Website creation estimate</p>
-                    <p>Questionnaire review</p>
-                    <p>Timeline and budget inputs</p>
-                  </div>
-                  <a class="quote-submit-button quote-quote-button" href="mailto:bereconsllc@gmail.com">Request by email</a>
+                  <form
+                    id="quote-request-form"
+                    class="quote-modular-form"
+                    name="quote-request"
+                    method="POST"
+                    novalidate
+                  >
+                    <div class="quote-question-list quote-question-list--two">
+                      <label class="quote-question-block">
+                        <span class="quote-question-text">Client name*</span>
+                        <input id="quote_client_name" name="quote_client_name" type="text" placeholder="Answer here" required />
+                      </label>
+
+                      <label class="quote-question-block">
+                        <span class="quote-question-text">Contact email*</span>
+                        <input id="quote_contact_email" name="quote_contact_email" type="email" placeholder="Answer here" required />
+                      </label>
+
+                      <label class="quote-question-block">
+                        <span class="quote-question-text">Project type*</span>
+                        <input id="quote_project_type" name="quote_project_type" type="text" placeholder="Website redesign, landing page, ecommerce..." required />
+                      </label>
+
+                      <label class="quote-question-block">
+                        <span class="quote-question-text">Preferred timeline</span>
+                        <input id="quote_timeline" name="quote_timeline" type="text" placeholder="4 weeks, 8 weeks, flexible" />
+                      </label>
+
+                      <label class="quote-question-block">
+                        <span class="quote-question-text">Budget range</span>
+                        <input id="quote_budget" name="quote_budget" type="text" placeholder="$2,000-$5,000" />
+                      </label>
+
+                      <label class="quote-question-block">
+                        <span class="quote-question-text">Project summary*</span>
+                        <textarea id="quote_project_summary" name="quote_project_summary" rows="5" placeholder="Tell us what you need quoted." required></textarea>
+                      </label>
+                    </div>
+
+                    <button id="quote-request-submit" class="quote-submit-button quote-quote-button" type="submit">Send quote request</button>
+                    <p id="quote-request-feedback" class="quote-feedback" aria-live="polite"></p>
+                  </form>
                 </div>
               </section>
             </div>
@@ -326,6 +368,6 @@
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
     <script src="script.js?v=20260303-23"></script>
-    <script src="get-quote.js?v=20260420-7"></script>
+    <script src="get-quote.js?v=20260508-4"></script>
   </body>
 </html>
