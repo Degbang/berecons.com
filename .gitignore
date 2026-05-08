@@ -1,5 +1,8 @@
 .DS_Store
 Thumbs.db
+.codex/
+.wrangler/
+.dev.vars
 
 # Local reference packs (not part of runtime site)
 assets/reference/

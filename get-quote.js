@@ -1,6 +1,7 @@
 (function initQuotePage() {
   const form = document.getElementById("quote-form");
-  if (!form) return;
+  const quoteRequestForm = document.getElementById("quote-request-form");
+  if (!form && !quoteRequestForm) return;
 
   const root = document.documentElement;
   const siteHeader = document.getElementById("site-header");
@@ -13,60 +14,111 @@
   const stepCards = [...document.querySelectorAll("[data-quote-step]")];
   const progressFill = document.getElementById("quote-progress-fill");
   const feedback = document.getElementById("quote-feedback");
+  const quoteRequestFeedback = document.getElementById("quote-request-feedback");
   const prevButton = document.getElementById("quote-prev");
   const nextButton = document.getElementById("quote-next");
   const submitButton = document.getElementById("quote-submit");
+  const quoteRequestSubmitButton = document.getElementById("quote-request-submit");
+  const questionnaireDateField = document.getElementById("questionnaire_date");
+  const questionnaireClientField = document.getElementById("client_name");
+  const questionnaireEmailField = document.getElementById("contact_email");
+  const quoteClientField = document.getElementById("quote_client_name");
+  const quoteEmailField = document.getElementById("quote_contact_email");
 
   let activeStep = 0;
   let activeView = "questionnaire";
 
   const viewTitles = {
     questionnaire: "Fill Questionnaire",
-    quote: "Get Billing",
+    quote: "Get Quote",
   };
+  const SUBMIT_ENDPOINT = "/api/quote-submit";
 
-  const emailSchema = [
-    {
-      title: "1. Company Overview",
-      entries: [
-        ["1. What is your company/organisation's name and what products/services do you offer?", "q_company_overview"],
-        ["2. What is your unique value proposition? (What makes you different/better than your competitors?)", "q_value_proposition"],
-        ["3. Who are your top 3 main competitors? (Please provide their website URLs if possible).", "q_competitors"],
-      ],
-    },
-    {
-      title: "2. Primary Goals",
-      entries: [
-        ["1. What is the single most important goal for this new website? (e.g., Generate leads, sell products online, build an email list, increase brand awareness).", "q_primary_goal"],
-        ["2. What are 2-3 secondary goals?", "q_secondary_goals"],
-      ],
-    },
-    {
-      title: "3. Target Audience",
-      entries: [
-        ["1. Who is your ideal customer? (Please describe their demographics, interests, and pain points).", "q_ideal_customer"],
-        ["2. What action do you want them to take when they visit your site? (e.g., \"Contact Us,\" \"Download a Whitepaper,\" \"Buy Now\").", "q_target_action"],
-      ],
-    },
-    {
-      title: "4. Success Metrics",
-      entries: [
-        ["1. How will we measure the success of the website? (e.g., Number of contact form submissions, conversion rate, online sales revenue, reduced bounce rate).", "q_success_metrics"],
-      ],
-    },
-  ];
-
-  function setFeedback(message, state) {
-    if (!feedback) return;
-    feedback.textContent = message;
-    feedback.classList.remove("is-error", "is-success");
-    if (state) feedback.classList.add(state);
+  function setFeedback(target, message, state) {
+    if (!target) return;
+    target.textContent = message;
+    target.classList.remove("is-error", "is-success");
+    if (state) target.classList.add(state);
   }
 
-  function formatDateValue(value) {
-    if (!value || !value.includes("-")) return value;
-    const [year, month, day] = value.split("-");
-    return `${day}/${month}/${year}`;
+  function getTodayValue() {
+    const now = new Date();
+    const timezoneOffsetMs = now.getTimezoneOffset() * 60 * 1000;
+    return new Date(now.getTime() - timezoneOffsetMs).toISOString().slice(0, 10);
+  }
+
+  function setButtonBusy(button, isBusy, idleLabel, busyLabel) {
+    if (!button) return;
+    button.disabled = isBusy;
+    button.textContent = isBusy ? busyLabel : idleLabel;
+  }
+
+  async function submitFormRequest(payload) {
+    const response = await fetch(SUBMIT_ENDPOINT, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(payload),
+    });
+
+    let result = null;
+
+    try {
+      result = await response.json();
+    } catch {
+      result = null;
+    }
+
+    if (!response.ok) {
+      const message =
+        result && typeof result.message === "string" && result.message.trim()
+          ? result.message.trim()
+          : "Submission failed. Try again in a moment.";
+      throw new Error(message);
+    }
+
+    return result;
+  }
+
+  function formDataToObject(formData) {
+    return Object.fromEntries(formData.entries());
+  }
+
+  function buildQuestionnairePayload(formData) {
+    const clientName = questionnaireClientField?.value.trim() || "Client";
+    const replyTo = questionnaireEmailField?.value.trim() || "";
+
+    return {
+      formType: "website-development-questionnaire",
+      subject: `Berecons Website Development Questionnaire - ${clientName}`,
+      replyTo,
+      submittedFrom: window.location.href,
+      data: formDataToObject(formData),
+    };
+  }
+
+  function buildQuoteRequestPayload(formData) {
+    const clientName = quoteClientField?.value.trim() || "Client";
+    const replyTo = quoteEmailField?.value.trim() || "";
+
+    return {
+      formType: "quote-request",
+      subject: `Berecons Quote Request - ${clientName}`,
+      replyTo,
+      submittedFrom: window.location.href,
+      data: formDataToObject(formData),
+    };
+  }
+
+  function syncQuoteRequestFields() {
+    if (quoteClientField && questionnaireClientField && !quoteClientField.value.trim()) {
+      quoteClientField.value = questionnaireClientField.value.trim();
+    }
+
+    if (quoteEmailField && questionnaireEmailField && !quoteEmailField.value.trim()) {
+      quoteEmailField.value = questionnaireEmailField.value.trim();
+    }
   }
 
   function syncDrawerOffset() {
@@ -94,6 +146,10 @@
       button.classList.toggle("is-active", button.dataset.quoteOpen === activeView);
       button.classList.toggle("is-primary", button.dataset.quoteOpen === activeView);
     });
+
+    if (activeView === "quote") {
+      syncQuoteRequestFields();
+    }
   }
 
   function closeDrawer() {
@@ -141,7 +197,7 @@
     if (submitButton) submitButton.hidden = activeStep !== stepCards.length - 1;
 
     updateProgress();
-    setFeedback("", "");
+    setFeedback(feedback, "", "");
   }
 
   openButtons.forEach((button) => {
@@ -171,7 +227,7 @@
       if (invalidField) {
         invalidField.reportValidity();
         invalidField.focus();
-        setFeedback("Complete this step before moving on.", "is-error");
+        setFeedback(feedback, "Complete this step before moving on.", "is-error");
         return;
       }
 
@@ -179,58 +235,70 @@
     });
   }
 
-  form.addEventListener("submit", (event) => {
-    event.preventDefault();
-    setFeedback("", "");
+  if (form) {
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      setFeedback(feedback, "", "");
 
-    if (!form.reportValidity()) {
-      setFeedback("Complete all required questions before preparing the email draft.", "is-error");
-      return;
-    }
+      if (!form.reportValidity()) {
+        setFeedback(feedback, "Complete all required questions before sending.", "is-error");
+        return;
+      }
 
-    const formData = new FormData(form);
-    const clientName = String(formData.get("client_name") || "Client").trim() || "Client";
-    const subject = `Berecons Website Development Questionnaire - ${clientName}`;
-    const body = buildEmailBody(formData);
+      const formData = new FormData(form);
+      const payload = buildQuestionnairePayload(formData);
 
-    setFeedback("Opening your email draft.", "is-success");
-    window.location.href = `mailto:bereconsllc@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-  });
+      setButtonBusy(submitButton, true, "Send questionnaire", "Sending...");
+      setFeedback(feedback, "Sending your questionnaire...", "is-success");
 
-  function buildEmailBody(formData) {
-    const clientName = String(formData.get("client_name") || "").trim() || "Not provided";
-    const questionnaireDate = formatDateValue(String(formData.get("questionnaire_date") || "").trim()) || "Not provided";
-    const contactName = String(formData.get("contact_name") || "").trim() || "Not provided";
-    const contactEmail = String(formData.get("contact_email") || "").trim() || "Not provided";
-
-    const lines = [
-      "berecons",
-      "Berecons, LLC Website Development Questionnaire",
-      `Client: ${clientName}`,
-      `Date: ${questionnaireDate}`,
-      "",
-      "Thank you for taking the time to complete the following questionnaire. Your detailed answers will help us understand your vision and build a website that effectively achieves your marketing goals. Please be as specific as possible.",
-      "",
-      "Part 1: Project Overview & Goals",
-      "",
-    ];
-
-    emailSchema.forEach((section) => {
-      lines.push(section.title);
-      section.entries.forEach(([label, name]) => {
-        lines.push(label);
-        lines.push(String(formData.get(name) || "").trim() || "Not provided");
-        lines.push("");
-      });
+      try {
+        await submitFormRequest(payload);
+        form.reset();
+        if (questionnaireDateField) {
+          questionnaireDateField.value = getTodayValue();
+        }
+        setActiveStep(0);
+        setFeedback(feedback, "Questionnaire sent successfully.", "is-success");
+        window.setTimeout(() => {
+          closeDrawer();
+        }, 300);
+      } catch (error) {
+        const message = error instanceof Error ? error.message : "Submission failed. Try again.";
+        setFeedback(feedback, message, "is-error");
+      } finally {
+        setButtonBusy(submitButton, false, "Send questionnaire", "Sending...");
+      }
     });
+  }
 
-    lines.push("Contact name");
-    lines.push(contactName);
-    lines.push("");
-    lines.push("Contact email");
-    lines.push(contactEmail);
+  if (quoteRequestForm) {
+    quoteRequestForm.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      setFeedback(quoteRequestFeedback, "", "");
 
-    return lines.join("\n");
+      if (!quoteRequestForm.reportValidity()) {
+        setFeedback(quoteRequestFeedback, "Complete the required fields before sending.", "is-error");
+        return;
+      }
+
+      const formData = new FormData(quoteRequestForm);
+      const payload = buildQuoteRequestPayload(formData);
+
+      setButtonBusy(quoteRequestSubmitButton, true, "Send quote request", "Sending...");
+      setFeedback(quoteRequestFeedback, "Sending your quote request...", "is-success");
+
+      try {
+        await submitFormRequest(payload);
+        quoteRequestForm.reset();
+        syncQuoteRequestFields();
+        setFeedback(quoteRequestFeedback, "Quote request sent successfully.", "is-success");
+      } catch (error) {
+        const message = error instanceof Error ? error.message : "Submission failed. Try again.";
+        setFeedback(quoteRequestFeedback, message, "is-error");
+      } finally {
+        setButtonBusy(quoteRequestSubmitButton, false, "Send quote request", "Sending...");
+      }
+    });
   }
 
   document.addEventListener("keydown", (event) => {
@@ -240,7 +308,21 @@
   window.addEventListener("resize", syncDrawerOffset);
   window.addEventListener("load", syncDrawerOffset);
 
+  if (questionnaireDateField && !questionnaireDateField.value) {
+    questionnaireDateField.value = getTodayValue();
+  }
+
+  if (questionnaireClientField) {
+    questionnaireClientField.addEventListener("input", syncQuoteRequestFields);
+  }
+
+  if (questionnaireEmailField) {
+    questionnaireEmailField.addEventListener("input", syncQuoteRequestFields);
+  }
+
   setDrawerView("questionnaire");
-  setActiveStep(0);
-  syncDrawerOffset();
+  if (form) {
+    setActiveStep(0);
+  }
+  openDrawer("questionnaire");
 })();
