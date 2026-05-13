@@ -1298,7 +1298,11 @@ main {
   }
 
   .hero-subtitle {
-    margin: 0;
+    margin: 2.0rem 0 0;
+    max-width: none;
+    white-space: nowrap;
+    font-size: clamp(0.78rem, 1.15vw, 1.02rem);
+    line-height: 1.4;
     text-align: center;
   }
 
@@ -10809,7 +10813,8 @@ body.capabilities-export-page .site-header.is-on-light .brand-logo {
 
 .cap-export-nav {
   position: fixed;
-  left: 22px;
+  right: 22px;
+  left: auto;
   top: calc(var(--header-stack-height) + 26px);
   z-index: 48;
   display: grid;
@@ -12608,6 +12613,103 @@ body.quote-v2-page .site-header .nav-shell {
 body.quote-v2-page {
   background: var(--brand-cream);
   color: var(--brand-ink);
+}
+
+@media (min-width: 981px) {
+  body.quote-v2-page {
+    height: 100dvh;
+    min-height: 100dvh;
+    overflow: hidden;
+    display: grid;
+    grid-template-rows: 1fr auto;
+  }
+
+  body.quote-v2-page main {
+    min-height: 0;
+    height: 100%;
+    padding-top: var(--header-stack-height);
+    display: grid;
+    grid-template-rows: auto 1fr;
+    overflow: hidden;
+  }
+
+  body.quote-v2-page .quote-v2-hero {
+    padding-top: 1rem;
+    padding-bottom: 0.8rem;
+  }
+
+  body.quote-v2-page .quote-v2-questionnaire {
+    min-height: 0;
+    padding-top: 0.7rem;
+    padding-bottom: 0.7rem;
+    display: flex;
+  }
+
+  body.quote-v2-page .quote-v2-questionnaire .container {
+    min-height: 0;
+    display: flex;
+  }
+
+  body.quote-v2-page .quote-v2-card {
+    width: 100%;
+    min-height: 0;
+    max-height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+
+  body.quote-v2-page .quote-v2-card-head {
+    padding: 0.9rem 1.2rem;
+  }
+
+  body.quote-v2-page .quote-v2-progress {
+    padding: 0.8rem 1.2rem;
+  }
+
+  body.quote-v2-page .quote-v2-form {
+    flex: 1;
+    min-height: 0;
+    padding: 0.95rem 1.2rem;
+    display: grid;
+    grid-template-rows: auto 1fr auto auto;
+    gap: 0;
+  }
+
+  body.quote-v2-page .quote-v2-meta-grid {
+    margin-bottom: 0.85rem;
+  }
+
+  body.quote-v2-page .quote-v2-step-panel.is-active {
+    min-height: 0;
+    overflow: auto;
+    padding-right: 0.24rem;
+  }
+
+  body.quote-v2-page .quote-v2-question + .quote-v2-question {
+    margin-top: 0.9rem;
+  }
+
+  body.quote-v2-page .quote-v2-question textarea {
+    min-height: 88px;
+    resize: none;
+  }
+
+  body.quote-v2-page .quote-v2-form-actions {
+    margin-top: 0.95rem;
+    padding-top: 0.95rem;
+  }
+
+  body.quote-v2-page .site-footer .footer-inner {
+    padding: 14px 0;
+  }
+
+  body.quote-v2-page .site-footer .footer-top {
+    gap: 12px;
+  }
+
+  body.quote-v2-page .site-footer .footer-bottom {
+    margin-top: 8px;
+  }
 }
 
 .quote-v2-hero {
