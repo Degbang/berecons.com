@@ -103,10 +103,29 @@ function requestHeaderStateSync() {
   });
 }
 
-function closeMenu() {
+function closeMenu(options = {}) {
   if (!siteNav || !menuToggle) return;
+
+  const { instant = false } = options;
+  const wasOpen = siteNav.classList.contains("is-open");
+
+  if (instant && wasOpen) {
+    siteNav.classList.add("is-closing-instant");
+    siteNav.classList.remove("is-open");
+    siteNav.getBoundingClientRect();
+    window.requestAnimationFrame(() => {
+      siteNav.classList.remove("is-closing-instant");
+    });
+    menuToggle.setAttribute("aria-expanded", "false");
+    return;
+  }
+
   siteNav.classList.remove("is-open");
   menuToggle.setAttribute("aria-expanded", "false");
+}
+
+function closeMenuForTransition() {
+  closeMenu({ instant: window.innerWidth <= 860 });
 }
 
 function isPrimaryNavigationClick(event) {
@@ -143,10 +162,15 @@ function queueTransitionReveal(label) {
   }
 }
 
+function clearPendingTransitionRevealClass() {
+  document.documentElement.classList.remove("transition-reveal-pending");
+}
+
 function resetTransitionLayerState() {
   if (!transitionLayer) return;
 
   transitionLayer.classList.remove("is-active");
+  clearPendingTransitionRevealClass();
 
   if (window.gsap) {
     window.gsap.set(transitionLayer, { autoAlpha: 0 });
@@ -296,14 +320,52 @@ function initPreloader() {
     }
   };
 
-  if (!preloaderMainPhase || !preloaderRethinkPhase) {
+  if (!preloaderRethinkPhase) {
     schedulePreloaderTimeout(finishPreloader, 1200);
     return;
   }
 
-  preloaderMainPhase.style.transitionDuration = `${timings.mainFade}s`;
   preloaderRethinkPhase.style.transitionDuration = `${timings.rethinkIn}s`;
   preloaderRethinkPhase.classList.remove("show-consulting");
+
+  if (!preloaderMainPhase) {
+    setPhase(false, true);
+
+    let elapsed = timings.rethinkIn * 1000 + timings.consultingDelay * 1000;
+    schedulePreloaderTimeout(() => {
+      preloaderRethinkPhase.classList.add("show-consulting");
+    }, elapsed);
+
+    elapsed += timings.rethinkHold * 1000;
+    schedulePreloaderTimeout(() => {
+      preloaderRethinkPhase.classList.remove("show-consulting");
+      setPhase(false, false);
+    }, elapsed);
+
+    elapsed += timings.rethinkOut * 1000;
+    schedulePreloaderTimeout(() => {
+      if (window.gsap) {
+        try {
+          window.gsap.to(preloader, {
+            autoAlpha: 0,
+            duration: timings.preloaderOut,
+            ease: "power2.inOut",
+            onComplete: finishPreloader,
+          });
+        } catch {
+          finishPreloader();
+        }
+        return;
+      }
+
+      preloader.classList.add("is-hidden");
+      schedulePreloaderTimeout(finishPreloader, timings.preloaderOut * 1000);
+    }, elapsed);
+
+    return;
+  }
+
+  preloaderMainPhase.style.transitionDuration = `${timings.mainFade}s`;
 
   const activateService = (targetIndex) => {
     preloaderServiceItems.forEach((item, index) => {
@@ -510,14 +572,35 @@ function syncHeaderTheme() {
   const isTransparentSurface = normalizedSurface === "transparent";
   const isHero = sectionAtProbe.id === "home" || isTransparentSurface;
   const resolvedSurface = isHero ? "transparent" : sectionSurface || "#ffffff";
-  const isDarkSurface =
-    !isHero &&
-    (sectionAtProbe.id === "mission" || resolvedSurface.toLowerCase() === "#00072d");
+  const isDarkSurface = !isHero && isDarkHeaderSurface(resolvedSurface);
 
   header.classList.toggle("is-on-hero", isHero);
   header.classList.toggle("is-on-light", !isHero && !isDarkSurface);
   header.classList.toggle("is-on-dark", isDarkSurface);
   header.style.setProperty("--header-surface", resolvedSurface);
+}
+
+function isDarkHeaderSurface(surface) {
+  const value = (surface || "").trim().toLowerCase();
+  if (!value || value === "transparent") return false;
+  if (value === "#00072d") return true;
+
+  const match = value.match(/^#([0-9a-f]{3}|[0-9a-f]{6})$/i);
+  if (!match) return false;
+
+  const hex = match[1];
+  const fullHex =
+    hex.length === 3
+      ? `${hex[0]}${hex[0]}${hex[1]}${hex[1]}${hex[2]}${hex[2]}`
+      : hex;
+
+  const red = Number.parseInt(fullHex.slice(0, 2), 16);
+  const green = Number.parseInt(fullHex.slice(2, 4), 16);
+  const blue = Number.parseInt(fullHex.slice(4, 6), 16);
+
+  // Relative luminance heuristic: darker surfaces should use light nav text.
+  const luminance = (0.2126 * red + 0.7152 * green + 0.0722 * blue) / 255;
+  return luminance < 0.45;
 }
 
 function initMenu() {
@@ -529,7 +612,16 @@ function initMenu() {
     siteNav.classList.toggle("is-open", !expanded);
   });
 
-  navLinks.forEach((link) => link.addEventListener("click", closeMenu));
+  navLinks.forEach((link) => {
+    link.addEventListener("click", (event) => {
+      closeMenu({
+        instant:
+          window.innerWidth <= 860 &&
+          link.hasAttribute("data-transition-link") &&
+          isPrimaryNavigationClick(event),
+      });
+    });
+  });
 
   document.addEventListener("click", (event) => {
     if (window.innerWidth > 860 || !siteNav.classList.contains("is-open")) return;
@@ -688,12 +780,8 @@ function runSectionTransition(target, label) {
 
   tl.to(transitionPanels, {
     scaleY: 1,
-    duration: 0.58,
-    stagger: {
-      each: 0.04,
-      from: "start",
-    },
-    ease: "power3.inOut",
+    duration: 0.56,
+    ease: "power4.inOut",
   });
 
   if (transitionCenter) {
@@ -729,12 +817,8 @@ function runSectionTransition(target, label) {
   tl.to(transitionPanels, {
     scaleY: 0,
     transformOrigin: "top center",
-    duration: 0.62,
-    stagger: {
-      each: 0.04,
-      from: "end",
-    },
-    ease: "power3.inOut",
+    duration: 0.56,
+    ease: "power4.inOut",
   });
   tl.set(transitionLayer, { autoAlpha: 0 });
   tl.add(() => transitionLayer.classList.remove("is-active"));
@@ -808,12 +892,8 @@ function runPageTransitionNavigation(url, label) {
 
   tl.to(transitionPanels, {
     scaleY: 1,
-    duration: 0.58,
-    stagger: {
-      each: 0.04,
-      from: "start",
-    },
-    ease: "power3.inOut",
+    duration: 0.56,
+    ease: "power4.inOut",
   });
 
   if (transitionCenter) {
@@ -842,7 +922,10 @@ function initPageLoadTransitionReveal() {
     // Ignore storage access issues (private mode/security policies).
   }
 
-  if (!queuedLabel) return;
+  if (!queuedLabel) {
+    clearPendingTransitionRevealClass();
+    return;
+  }
   const preloaderSuppressed = document.documentElement.classList.contains("skip-preloader-once");
   if (
     preloader &&
@@ -859,7 +942,11 @@ function initPageLoadTransitionReveal() {
 
 function playPageLoadTransitionReveal(label) {
   if (!label) return;
-  if (prefersReducedMotion || !window.gsap || !transitionLayer || !transitionPanels.length) return;
+  if (prefersReducedMotion || !window.gsap || !transitionLayer || !transitionPanels.length) {
+    clearPendingTransitionRevealClass();
+    resetTransitionLayerState();
+    return;
+  }
 
   if (activeTransitionTimeline && !transitionBusy) {
     stopActiveTransitionTimeline();
@@ -879,7 +966,10 @@ function playPageLoadTransitionReveal(label) {
   });
   activeTransitionTimeline = tl;
 
-  tl.add(() => transitionLayer.classList.add("is-active"));
+  tl.add(() => {
+    transitionLayer.classList.add("is-active");
+    clearPendingTransitionRevealClass();
+  });
   tl.set(transitionLayer, { autoAlpha: 1 });
   tl.set(transitionPanels, { scaleY: 1, transformOrigin: "top center" });
   if (transitionTarget) transitionTarget.textContent = targetLabel;
@@ -900,17 +990,16 @@ function playPageLoadTransitionReveal(label) {
     {
       scaleY: 0,
       transformOrigin: "top center",
-      duration: 0.62,
-      stagger: {
-        each: 0.04,
-        from: "end",
-      },
-      ease: "power3.inOut",
+      duration: 0.56,
+      ease: "power4.inOut",
     },
     "<"
   );
   tl.set(transitionLayer, { autoAlpha: 0 });
-  tl.add(() => transitionLayer.classList.remove("is-active"));
+  tl.add(() => {
+    transitionLayer.classList.remove("is-active");
+    clearPendingTransitionRevealClass();
+  });
 }
 
 function initSectionTransitions() {
@@ -939,19 +1028,19 @@ function initSectionTransitions() {
         if (!target) return;
 
         event.preventDefault();
-        closeMenu();
+        closeMenuForTransition();
         runSectionTransition(target, link.dataset.transitionLabel);
         return;
       }
 
       if (sameDocument) {
         event.preventDefault();
-        closeMenu();
+        closeMenuForTransition();
         return;
       }
 
       event.preventDefault();
-      closeMenu();
+      closeMenuForTransition();
       runPageTransitionNavigation(targetUrl.href, link.dataset.transitionLabel);
     });
   });
@@ -985,23 +1074,23 @@ function initGsapMotion() {
   const hasScrollTrigger = Boolean(ScrollTrigger);
   if (hasScrollTrigger) gsap.registerPlugin(ScrollTrigger);
 
-  const heroTitleLines = gsap.utils.toArray(".hero-title-line");
-  const animatedHeroTitleLines = heroTitleLines.filter(
-    (line) => !line.classList.contains("hero-title-line-static")
-  );
+  const heroTitle = document.querySelector(".hero-title");
   const heroServicesSlider = document.querySelector(".hero-services-slider");
   const heroSubtitle = document.querySelector(".hero-subtitle");
+  const heroActions = document.querySelector(".hero-actions");
+  const heroActionLinks = heroActions
+    ? Array.from(heroActions.querySelectorAll(".hero-primary-link, .hero-secondary-link"))
+    : [];
   const heroTimeline = gsap.timeline({ paused: true });
 
-  if (animatedHeroTitleLines.length) {
-    heroTimeline.from(animatedHeroTitleLines, {
-      yPercent: 24,
+  if (heroTitle) {
+    heroTimeline.from(heroTitle, {
+      y: 10,
       autoAlpha: 0,
-      duration: 0.82,
-      ease: "power3.out",
-      stagger: 1.0,
+      duration: 0.6,
+      ease: "power2.out",
       clearProps: "opacity,visibility,transform",
-    });
+    }, 0);
   }
 
   if (heroServicesSlider) {
@@ -1021,12 +1110,39 @@ function initGsapMotion() {
     heroTimeline.from(
       heroSubtitle,
       {
-        y: 30,
+        y: 18,
         autoAlpha: 0,
-        duration: 0.64,
-        ease: "power2.out",
+        duration: 0.62,
+        ease: "power3.out",
       },
-      "<+0.08"
+      0.3
+    );
+  }
+
+  if (heroActions) {
+    heroTimeline.from(
+      heroActions,
+      {
+        y: 14,
+        autoAlpha: 0,
+        duration: 0.55,
+        ease: "power3.out",
+      },
+      0.62
+    );
+  }
+
+  if (heroActionLinks.length) {
+    heroTimeline.from(
+      heroActionLinks,
+      {
+        y: 12,
+        autoAlpha: 0,
+        duration: 0.48,
+        ease: "power3.out",
+        stagger: 0.08,
+      },
+      0.7
     );
   }
 
@@ -1289,7 +1405,7 @@ function initServicesSummaryCards() {
   };
 
   const openServiceDialog = (card) => {
-    const headingText = card.querySelector("h3")?.textContent?.trim() || "Solutions";
+    const headingText = card.querySelector("h3")?.textContent?.trim() || "Capabilities";
     const cleanHeading = headingText.replace(/^\d+\.\s*/, "").trim();
     const fullText =
       card.querySelector(".services-summary-full")?.textContent?.trim() ||
@@ -1298,7 +1414,7 @@ function initServicesSummaryCards() {
 
     if (solutionTitle) solutionTitle.textContent = cleanHeading;
     if (solutionCopy) solutionCopy.textContent = fullText;
-    solutionsDialog.setAttribute("aria-label", `Solutions - ${cleanHeading}`);
+    solutionsDialog.setAttribute("aria-label", `Capabilities - ${cleanHeading}`);
     openDialog();
   };
 
@@ -1418,6 +1534,365 @@ function initSolutionsSelection() {
   }
 
   applySelection("", { updateHistory: false, keepScroll: true });
+}
+
+function initCapabilitiesPage() {
+  const capabilitiesRoot = document.querySelector(".capabilities-v3");
+  if (!capabilitiesRoot) return;
+
+  const filterButtons = [...capabilitiesRoot.querySelectorAll("[data-cap-filter]")];
+  const capabilityBands = [...capabilitiesRoot.querySelectorAll("[data-cap-filter-tags]")];
+  const subcapToggles = [...capabilitiesRoot.querySelectorAll("[data-subcap-toggle]")];
+  const systemsDiagrams = [...capabilitiesRoot.querySelectorAll("[data-systems-diagram]")];
+  const animatedTargets = [
+    ...capabilitiesRoot.querySelectorAll("[data-cap-animate], .capability-timeline-wrap"),
+  ];
+  const impactValues = [...capabilitiesRoot.querySelectorAll("[data-impact-count]")];
+  const digitalTabsRoot = capabilitiesRoot.querySelector("[data-digital-tabs]");
+  let activateDigitalTab = null;
+
+  const normalizeToken = (value) => value.trim().toLowerCase();
+  const panelByFilter = new Map([
+    ["research-data", "capability-01"],
+    ["content", "capability-02"],
+    ["systems", "capability-03"],
+    ["strategy", "capability-04"],
+    ["programmes", "capability-05"],
+    ["technology", "capability-06"],
+    ["policy-legal", "capability-07"],
+  ]);
+
+  let activeFilter = "research-data";
+  let activePanel = null;
+  let panelExitTimer = 0;
+
+  const resolvePanel = (filter) => {
+    const targetId = panelByFilter.get(filter) || panelByFilter.get("research-data");
+    return targetId ? document.getElementById(targetId) : null;
+  };
+
+  const applyFilter = (nextFilter) => {
+    const normalizedFilter = normalizeToken(nextFilter || "research-data");
+    const nextPanel = resolvePanel(normalizedFilter);
+    if (!nextPanel) return;
+
+    filterButtons.forEach((button) => {
+      const buttonFilter = normalizeToken(button.dataset.capFilter || "");
+      const isActive = buttonFilter === normalizedFilter;
+      button.classList.toggle("is-active", isActive);
+      button.setAttribute("aria-pressed", isActive ? "true" : "false");
+    });
+
+    capabilityBands.forEach((band) => {
+      if (band !== nextPanel && band !== activePanel) {
+        band.hidden = true;
+        band.classList.remove("is-cap-active", "is-cap-enter", "is-cap-exit");
+      }
+    });
+
+    if (activePanel && activePanel !== nextPanel) {
+      activePanel.classList.remove("is-cap-enter", "is-cap-active");
+      activePanel.classList.add("is-cap-exit");
+
+      if (panelExitTimer) window.clearTimeout(panelExitTimer);
+      const exitingPanel = activePanel;
+      panelExitTimer = window.setTimeout(() => {
+        exitingPanel.hidden = true;
+        exitingPanel.classList.remove("is-cap-exit");
+      }, 240);
+    }
+
+    nextPanel.hidden = false;
+    nextPanel.classList.remove("is-cap-exit");
+    nextPanel.classList.add("is-cap-enter");
+    window.requestAnimationFrame(() => {
+      nextPanel.classList.add("is-cap-active");
+      nextPanel.classList.remove("is-cap-enter");
+    });
+
+    const stageRevealNodes = [
+      ...nextPanel.querySelectorAll(".capability-main > *, .capability-side > *, [data-cap-animate]"),
+    ];
+    if (prefersReducedMotion) {
+      stageRevealNodes.forEach((node) => node.classList.add("is-stage-reveal"));
+    } else {
+      stageRevealNodes.forEach((node, index) => {
+        node.classList.remove("is-stage-reveal");
+        window.setTimeout(() => node.classList.add("is-stage-reveal"), 20 + index * 14);
+      });
+    }
+
+    activeFilter = normalizedFilter;
+    activePanel = nextPanel;
+    if (nextPanel.id === "capability-06" && typeof activateDigitalTab === "function") {
+      activateDigitalTab("1");
+    }
+    requestHeaderStateSync();
+  };
+
+  filterButtons.forEach((button) => {
+    button.addEventListener("click", () => {
+      const filter = normalizeToken(button.dataset.capFilter || "research-data");
+      const fallbackFilter = "research-data";
+      const normalized = panelByFilter.has(filter) ? filter : fallbackFilter;
+      if (normalized === activeFilter) return;
+      applyFilter(normalized);
+    });
+  });
+
+  capabilityBands.forEach((band) => {
+    band.hidden = true;
+    band.classList.remove("is-cap-active", "is-cap-enter", "is-cap-exit");
+  });
+  applyFilter("research-data");
+
+  const mobileSubcapMedia = window.matchMedia("(max-width: 900px)");
+
+  const syncSubcapPanels = () => {
+    const isMobile = mobileSubcapMedia.matches;
+    subcapToggles.forEach((toggleButton) => {
+      const panelId = toggleButton.dataset.subcapToggle || "";
+      const panel = panelId ? document.getElementById(panelId) : null;
+      if (!panel) return;
+
+      if (!isMobile) {
+        panel.classList.add("is-open");
+        toggleButton.setAttribute("aria-expanded", "true");
+        return;
+      }
+
+      const isOpen = panel.classList.contains("is-open");
+      toggleButton.textContent = isOpen ? "Hide sub-capabilities -" : "Show sub-capabilities +";
+      toggleButton.setAttribute("aria-expanded", isOpen ? "true" : "false");
+    });
+  };
+
+  subcapToggles.forEach((toggleButton) => {
+    const panelId = toggleButton.dataset.subcapToggle || "";
+    const panel = panelId ? document.getElementById(panelId) : null;
+    if (!panel) return;
+
+    panel.classList.remove("is-open");
+    toggleButton.setAttribute("aria-controls", panelId);
+    toggleButton.setAttribute("aria-expanded", "false");
+
+    toggleButton.addEventListener("click", () => {
+      if (!mobileSubcapMedia.matches) return;
+      const isOpen = panel.classList.toggle("is-open");
+      toggleButton.textContent = isOpen ? "Hide sub-capabilities -" : "Show sub-capabilities +";
+      toggleButton.setAttribute("aria-expanded", isOpen ? "true" : "false");
+    });
+  });
+
+  if (typeof mobileSubcapMedia.addEventListener === "function") {
+    mobileSubcapMedia.addEventListener("change", syncSubcapPanels);
+  } else if (typeof mobileSubcapMedia.addListener === "function") {
+    mobileSubcapMedia.addListener(syncSubcapPanels);
+  }
+  syncSubcapPanels();
+
+  systemsDiagrams.forEach((diagram) => {
+    const nodes = [...diagram.querySelectorAll(".systems-node[data-tip]")];
+    const tipNode = diagram.querySelector("[data-systems-tip]");
+    if (!nodes.length || !tipNode) return;
+
+    const defaultTip = tipNode.textContent?.trim() || "";
+
+    const setActiveNode = (activeNode) => {
+      nodes.forEach((node) => node.classList.toggle("is-active", node === activeNode));
+      tipNode.textContent = activeNode?.dataset.tip || defaultTip;
+    };
+
+    nodes.forEach((node) => {
+      node.addEventListener("mouseenter", () => setActiveNode(node));
+      node.addEventListener("focus", () => setActiveNode(node));
+      node.addEventListener("click", () => setActiveNode(node));
+      node.addEventListener("mouseleave", () => setActiveNode(null));
+      node.addEventListener("blur", () => setActiveNode(null));
+    });
+  });
+
+  if (digitalTabsRoot) {
+    const tabButtons = [...digitalTabsRoot.querySelectorAll("[data-digital-tab]")];
+    const tabPanels = [...digitalTabsRoot.querySelectorAll("[data-digital-panel]")];
+
+    const setDigitalTab = (tabId) => {
+      const nextButton = tabButtons.find((button) => button.dataset.digitalTab === tabId) || tabButtons[0];
+      if (!nextButton) return;
+      const nextId = nextButton.dataset.digitalTab;
+
+      tabButtons.forEach((button) => {
+        const isActive = button === nextButton;
+        button.classList.toggle("is-active", isActive);
+        button.setAttribute("aria-selected", isActive ? "true" : "false");
+        button.setAttribute("tabindex", isActive ? "0" : "-1");
+      });
+
+      tabPanels.forEach((panel) => {
+        const isActive = panel.dataset.digitalPanel === nextId;
+        panel.hidden = !isActive;
+        panel.classList.toggle("is-active", isActive);
+      });
+    };
+    activateDigitalTab = setDigitalTab;
+
+    tabButtons.forEach((button, index) => {
+      button.addEventListener("click", () => setDigitalTab(button.dataset.digitalTab || "1"));
+      button.addEventListener("keydown", (event) => {
+        if (event.key !== "ArrowRight" && event.key !== "ArrowLeft") return;
+        event.preventDefault();
+        const direction = event.key === "ArrowRight" ? 1 : -1;
+        const nextIndex = (index + direction + tabButtons.length) % tabButtons.length;
+        const nextButton = tabButtons[nextIndex];
+        if (!nextButton) return;
+        nextButton.focus();
+        setDigitalTab(nextButton.dataset.digitalTab || "1");
+      });
+    });
+
+    setDigitalTab("1");
+  }
+
+  if (prefersReducedMotion) {
+    animatedTargets.forEach((target) => target.classList.add("is-in-view"));
+  } else if ("IntersectionObserver" in window) {
+    const motionObserver = new IntersectionObserver(
+      (entries, observer) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          entry.target.classList.add("is-in-view");
+          observer.unobserve(entry.target);
+        });
+      },
+      {
+        threshold: 0.16,
+      }
+    );
+    animatedTargets.forEach((target) => motionObserver.observe(target));
+  } else {
+    animatedTargets.forEach((target) => target.classList.add("is-in-view"));
+  }
+
+  const renderImpactValue = (element, value) => {
+    const prefix = element.dataset.impactPrefix || "";
+    const suffix = element.dataset.impactSuffix || "";
+    element.textContent = `${prefix}${value}${suffix}`;
+  };
+
+  const animateImpactValue = (element) => {
+    const target = Number.parseInt(element.dataset.impactCount || "0", 10);
+    if (!Number.isFinite(target)) return;
+
+    const duration = 1100;
+    const startTime = performance.now();
+
+    const tick = (now) => {
+      const elapsed = now - startTime;
+      const progress = Math.min(1, elapsed / duration);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      const current = Math.round(target * eased);
+      renderImpactValue(element, current);
+      if (progress < 1) {
+        window.requestAnimationFrame(tick);
+      } else {
+        renderImpactValue(element, target);
+      }
+    };
+
+    window.requestAnimationFrame(tick);
+  };
+
+  if (!impactValues.length) return;
+
+  if (prefersReducedMotion || !("IntersectionObserver" in window)) {
+    impactValues.forEach((element) => {
+      const target = Number.parseInt(element.dataset.impactCount || "0", 10);
+      renderImpactValue(element, Number.isFinite(target) ? target : 0);
+    });
+    return;
+  }
+
+  const impactObserver = new IntersectionObserver(
+    (entries, observer) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        const element = entry.target;
+        animateImpactValue(element);
+        observer.unobserve(element);
+      });
+    },
+    {
+      threshold: 0.4,
+    }
+  );
+
+  impactValues.forEach((element) => impactObserver.observe(element));
+}
+
+function initCapabilitiesExportFilters() {
+  const root = document.querySelector(".capabilities-export");
+  if (!root) return;
+
+  const sectionNav = root.querySelector(".cap-export-nav");
+  const filterButtons = [...root.querySelectorAll("[data-cap-export-filter]")];
+  if (!filterButtons.length) return;
+
+  const targets = filterButtons
+    .map((button) => {
+      const targetId = button.dataset.capExportFilter || "";
+      const target = targetId ? document.getElementById(targetId) : null;
+      return target ? { button, target, id: targetId } : null;
+    })
+    .filter(Boolean);
+  if (!targets.length) return;
+
+  const getScrollOffset = () => {
+    const headerOffset = header ? header.getBoundingClientRect().height : 0;
+    const navOffset =
+      sectionNav && window.matchMedia("(max-width: 900px)").matches
+        ? sectionNav.getBoundingClientRect().height
+        : 0;
+    return headerOffset + navOffset - 1;
+  };
+
+  const setActiveFilter = (targetId) => {
+    filterButtons.forEach((button) => {
+      const isActive = button.dataset.capExportFilter === targetId;
+      button.classList.toggle("is-active", isActive);
+      button.setAttribute("aria-pressed", isActive ? "true" : "false");
+    });
+  };
+
+  filterButtons.forEach((button) => {
+    button.setAttribute("aria-pressed", button.classList.contains("is-active") ? "true" : "false");
+    button.addEventListener("click", () => {
+      const targetId = button.dataset.capExportFilter || "";
+      const target = targetId ? document.getElementById(targetId) : null;
+      if (!target) return;
+
+      setActiveFilter(targetId);
+      const top = target.getBoundingClientRect().top + window.scrollY - getScrollOffset();
+      window.scrollTo({
+        top: Math.max(0, top),
+        behavior: prefersReducedMotion ? "auto" : "smooth",
+      });
+      requestHeaderStateSync();
+    });
+  });
+
+  const syncActiveFilter = () => {
+    const probeY = window.scrollY + getScrollOffset() + 2;
+    const activeTarget =
+      targets
+        .slice()
+        .reverse()
+        .find(({ target }) => target.offsetTop <= probeY) || targets[0];
+    setActiveFilter(activeTarget.id);
+  };
+
+  window.addEventListener("scroll", syncActiveFilter, { passive: true });
+  window.addEventListener("resize", syncActiveFilter);
+  syncActiveFilter();
 }
 
 function initProcessTriadCircles() {
@@ -1596,16 +2071,25 @@ function initProcessTriadCircles() {
 
 function initProcessFlowReveal() {
   const section = document.getElementById("process");
-  const sequence = [
-    { element: document.getElementById("process-flow-headline"), delay: 150 },
-    { element: document.getElementById("process-flow-col-strategy"), delay: 700 },
-    { element: document.getElementById("process-flow-div-1"), delay: 1150 },
-    { element: document.getElementById("process-flow-col-design"), delay: 1200 },
-    { element: document.getElementById("process-flow-div-2"), delay: 1650 },
-    { element: document.getElementById("process-flow-col-development"), delay: 1700 },
-  ];
+  const kicker = section?.querySelector(".process-flow-kicker");
+  const headline = document.getElementById("process-flow-headline");
+  const strategyCol = document.getElementById("process-flow-col-strategy");
+  const divider1 = document.getElementById("process-flow-div-1");
+  const designCol = document.getElementById("process-flow-col-design");
+  const divider2 = document.getElementById("process-flow-div-2");
+  const developmentCol = document.getElementById("process-flow-col-development");
 
-  if (!section || sequence.some(({ element }) => !element)) return;
+  if (!section || !strategyCol || !divider1 || !designCol || !divider2 || !developmentCol) return;
+
+  const sequence = [
+    { element: kicker, delay: 120 },
+    { element: headline, delay: 150 },
+    { element: strategyCol, delay: 700 },
+    { element: divider1, delay: 1150 },
+    { element: designCol, delay: 1200 },
+    { element: divider2, delay: 1650 },
+    { element: developmentCol, delay: 1700 },
+  ].filter(({ element }) => Boolean(element));
 
   const revealAllImmediately = () => {
     sequence.forEach(({ element }) => element.classList.add("is-visible"));
@@ -1967,7 +2451,7 @@ function initCounters() {
 
       window.gsap.to(counter, {
         value: target,
-        duration: 1.4,
+        duration: 1.2,
         ease: "power2.out",
         snap: { value: 1 },
         onUpdate: () => {
@@ -2292,6 +2776,96 @@ function initDifferencePointerParticle() {
 
   pointerTarget.addEventListener("touchend", resetPointer, { passive: true });
   pointerTarget.addEventListener("touchcancel", resetPointer, { passive: true });
+}
+
+function initPositioningScrollReveal() {
+  const positioningSection = document.getElementById("positioning");
+  const revealTargets = positioningSection
+    ? [...positioningSection.querySelectorAll(".positioning-animate")]
+    : [];
+
+  if (!positioningSection || !revealTargets.length) return;
+
+  revealTargets.forEach((item, index) => {
+    item.style.setProperty("--positioning-order", String(index));
+  });
+
+  const setInView = (isInView) => {
+    revealTargets.forEach((item) => item.classList.toggle("is-in-view", isInView));
+  };
+
+  if (prefersReducedMotion) {
+    setInView(true);
+    return;
+  }
+
+  body.classList.add("positioning-reveal-ready");
+
+  if (!("IntersectionObserver" in window)) {
+    setInView(true);
+    return;
+  }
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.target !== positioningSection) return;
+        const shouldReveal = entry.isIntersecting && entry.intersectionRatio >= 0.28;
+        setInView(shouldReveal);
+      });
+    },
+    {
+      threshold: [0, 0.28, 0.5],
+      rootMargin: "-8% 0px -8% 0px",
+    }
+  );
+
+  observer.observe(positioningSection);
+}
+
+function initCapabilitiesGridReveal() {
+  const capabilitiesSection = document.getElementById("services");
+  const capabilityCards = capabilitiesSection
+    ? [...capabilitiesSection.querySelectorAll(".capabilities-card")]
+    : [];
+
+  if (!capabilitiesSection || !capabilityCards.length) return;
+
+  capabilityCards.forEach((card, index) => {
+    card.style.setProperty("--cap-order", String(index));
+  });
+
+  const setInView = (isInView) => {
+    capabilityCards.forEach((card) => card.classList.toggle("is-in-view", isInView));
+  };
+
+  if (prefersReducedMotion) {
+    setInView(true);
+    return;
+  }
+
+  body.classList.add("capabilities-reveal-ready");
+
+  if (!("IntersectionObserver" in window)) {
+    setInView(true);
+    return;
+  }
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.target !== capabilitiesSection) return;
+        const shouldReveal = entry.isIntersecting && entry.intersectionRatio >= 0.22;
+        setInView(shouldReveal);
+      });
+    },
+    {
+      threshold: [0, 0.22, 0.5],
+      rootMargin: "-6% 0px -6% 0px",
+    }
+  );
+
+  observer.observe(capabilitiesSection);
 }
 
 function initMissionReadyParticles() {
@@ -2621,9 +3195,13 @@ if (!document.querySelector("#difference .difference-v2-page")) {
   initDifferenceMainCounter();
   initDifferencePointerParticle();
 }
+initPositioningScrollReveal();
+initCapabilitiesGridReveal();
 initServicesSummaryCards();
 initServicesScrollReveal();
 initSolutionsSelection();
+initCapabilitiesPage();
+initCapabilitiesExportFilters();
 initProcessTriadCircles();
 initProcessFlowReveal();
 initTeamAboutMediaFade();

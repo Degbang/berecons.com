@@ -6,10 +6,10 @@
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
     <meta http-equiv="Pragma" content="no-cache" />
     <meta http-equiv="Expires" content="0" />
-    <title>Berecons LLC | Mastery Beyond Imagination</title>
+    <title>Berecons LLC | Research, Strategy &amp; Advisory</title>
     <meta
       name="description"
-      content="Berecons LLC provides Research, Business Strategy, Content, Project, and IT/Web solutions."
+      content="Berecons LLC helps organisations, institutions, and decision-makers navigate complexity with evidence, judgment, and precision."
     />
     <script>
       (function markSkipPreloaderOnce() {
@@ -18,6 +18,9 @@
             window.sessionStorage.getItem("berecons-skip-preloader-once") === "1" ||
             new URLSearchParams(window.location.search).get("skipPreloader") === "1";
           if (shouldSkip) document.documentElement.classList.add("skip-preloader-once");
+          if (window.sessionStorage.getItem("berecons-page-transition-reveal-once")) {
+            document.documentElement.classList.add("transition-reveal-pending");
+          }
         } catch {
           // Ignore storage and URL access issues.
         }
@@ -25,11 +28,7 @@
     </script>
     <link
       rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap"
-    />
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500&family=DM+Serif+Display:ital@0;1&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Manrope:wght@400;500;600;700&display=swap"
     />
     <link
       rel="preload"
@@ -38,41 +37,21 @@
       type="font/woff2"
       crossorigin
     />
-    <link rel="stylesheet" href="styles.css?v=20260420-2" />
+    <link rel="stylesheet" href="styles.css?v=20260513-6" />
   </head>
   <body class="is-loading">
     <div id="preloader" class="preloader" aria-hidden="true">
-      <div class="preloader-scene" aria-hidden="true">
-        <img
-          src="assets/pexels-william-fortunato-6140697.jpg?v=20260227-7"
-          alt=""
-          class="preloader-scene-photo"
-        />
-        <span class="preloader-scene-veil"></span>
-        <span class="preloader-rotor"></span>
-      </div>
+      <div class="preloader-frame" aria-hidden="true"></div>
+      <div class="preloader-orbit" aria-hidden="true"></div>
       <div class="preloader-inner">
-        <div class="preloader-phase preloader-phase-main is-active" data-preloader-phase="main">
-          <h1 class="preloader-beyond">
-            beyond<span class="preloader-ellipsis" aria-hidden="true"
-              ><span>.</span><span>.</span><span>.</span></span
-            >
-          </h1>
-          <div class="preloader-services-slider" aria-label="Services">
-            <div class="preloader-services-track">
-              <span class="preloader-service-item is-visible">Research</span>
-              <span class="preloader-service-item">Business</span>
-              <span class="preloader-service-item">Strategy</span>
-              <span class="preloader-service-item">Content</span>
-              <span class="preloader-service-item">Project</span>
-              <span class="preloader-service-item">Digital Solutions</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="preloader-phase preloader-phase-rethink" data-preloader-phase="rethink" aria-hidden="true">
-          <p class="preloader-rethink-top">Rethink</p>
-          <p class="preloader-rethink-bottom">Consulting!</p>
+        <div
+          class="preloader-phase preloader-phase-rethink is-active"
+          data-preloader-phase="rethink"
+          aria-hidden="false"
+        >
+          <p class="preloader-rethink-bottom">INTELLIGENT ADVISORY</p>
+          <span class="preloader-rethink-line" aria-hidden="true"></span>
+          <p class="preloader-rethink-status">FOR COMPLEX DECISIONS</p>
         </div>
       </div>
     </div>
@@ -141,11 +120,11 @@
           >
           <a
             class="nav-link"
-            data-text="Solutions"
+            data-text="Capabilities"
             data-transition-link
-            data-transition-label="Solutions"
-            href="solutions.html"
-            ><span>Solutions</span></a
+            data-transition-label="Capabilities"
+            href="/capabilities"
+            ><span>Capabilities</span></a
           >
           <div class="site-nav-right">
             <a
@@ -186,22 +165,72 @@
           <img src="assets/pexels-kindel-media-7688336.jpg?v=20260227-7" alt="" class="hero-bg-image hero-bg-image-a" />
           <img src="assets/pexels-william-fortunato-6140697.jpg?v=20260227-7" alt="" class="hero-bg-image hero-bg-image-b" />
           <span class="hero-bg-overlay"></span>
+          <span class="hero-bg-grain"></span>
         </div>
         <div class="container hero-grid">
           <div class="hero-copy">
-            <h1 class="hero-title" aria-label="Insight · Strategy · Impact">
-              <span class="hero-title-line">Insight</span>
-              <span class="hero-title-separator" aria-hidden="true">·</span>
-              <span class="hero-title-line">Strategy</span>
-              <span class="hero-title-separator" aria-hidden="true">·</span>
-              <span class="hero-title-line">Impact</span>
+            <p class="hero-eyebrow">Research · Strategy · Advisory · Projects</p>
+            <h1 class="hero-title" aria-label="Clarity. Strategy. Evidence.">
+              <span class="hero-title-line">Clarity.</span>
+              <span class="hero-title-line">Strategy.</span>
+              <span class="hero-title-line">Evidence.</span>
             </h1>
+            <div class="hero-support">
+              <p class="hero-subtitle">
+                We help organisations, institutions, and decision-makers navigate complexity with evidence,
+                judgment, and precision.
+              </p>
+              <div class="hero-actions">
+                <a
+                  class="btn hero-primary-link"
+                  href="/capabilities"
+                  data-transition-link
+                  data-transition-label="Capabilities"
+                  >Explore Our Capabilities</a
+                >
+                <a
+                  class="hero-secondary-link"
+                  href="about.html"
+                  data-transition-link
+                  data-transition-label="About Berecons LLC"
+                  >About Berecons LLC &rarr;</a
+                >
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
       <section
         id="difference"
+        class="panel panel-light section section-anchor home-stat-strip"
+        data-header-surface="#F5F4F0"
+      >
+        <div class="container home-stat-grid" data-reveal="fade-up">
+          <article class="home-stat-card">
+            <p class="home-stat-value">
+              <span class="home-stat-prefix">Since</span>
+              <span class="stat-value home-stat-count" data-count="2020">2020</span>
+            </p>
+            <p class="home-stat-label">Years of Practice</p>
+          </article>
+
+          <article class="home-stat-card">
+            <p class="home-stat-value">
+              <span class="stat-value home-stat-count" data-count="7">7</span>
+            </p>
+            <p class="home-stat-label">Integrated Capabilities</p>
+          </article>
+
+          <article class="home-stat-card">
+            <p class="home-stat-value">Accra</p>
+            <p class="home-stat-label">Headquarters &middot; Africa-Focused</p>
+          </article>
+        </div>
+      </section>
+
+      <section
+        id="difference-image"
         class="panel panel-light section section-anchor difference-section"
         data-header-surface="#ffffff"
       >
@@ -215,89 +244,89 @@
         </div>
       </section>
 
-      <section id="mission" class="panel panel-dark section section-anchor mission-section" data-header-surface="#00072d">
-        <div class="container mission-story" data-reveal="fade-up">
-          <p class="mission-topic">Mission</p>
-          <h2 class="mission-display">
-            <span class="mission-line"
-              >Berecons is where <span class="mission-accent-turquoise">research</span></span
-            >
-            <span class="mission-line"
-              >becomes <span class="mission-accent-fuchsia">strategy</span> and
-              <span class="mission-accent-grey">strategy</span></span
-            >
-            <span class="mission-line">becomes results.</span>
-          </h2>
+      <section
+        id="positioning"
+        class="panel panel-light section section-anchor positioning-section"
+        data-header-surface="#ffffff"
+      >
+        <div class="container positioning-shell">
+          <p class="positioning-quote positioning-animate">Some problems need more data. Most need better questions.</p>
+
+          <p class="positioning-copy positioning-animate">
+            Berecons LLC is a research, strategy, and advisory firm. We work at the intersection of rigorous
+            analysis, systems thinking, and practical execution, connecting the disciplines that most firms keep
+            separate, and applying them to the challenges that matter most.
+          </p>
+          <p class="positioning-copy positioning-animate">
+            We are headquartered in Accra. We understand the African operating environment, its complexity, its
+            regulatory nuance, its pace, and its unmatched opportunity. That understanding is not incidental to our
+            work. It is the work.
+          </p>
         </div>
       </section>
 
       <section
         id="services"
-        class="panel panel-light section section-anchor services-summary-section home-solutions-section"
-        data-header-surface="#ffffff"
+        class="panel panel-light section section-anchor capabilities-grid-section"
+        data-header-surface="#1A2B3C"
       >
-        <div class="container section-head services-summary-intro home-solutions-intro" data-reveal="fade-up">
-          <p class="section-kicker">Our Solutions</p>
+        <div class="container capabilities-grid-head" data-reveal="fade-up">
+          <h2 class="capabilities-grid-title">Our Capabilities</h2>
+          <p class="capabilities-grid-lead">Seven integrated practice areas. One firm that connects them.</p>
         </div>
 
-        <div class="container home-solutions-stage" data-reveal="fade-up">
-          <div class="home-solution-rings" aria-label="Solution previews">
-            <a class="home-solution-ring home-solution-research" href="solutions.html?solution=research#research">
-              <span class="home-solution-ring-title">Research &amp;<br />Data<br />Analytics</span>
-              <span class="home-solution-ring-tip"
-                >We assist clients with general research solutions, survey design, and the implementation of
-                research systems for continuous, timely, and reliable data recording.</span
-              >
-            </a>
+        <div class="container capabilities-grid-layout-wrap">
+          <div class="capabilities-grid-layout" aria-label="Capabilities grid">
+            <article class="capabilities-card">
+              <p class="capabilities-card-number">01</p>
+              <h3 class="capabilities-card-title">Research &amp; Data Analysis</h3>
+              <p class="capabilities-card-tagline">The right answer begins with the right evidence.</p>
+            </article>
 
-            <a
-              class="home-solution-ring home-solution-content"
-              href="solutions.html?solution=content#content-solutions"
-            >
-              <span class="home-solution-ring-title">Content</span>
-              <span class="home-solution-ring-tip"
-                >Our clients can benefit from a second pair of eyes to polish and make content spotless.</span
-              >
-            </a>
+            <article class="capabilities-card">
+              <p class="capabilities-card-number">02</p>
+              <h3 class="capabilities-card-title">Content Development</h3>
+              <p class="capabilities-card-tagline">Language in service of strategy.</p>
+            </article>
 
-            <a
-              class="home-solution-ring home-solution-business"
-              href="solutions.html?solution=business#strategic-business-solutions"
-            >
-              <span class="home-solution-ring-title">Business<br />Strategy</span>
-              <span class="home-solution-ring-tip"
-                >If done correctly, developing an idea into a business could be the most exhilarating and
-                rewarding in an entrepreneur&rsquo;s life.</span
-              >
-            </a>
+            <article class="capabilities-card">
+              <p class="capabilities-card-number">03</p>
+              <h3 class="capabilities-card-title">Systems + Design Thinking</h3>
+              <p class="capabilities-card-tagline">Understand the system before you change it.</p>
+            </article>
 
-            <a class="home-solution-ring home-solution-project" href="solutions.html?solution=project#project-solutions">
-              <span class="home-solution-ring-title">Projects</span>
-              <span class="home-solution-ring-tip"
-                >At our consulting firm, we offer a comprehensive Project Design, Implementation, and Management
-                service that caters to a diverse range of project types.</span
-              >
-            </a>
+            <article class="capabilities-card">
+              <p class="capabilities-card-number">04</p>
+              <h3 class="capabilities-card-title">Strategy Consulting</h3>
+              <p class="capabilities-card-tagline">Direction that holds under scrutiny.</p>
+            </article>
 
-            <a
-              class="home-solution-ring home-solution-digital"
-              href="solutions.html?solution=digital#technical-digital-solutions"
-            >
-              <span class="home-solution-ring-title">IT, Graphics<br />&amp; Web</span>
-              <span class="home-solution-ring-tip"
-                >Our talented designers specialise in creating visually stunning company profiles, infographics,
-                presentations, resumes, business documents, and more.</span
-              >
-            </a>
+            <article class="capabilities-card">
+              <p class="capabilities-card-number">05</p>
+              <h3 class="capabilities-card-title">Projects &amp; Programme Management</h3>
+              <p class="capabilities-card-tagline">From design to delivery, structured and accountable.</p>
+            </article>
 
-            <a class="home-solution-ring home-solution-special" href="solutions.html?solution=special#special-solutions">
-              <span class="home-solution-ring-title">Integrated<br />Solutions</span>
-              <span class="home-solution-ring-tip"
-                >Our Special Solutions are endless! Contact us with any special requests and we will work with you
-                to find a tailored solution.</span
-              >
-            </a>
+            <article class="capabilities-card">
+              <p class="capabilities-card-number">06</p>
+              <h3 class="capabilities-card-title">IT &amp; Digital Solutions</h3>
+              <p class="capabilities-card-tagline">Technology that serves your strategy, not the reverse.</p>
+            </article>
+
+            <article class="capabilities-card capabilities-card--center">
+              <p class="capabilities-card-number">07</p>
+              <h3 class="capabilities-card-title">Policy &amp; Legal Advisory</h3>
+              <p class="capabilities-card-tagline">Navigating frameworks that govern what&rsquo;s possible.</p>
+            </article>
           </div>
+
+          <a
+            class="capabilities-grid-cta"
+            href="/capabilities"
+            data-transition-link
+            data-transition-label="Capabilities"
+            >View All Capabilities <span class="capabilities-grid-cta-arrow" aria-hidden="true">&rarr;</span></a
+          >
         </div>
       </section>
 
@@ -307,12 +336,7 @@
         data-header-surface="#ffffff"
       >
         <div class="container process-flow-wrap">
-          <p class="section-kicker process-flow-kicker">Processes</p>
-          <p class="process-flow-headline" id="process-flow-headline">
-            Strategy, Design, and Development work as one connected process.
-            <em>Strategy</em> defines direction and priorities, <em>Design</em> shapes the experience
-            and message, and <em>Development</em> turns that plan into a fast, reliable build.
-          </p>
+          <p class="section-kicker process-flow-kicker">Why Berecons</p>
 
           <div class="process-flow-grid">
             <article class="process-flow-column" id="process-flow-col-strategy">
@@ -326,13 +350,13 @@
                     <line x1="2" y1="12" x2="8" y2="12"></line>
                     <line x1="16" y1="12" x2="22" y2="12"></line>
                   </svg>
-                  Strategy
+                  Human Judgment
                 </h3>
               </header>
               <p class="process-flow-body">
-                Strategy defines direction and priorities. Through a focused discovery process, we analyze your
-                business, clarify goals, and establish the conceptual foundation &mdash; the lens through which every
-                design and development decision will be made.
+                AI can process information. It cannot exercise judgment. Every Berecons engagement draws on
+                expertise, contextual intelligence, and the kind of interpretation that cannot be outsourced to an
+                algorithm.
               </p>
             </article>
 
@@ -345,13 +369,12 @@
                     <circle cx="12" cy="12" r="10"></circle>
                     <path d="M8 12 Q12 6 16 12 Q12 18 8 12Z"></path>
                   </svg>
-                  Design
+                  Integrated Thinking
                 </h3>
               </header>
               <p class="process-flow-body">
-                Design shapes the experience and message. Building on the strategic foundation, every detail is
-                crafted to communicate clearly, create immersion, and convert &mdash; so the visual system becomes an
-                extension of the strategy, not a separate layer.
+                We do not offer one service and call it a strategy. We connect research, design, technology, and
+                execution into solutions that hold together under real-world conditions, and real-world pressure.
               </p>
             </article>
 
@@ -365,12 +388,12 @@
                     <polyline points="8 6 2 12 8 18"></polyline>
                     <line x1="12" y1="4" x2="12" y2="20" stroke-dasharray="2 2"></line>
                   </svg>
-                  Development
+                  African Expertise
                 </h3>
               </header>
               <p class="process-flow-body">
-                Development turns that plan into a fast, reliable build. Each phase informs the next &mdash; so execution
-                stays aligned with the original intent, and nothing is lost in translation from concept to code.
+                We are not applying global frameworks to African problems. We understand the operating environment,
+                its institutions, its pace, its nuances, and we build every recommendation from that foundation.
               </p>
             </article>
           </div>
@@ -384,18 +407,15 @@
       >
         <div class="container home-ticket-cta-shell">
           <h2 class="home-ticket-cta-title" data-reveal="fade-up">
-            Ready to elevate your business to new heights?
+            Ready to make a better decision?
           </h2>
-          <p class="home-ticket-cta-copy" data-reveal="fade-up">
-            Contact us now to learn how we can help.
-          </p>
           <a
             href="contact.html#contact"
             class="home-ticket-cta-link"
             data-transition-link
             data-transition-label="Contact"
             data-reveal="fade-up"
-            >Contact</a
+            >[ Start a Conversation &rarr; ]</a
           >
 
           <div class="home-ticket-stage" data-reveal="fade-up" aria-hidden="true">
@@ -428,8 +448,8 @@
             <section class="footer-links-group" aria-label="Footer menu">
               <p class="footer-links-title">Menu</p>
               <a href="#home" data-transition-link>Home</a>
-              <a href="about.html">About us</a>
-              <a href="solutions.html">Solutions</a>
+              <a href="about.html">Our Story</a>
+              <a href="/capabilities">Capabilities</a>
               <a href="get-quote.html">Get Quote</a>
               <a href="contact.html">Contact</a>
             </section>
@@ -457,6 +477,6 @@
 
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
-    <script src="script.js?v=20260303-23"></script>
+    <script src="script.js?v=20260513-5"></script>
   </body>
 </html>
