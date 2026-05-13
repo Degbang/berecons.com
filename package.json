@@ -1,0 +1,12 @@
+{
+  "name": "berecons-site",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Berecons website online runtime",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

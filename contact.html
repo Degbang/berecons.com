@@ -9,28 +9,26 @@
     <title>Contact | Berecons LLC</title>
     <meta
       name="description"
-      content="Contact Berecons LLC for research, strategy, content, project, and digital support."
+      content="Start a strategic inquiry with Berecons LLC and share your advisory needs."
     />
+    <script>
+      (function markTransitionRevealPending() {
+        try {
+          if (window.sessionStorage.getItem("berecons-page-transition-reveal-once")) {
+            document.documentElement.classList.add("transition-reveal-pending");
+          }
+        } catch {
+          // Ignore storage access issues.
+        }
+      })();
+    </script>
     <link
       rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Manrope:wght@400;500;600;700&display=swap"
     />
-    <link
-      rel="preload"
-      href="assets/fonts/perfectly-nineties/web/PerfectlyNineties-Regular.woff2?v=20260227-7"
-      as="font"
-      type="font/woff2"
-      crossorigin
-    />
-    <link rel="stylesheet" href="styles.css?v=20260303-143" />
+    <link rel="stylesheet" href="styles.css?v=20260513-6" />
   </head>
-  <body class="is-loading">
-    <div class="site-ambient" aria-hidden="true">
-      <span class="ambient-glow ambient-glow-a"></span>
-      <span class="ambient-glow ambient-glow-b"></span>
-      <span class="ambient-noise"></span>
-    </div>
-
+  <body class="is-loading inquiry-page">
     <div id="page-transition" class="page-transition" aria-hidden="true">
       <div class="transition-columns">
         <span class="transition-col"></span>
@@ -42,7 +40,7 @@
       </div>
       <div class="transition-center">
         <img src="assets/logo-blc-cropped.png?v=20260227-7" alt="" class="transition-logo" />
-        <p id="transition-target" class="transition-target">Navigating</p>
+        <p id="transition-target" class="transition-target">Contact</p>
       </div>
     </div>
 
@@ -71,19 +69,29 @@
         </button>
 
         <nav id="site-nav" class="site-nav" aria-label="Main navigation">
-          <a class="nav-link" data-text="Home" data-transition-link data-transition-label="Home" href="index.html?skipPreloader=1#home"
+          <a
+            class="nav-link"
+            data-text="Home"
+            data-transition-link
+            data-transition-label="Home"
+            href="index.html?skipPreloader=1#home"
             ><span>Home</span></a
           >
-          <a class="nav-link" data-text="About us" data-transition-link data-transition-label="About us" href="about.html"
+          <a
+            class="nav-link"
+            data-text="About us"
+            data-transition-link
+            data-transition-label="About us"
+            href="about.html"
             ><span>About us</span></a
           >
           <a
             class="nav-link"
-            data-text="Solutions"
+            data-text="Capabilities"
             data-transition-link
-            data-transition-label="Solutions"
-            href="solutions.html"
-            ><span>Solutions</span></a
+            data-transition-label="Capabilities"
+            href="/capabilities"
+            ><span>Capabilities</span></a
           >
           <div class="site-nav-right">
             <a
@@ -110,168 +118,86 @@
     <main>
       <section
         id="contact"
-        class="panel panel-light section section-anchor contact-section"
-        data-header-surface="#ffffff"
+        class="panel section section-anchor inquiry-section"
+        data-header-surface="#050d26"
       >
-        <div class="container contact-request-shell">
-          <header class="contact-request-top" data-reveal="fade-up">
-            <div class="contact-request-title-wrap">
-              <h1 class="contact-request-title">Contact</h1>
-            </div>
-            <p class="contact-request-top-copy">
-              Want to work with us? To request a project, simply book a discovery call with Calendly or reach out using
-              our contact form.
+        <div class="container inquiry-layout">
+          <article class="inquiry-copy" data-reveal="fade-up">
+            <h1>Let's talk.</h1>
+            <p class="inquiry-lead">
+              Whether you have a defined challenge or an emerging one, the right starting point is
+              a conversation. We listen, ask the questions that matter, and tell you honestly what
+              we can do, and what we cannot. We respond to every inquiry within one business day.
             </p>
-          </header>
 
-          <div class="contact-request-grid">
-            <article class="contact-request-col-left" data-reveal="fade-up">
-              <div class="contact-request-option-line">
-                <h2 class="contact-request-option-title"><span>Option 1</span> | Calendly</h2>
-                <a href="https://calendly.com" target="_blank" rel="noopener noreferrer" class="contact-request-book"
-                  >Book discovery call</a
-                >
+            <div class="inquiry-details">
+              <div>
+                <p class="inquiry-label">Email</p>
+                <a href="mailto:bereconsllc@gmail.com">bereconsllc@gmail.com</a>
               </div>
+              <div>
+                <p class="inquiry-label">Phone / WhatsApp</p>
+                <a href="tel:+233201497814">+233 20 149 7814</a>
+              </div>
+              <div>
+                <p class="inquiry-label">Location</p>
+                <p class="inquiry-location">Accra, Ghana</p>
+              </div>
+            </div>
 
-              <p class="contact-request-note">100% free &amp; non-binding</p>
+            <a
+              class="inquiry-whatsapp"
+              href="https://wa.me/233201497814"
+              target="_blank"
+              rel="noopener noreferrer"
+              >Chat on WhatsApp <span aria-hidden="true">→</span></a
+            >
 
-              <figure class="contact-request-visual">
-                <img
-                  src="assets/about.png?v=20260227-7"
-                  alt="Two man with tennis rackets in an office smiling into the camera"
-                  loading="lazy"
-                />
-              </figure>
-            </article>
+            <div class="inquiry-map">
+              <iframe
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d127066.253351912!2d-0.2591244465406798!3d5.591208962295627!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xfdf9084b2b7a773%3A0xbed14ed8650e2dd3!2sAccra!5e0!3m2!1sen!2sgh!4v1715600000000!5m2!1sen!2sgh"
+                allowfullscreen=""
+                loading="lazy"
+                referrerpolicy="no-referrer-when-downgrade"
+                title="Accra map"
+              ></iframe>
+            </div>
+          </article>
 
-            <article class="contact-request-col-right" data-reveal="fade-up">
-              <h2 class="contact-request-option-title"><span>Option 2</span> | Contact form</h2>
+          <article class="inquiry-form-shell" data-reveal="fade-up">
+            <form class="inquiry-form" action="#" method="post">
+              <label>
+                <span>Your Name *</span>
+                <input type="text" name="name" placeholder="Full Name" required />
+              </label>
 
-              <form class="contact-request-form" action="#" method="post">
-                <section class="contact-request-block" aria-labelledby="project-info-title">
-                  <h3 class="contact-request-block-title" id="project-info-title">
-                    <span>01</span> | About your project
-                  </h3>
+              <label>
+                <span>Organisation (optional)</span>
+                <input type="text" name="organisation" placeholder="Company or Group Name" />
+              </label>
 
-                  <div class="contact-request-row">
-                    <label for="industry">Which industry do you work in?*</label>
-                    <input
-                      id="industry"
-                      name="industry"
-                      type="text"
-                      placeholder="Industry"
-                      autocomplete="organization-title"
-                      required
-                    />
-                  </div>
+              <label>
+                <span>Email Address *</span>
+                <input type="email" name="email" placeholder="email@institutional.com" required />
+              </label>
 
-                  <div class="contact-request-row">
-                    <label for="website-type">What website type do you need?*</label>
-                    <select id="website-type" name="website_type" required>
-                      <option value="">Please select...</option>
-                      <option value="brochure">Brochure / Portfolio</option>
-                      <option value="ecommerce">E-Commerce</option>
-                      <option value="web-app">Web Application</option>
-                      <option value="blog">Blog / Media</option>
-                      <option value="other">Other</option>
-                    </select>
-                  </div>
+              <label>
+                <span>What brings you here? (short - 1-2 sentences)</span>
+                <input type="text" name="summary" placeholder="e.g. Digital Strategy Audit for 2025" />
+              </label>
 
-                  <div class="contact-request-row">
-                    <label for="go-live">When do you want to go live?*</label>
-                    <input id="go-live" name="go_live_date" type="text" placeholder="Date" required />
-                  </div>
+              <label>
+                <span>How can Berecons LLC help? (longer text)</span>
+                <textarea
+                  name="details"
+                  rows="5"
+                  placeholder="Describe the depth of support required..."
+                ></textarea>
+              </label>
 
-                  <div class="contact-request-row">
-                    <label for="current-site">Link to your current website</label>
-                    <input
-                      id="current-site"
-                      name="current_website"
-                      type="url"
-                      placeholder="URL (optional)"
-                      autocomplete="url"
-                    />
-                  </div>
-                </section>
-
-                <section class="contact-request-block" aria-labelledby="about-you-title">
-                  <h3 class="contact-request-block-title" id="about-you-title"><span>02</span> | About yourself</h3>
-
-                  <div class="contact-request-row">
-                    <label for="full-name">What's your name?*</label>
-                    <input id="full-name" name="full_name" type="text" placeholder="Full name" autocomplete="name" required />
-                  </div>
-
-                  <div class="contact-request-row">
-                    <label for="company-name">Name of your company*</label>
-                    <input
-                      id="company-name"
-                      name="company_name"
-                      type="text"
-                      placeholder="Company"
-                      autocomplete="organization"
-                      required
-                    />
-                  </div>
-
-                  <div class="contact-request-row">
-                    <label for="email-address">What's your mail?*</label>
-                    <input
-                      id="email-address"
-                      name="email_address"
-                      type="email"
-                      placeholder="Mail"
-                      autocomplete="email"
-                      required
-                    />
-                  </div>
-
-                  <div class="contact-request-row">
-                    <label for="phone-number">What's your phone number?</label>
-                    <input
-                      id="phone-number"
-                      name="phone_number"
-                      type="tel"
-                      placeholder="Phone (optional)"
-                      autocomplete="tel"
-                    />
-                  </div>
-                </section>
-
-                <section class="contact-request-block" aria-labelledby="feedback-title">
-                  <h3 class="contact-request-block-title" id="feedback-title">
-                    <span>03</span> | We appreciate your feedback
-                  </h3>
-
-                  <div class="contact-request-row">
-                    <label for="source">How did you learn about us?*</label>
-                    <select id="source" name="source" required>
-                      <option value="">Please select...</option>
-                      <option value="google">Google</option>
-                      <option value="linkedin">LinkedIn</option>
-                      <option value="referral">Referral</option>
-                      <option value="social">Social Media</option>
-                      <option value="other">Other</option>
-                    </select>
-                  </div>
-                </section>
-
-                <section class="contact-request-consent">
-                  <div class="contact-request-check">
-                    <input id="privacy" name="privacy" type="checkbox" required />
-                    <label for="privacy">
-                      I agree to the processing of my personal data in accordance with the <a href="#">Privacy Policy</a>.
-                    </label>
-                  </div>
-                </section>
-
-                <div class="contact-request-submit-wrap">
-                  <button class="contact-request-submit" type="submit">Send project request</button>
-                  <p class="contact-request-submit-note">100% free &amp; non-binding</p>
-                </div>
-              </form>
-            </article>
-          </div>
+              <button type="submit">Send Message</button>
+            </form>
+          </article>
         </div>
       </section>
     </main>
@@ -279,18 +205,18 @@
     <footer class="site-footer">
       <div class="container footer-inner">
         <div class="footer-top footer-animate">
-          <a href="index.html?skipPreloader=1#home" class="footer-brand" aria-label="Berecons home">
+          <a href="index.html?skipPreloader=1#home" class="footer-brand" aria-label="Berecons home" data-transition-link>
             <img src="assets/logo-blc-cropped.png?v=20260227-7" alt="Berecons logo" class="footer-logo" />
           </a>
 
           <div class="footer-links-grid">
             <section class="footer-links-group" aria-label="Footer menu">
               <p class="footer-links-title">Menu</p>
-              <a href="index.html?skipPreloader=1#home">Home</a>
-              <a href="about.html">About us</a>
-              <a href="solutions.html">Solutions</a>
-              <a href="get-quote.html">Get Quote</a>
-              <a href="contact.html">Contact</a>
+              <a href="index.html?skipPreloader=1#home" data-transition-link>Home</a>
+              <a href="about.html" data-transition-link>Our Story</a>
+              <a href="/capabilities" data-transition-link>Capabilities</a>
+              <a href="get-quote.html" data-transition-link>Get Quote</a>
+              <a href="contact.html" data-transition-link>Contact</a>
             </section>
 
             <section class="footer-links-group" aria-label="Footer socials">
@@ -316,6 +242,6 @@
 
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
-    <script src="script.js?v=20260303-23"></script>
+    <script src="script.js?v=20260513-5"></script>
   </body>
 </html>

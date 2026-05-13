@@ -6,14 +6,25 @@
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
     <meta http-equiv="Pragma" content="no-cache" />
     <meta http-equiv="Expires" content="0" />
-    <title>About Us | Berecons LLC</title>
+    <title>Our Story | Berecons LLC</title>
     <meta
       name="description"
-      content="About Berecons LLC: the company, team, and partners/clients."
+      content="The Berecons story: evidence-led advisory, core values, and who we work with."
     />
+    <script>
+      (function markTransitionRevealPending() {
+        try {
+          if (window.sessionStorage.getItem("berecons-page-transition-reveal-once")) {
+            document.documentElement.classList.add("transition-reveal-pending");
+          }
+        } catch {
+          // Ignore storage access issues.
+        }
+      })();
+    </script>
     <link
       rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Manrope:wght@400;500;600;700&display=swap"
     />
     <link
       rel="preload"
@@ -22,7 +33,7 @@
       type="font/woff2"
       crossorigin
     />
-    <link rel="stylesheet" href="styles.css?v=20260303-135" />
+    <link rel="stylesheet" href="styles.css?v=20260513-6" />
   </head>
   <body class="is-loading about-page">
     <div class="site-ambient" aria-hidden="true">
@@ -84,11 +95,11 @@
           >
           <a
             class="nav-link"
-            data-text="Solutions"
+            data-text="Capabilities"
             data-transition-link
-            data-transition-label="Solutions"
-            href="solutions.html"
-            ><span>Solutions</span></a
+            data-transition-label="Capabilities"
+            href="/capabilities"
+            ><span>Capabilities</span></a
           >
           <div class="site-nav-right">
             <a class="nav-link" data-text="Contact" data-transition-link data-transition-label="Contact" href="contact.html"
@@ -102,540 +113,215 @@
       </div>
     </header>
 
-    <main>
-      <section id="team" class="panel panel-dark section section-anchor team-section" data-header-surface="transparent">
-        <div class="team-about-media-wrap">
-          <figure class="team-about-media" data-reveal="fade-up">
-            <img
-              src="assets/about.png"
-              alt="About Berecons"
-              class="team-about-image"
-              loading="lazy"
-            />
-            <figcaption class="team-about-label">About</figcaption>
-          </figure>
+    <main class="about-template-main">
+      <section
+        id="about-hero"
+        class="panel panel-dark section section-anchor about-template-hero"
+        data-header-surface="transparent"
+      >
+        <div class="about-template-hero-image" data-reveal="fade-up">
+          <img src="assets/about.png" alt="Berecons team and advisory work" loading="lazy" />
         </div>
 
-        <div class="container team-editorial-head" data-reveal="fade-up">
-          <div class="team-editorial-head-main">
-            <h2>Team</h2>
+        <div class="about-template-hero-content">
+          <a
+            class="about-template-founder-link"
+            href="about/founder/"
+            data-transition-link
+            data-transition-label="Founder"
+            data-reveal="fade-up"
+            >Meet the Founder →</a
+          >
+
+          <div class="about-template-eyebrow" data-reveal="fade-up">
+            <span>The Firm — Our Story</span>
           </div>
-          <p class="team-editorial-subhead">Meet Our Stellar Team of Consultants</p>
-          <p class="team-editorial-lead">
-            Berecons specialists work across research, strategy, project delivery, content, and
-            digital systems. Select a group to view the gallery.
+
+          <h1 class="about-template-title" data-reveal="fade-up">
+            A firm built<br />
+            on <em>evidence.</em><br />
+            Not assumptions.
+          </h1>
+
+          <p class="about-template-body" data-reveal="fade-up">
+            Berecons LLC was founded in Accra in 2020, not because the market needed another consulting
+            firm, but because it needed a different kind.
           </p>
-        </div>
 
-        <div class="container team-editorial-controls team-reveal-target" data-reveal="fade-up">
-          <p class="team-members-count" id="team-members-count" aria-live="polite" hidden></p>
-          <div class="team-filter-row">
-            <button class="team-filter" type="button" data-team-filter="board" aria-pressed="false">
-              The Board
-            </button>
-            <button class="team-filter" type="button" data-team-filter="management" aria-pressed="false">
-              Management
-            </button>
-            <button class="team-filter" type="button" data-team-filter="research-data" aria-pressed="false">
-              Research, Data Analysis &amp; Data Management
-            </button>
-            <button class="team-filter" type="button" data-team-filter="writing-editing" aria-pressed="false">
-              Technical Writing &amp; Editing
-            </button>
-            <button class="team-filter" type="button" data-team-filter="strategy-marketing" aria-pressed="false">
-              Strategy, Marketing, Business Management &amp; Development
-            </button>
-            <button class="team-filter" type="button" data-team-filter="project-development" aria-pressed="false">
-              Project Development &amp; Management
-            </button>
-            <button class="team-filter" type="button" data-team-filter="technical-digital" aria-pressed="false">
-              Technical &amp; Digital Solutions
-            </button>
+          <div class="about-template-tags" data-reveal="fade-up">
+            <span class="about-template-tag">Management Consulting</span>
+            <span class="about-template-tag">Research</span>
+            <span class="about-template-tag">Content</span>
+            <span class="about-template-tag">Projects</span>
+            <span class="about-template-tag">Technology</span>
           </div>
-          <p class="team-empty-note" id="team-empty-note">Select a group to view team members.</p>
         </div>
+      </section>
 
-        <div class="container team-editorial-grid is-awaiting">
-          <article
-            class="team-editorial-card team-reveal-target" hidden
-            data-team-dept="board"
-            data-member-name="Peter"
-            data-reveal="fade-up"
-          >
-            <p class="team-editorial-tag">The Board</p>
-            <h3 class="team-editorial-name">Peter</h3>
-            <p class="team-editorial-role">Board Member</p>
+      <section
+        id="about-stats"
+        class="panel panel-light section section-anchor about-template-stats-band"
+        data-header-surface="#b8963e"
+      >
+        <div class="about-template-stats-inner" data-reveal="fade-up">
+          <article class="about-template-stat">
+            <span class="about-template-stat-number">20+</span>
+            <span class="about-template-stat-label">Years in Practice (Combined)</span>
           </article>
-          <article
-            class="team-editorial-card team-reveal-target" hidden
-            data-team-dept="board"
-            data-member-name="Lorenda E. A. Parker"
-            data-reveal="fade-up"
-          >
-            <p class="team-editorial-tag">The Board</p>
-            <h3 class="team-editorial-name">Lorenda E. A. Parker</h3>
-            <p class="team-editorial-role">Board Member</p>
+          <article class="about-template-stat">
+            <span class="about-template-stat-number">7</span>
+            <span class="about-template-stat-label">Integrated Capabilities</span>
           </article>
-          <article
-            class="team-editorial-card team-reveal-target" hidden
-            data-team-dept="board"
-            data-member-name="Ernest"
-            data-reveal="fade-up"
-          >
-            <p class="team-editorial-tag">The Board</p>
-            <h3 class="team-editorial-name">Ernest</h3>
-            <p class="team-editorial-role">Board Member</p>
-          </article>
-          <article
-            class="team-editorial-card team-reveal-target" hidden
-            data-team-dept="board"
-            data-member-name="Ahmed Muhammed Ali"
-            data-reveal="fade-up"
-          >
-            <p class="team-editorial-tag">The Board</p>
-            <h3 class="team-editorial-name">Ahmed Muhammed Ali</h3>
-            <p class="team-editorial-role">Board Member</p>
-          </article>
-
-          <article
-            class="team-editorial-card team-reveal-target" hidden
-            data-team-dept="management"
-            data-member-name="Lorenda E. A. Parker"
-            data-reveal="fade-up"
-          >
-            <p class="team-editorial-tag">Management</p>
-            <h3 class="team-editorial-name">Lorenda E. A. Parker</h3>
-            <p class="team-editorial-role">Managing Director</p>
-          </article>
-          <article
-            class="team-editorial-card team-reveal-target" hidden
-            data-team-dept="management"
-            data-member-name="Sharon Kaawaa Daplah"
-            data-reveal="fade-up"
-          >
-            <p class="team-editorial-tag">Management</p>
-            <h3 class="team-editorial-name">Sharon Kaawaa Daplah</h3>
-            <p class="team-editorial-role">Administrator</p>
-          </article>
-          <article
-            class="team-editorial-card team-reveal-target" hidden
-            data-team-dept="management"
-            data-member-name="Fabian Williams"
-            data-reveal="fade-up"
-          >
-            <p class="team-editorial-tag">Management</p>
-            <h3 class="team-editorial-name">Fabian Williams</h3>
-            <p class="team-editorial-role">Graphic Design Specialist</p>
-          </article>
-          <article
-            class="team-editorial-card team-reveal-target" hidden
-            data-team-dept="management"
-            data-member-name="Georgette Robertson"
-            data-reveal="fade-up"
-          >
-            <p class="team-editorial-tag">Management</p>
-            <h3 class="team-editorial-name">Georgette Robertson</h3>
-            <p class="team-editorial-role">Accounts &amp; Finance Associate</p>
-          </article>
-
-          <article
-            class="team-editorial-card team-reveal-target" hidden
-            data-team-dept="research-data"
-            data-member-name="David Korboe"
-            data-reveal="fade-up"
-          >
-            <p class="team-editorial-tag">Research, Data Analysis &amp; Data Management</p>
-            <h3 class="team-editorial-name">David Korboe</h3>
-            <p class="team-editorial-role">Qualitative Research &amp; Analysis</p>
-          </article>
-          <article
-            class="team-editorial-card team-reveal-target" hidden
-            data-team-dept="research-data"
-            data-member-name="Ebenezer Obeng-Nyarko"
-            data-reveal="fade-up"
-          >
-            <p class="team-editorial-tag">Research, Data Analysis &amp; Data Management</p>
-            <h3 class="team-editorial-name">Ebenezer Obeng-Nyarko</h3>
-            <p class="team-editorial-role">Data Analysis</p>
-          </article>
-          <article
-            class="team-editorial-card team-reveal-target" hidden
-            data-team-dept="research-data"
-            data-member-name="Lorenda E. A. Parker"
-            data-reveal="fade-up"
-          >
-            <p class="team-editorial-tag">Research, Data Analysis &amp; Data Management</p>
-            <h3 class="team-editorial-name">Lorenda E. A. Parker</h3>
-            <p class="team-editorial-role">Anthropological Research &amp; Analysis</p>
-          </article>
-          <article
-            class="team-editorial-card team-reveal-target" hidden
-            data-team-dept="research-data"
-            data-member-name="Mawutor Ablo"
-            data-reveal="fade-up"
-          >
-            <p class="team-editorial-tag">Research, Data Analysis &amp; Data Management</p>
-            <h3 class="team-editorial-name">Mawutor Ablo</h3>
-            <p class="team-editorial-role">Social Development Research</p>
-          </article>
-          <article
-            class="team-editorial-card team-reveal-target" hidden
-            data-team-dept="research-data"
-            data-member-name="Maxfield J. Peterson"
-            data-reveal="fade-up"
-          >
-            <p class="team-editorial-tag">Research, Data Analysis &amp; Data Management</p>
-            <h3 class="team-editorial-name">Maxfield J. Peterson</h3>
-            <p class="team-editorial-role">Quantitative, Qualitative &amp; Mixed-methods Research</p>
-          </article>
-          <article
-            class="team-editorial-card team-reveal-target" hidden
-            data-team-dept="research-data"
-            data-member-name="Raymond A. Atuguba"
-            data-reveal="fade-up"
-          >
-            <p class="team-editorial-tag">Research, Data Analysis &amp; Data Management</p>
-            <h3 class="team-editorial-name">Raymond A. Atuguba</h3>
-            <p class="team-editorial-role">Legal, Qualitative &amp; Mixed-methods Research</p>
-          </article>
-          <article
-            class="team-editorial-card team-reveal-target" hidden
-            data-team-dept="research-data"
-            data-member-name="Sodey Akoto"
-            data-reveal="fade-up"
-          >
-            <p class="team-editorial-tag">Research, Data Analysis &amp; Data Management</p>
-            <h3 class="team-editorial-name">Sodey Akoto</h3>
-            <p class="team-editorial-role">Qualitative &amp; Mixed-methods Research</p>
-          </article>
-
-          <article
-            class="team-editorial-card team-reveal-target" hidden
-            data-team-dept="writing-editing"
-            data-member-name="Lorenda E. A. Parker"
-            data-reveal="fade-up"
-          >
-            <p class="team-editorial-tag">Technical Writing &amp; Editing</p>
-            <h3 class="team-editorial-name">Lorenda E. A. Parker</h3>
-            <p class="team-editorial-role">Technical Writing &amp; Editing</p>
-          </article>
-          <article
-            class="team-editorial-card team-reveal-target" hidden
-            data-team-dept="writing-editing"
-            data-member-name="Maxfield J. Peterson"
-            data-reveal="fade-up"
-          >
-            <p class="team-editorial-tag">Technical Writing &amp; Editing</p>
-            <h3 class="team-editorial-name">Maxfield J. Peterson</h3>
-            <p class="team-editorial-role">Technical Writing &amp; Editing</p>
-          </article>
-          <article
-            class="team-editorial-card team-reveal-target" hidden
-            data-team-dept="writing-editing"
-            data-member-name="Salsabil Ali"
-            data-reveal="fade-up"
-          >
-            <p class="team-editorial-tag">Technical Writing &amp; Editing</p>
-            <h3 class="team-editorial-name">Salsabil Ali</h3>
-            <p class="team-editorial-role">Technical Writing &amp; Editing</p>
-          </article>
-          <article
-            class="team-editorial-card team-reveal-target" hidden
-            data-team-dept="writing-editing"
-            data-member-name="Sodey Akoto"
-            data-reveal="fade-up"
-          >
-            <p class="team-editorial-tag">Technical Writing &amp; Editing</p>
-            <h3 class="team-editorial-name">Sodey Akoto</h3>
-            <p class="team-editorial-role">Technical Writing &amp; Editing</p>
-          </article>
-          <article
-            class="team-editorial-card team-reveal-target" hidden
-            data-team-dept="writing-editing"
-            data-member-name="Tia Carter"
-            data-reveal="fade-up"
-          >
-            <p class="team-editorial-tag">Technical Writing &amp; Editing</p>
-            <h3 class="team-editorial-name">Tia Carter</h3>
-            <p class="team-editorial-role">Technical Writing &amp; Editing</p>
-          </article>
-          <article
-            class="team-editorial-card team-reveal-target" hidden
-            data-team-dept="writing-editing"
-            data-member-name="Valerie Gueye"
-            data-reveal="fade-up"
-          >
-            <p class="team-editorial-tag">Technical Writing &amp; Editing</p>
-            <h3 class="team-editorial-name">Valerie Gueye</h3>
-            <p class="team-editorial-role">Technical Writing &amp; Editing</p>
-          </article>
-
-          <article
-            class="team-editorial-card team-reveal-target" hidden
-            data-team-dept="strategy-marketing"
-            data-member-name="Mark Ofori"
-            data-reveal="fade-up"
-          >
-            <p class="team-editorial-tag">Strategy, Marketing, Business Management &amp; Development</p>
-            <h3 class="team-editorial-name">Mark Ofori</h3>
-            <p class="team-editorial-role">Management Strategy Specialist</p>
-          </article>
-          <article
-            class="team-editorial-card team-reveal-target" hidden
-            data-team-dept="strategy-marketing"
-            data-member-name="Eric Osei Annor"
-            data-reveal="fade-up"
-          >
-            <p class="team-editorial-tag">Strategy, Marketing, Business Management &amp; Development</p>
-            <h3 class="team-editorial-name">Eric Osei Annor</h3>
-            <p class="team-editorial-role">Marketing and Sales Specialist</p>
-          </article>
-          <article
-            class="team-editorial-card team-reveal-target" hidden
-            data-team-dept="strategy-marketing"
-            data-member-name="Wahid El-Hajj"
-            data-reveal="fade-up"
-          >
-            <p class="team-editorial-tag">Strategy, Marketing, Business Management &amp; Development</p>
-            <h3 class="team-editorial-name">Wahid El-Hajj</h3>
-            <p class="team-editorial-role">Business Strategist</p>
-          </article>
-          <article
-            class="team-editorial-card team-reveal-target" hidden
-            data-team-dept="strategy-marketing"
-            data-member-name="Yaw Offei-Darko"
-            data-reveal="fade-up"
-          >
-            <p class="team-editorial-tag">Strategy, Marketing, Business Management &amp; Development</p>
-            <h3 class="team-editorial-name">Yaw Offei-Darko</h3>
-            <p class="team-editorial-role">Business Analyst</p>
-          </article>
-
-          <article
-            class="team-editorial-card team-reveal-target" hidden
-            data-team-dept="project-development"
-            data-member-name="David Korboe"
-            data-reveal="fade-up"
-          >
-            <p class="team-editorial-tag">Project Development &amp; Management</p>
-            <h3 class="team-editorial-name">David Korboe</h3>
-            <p class="team-editorial-role">Project Development &amp; Management</p>
-          </article>
-          <article
-            class="team-editorial-card team-reveal-target" hidden
-            data-team-dept="project-development"
-            data-member-name="Emmanuelle M. Marchand"
-            data-reveal="fade-up"
-          >
-            <p class="team-editorial-tag">Project Development &amp; Management</p>
-            <h3 class="team-editorial-name">Emmanuelle M. Marchand</h3>
-            <p class="team-editorial-role">Agile Project Management</p>
-          </article>
-          <article
-            class="team-editorial-card team-reveal-target" hidden
-            data-team-dept="project-development"
-            data-member-name="Lorenda E. A. Parker"
-            data-reveal="fade-up"
-          >
-            <p class="team-editorial-tag">Project Development &amp; Management</p>
-            <h3 class="team-editorial-name">Lorenda E. A. Parker</h3>
-            <p class="team-editorial-role">Project Development</p>
-          </article>
-          <article
-            class="team-editorial-card team-reveal-target" hidden
-            data-team-dept="project-development"
-            data-member-name="Trevor Whiteman"
-            data-reveal="fade-up"
-          >
-            <p class="team-editorial-tag">Project Development &amp; Management</p>
-            <h3 class="team-editorial-name">Trevor Whiteman</h3>
-            <p class="team-editorial-role">IT &amp; Project Management (PRINCEII)</p>
-          </article>
-          <article
-            class="team-editorial-card team-reveal-target" hidden
-            data-team-dept="project-development"
-            data-member-name="Valerie Gueye"
-            data-reveal="fade-up"
-          >
-            <p class="team-editorial-tag">Project Development &amp; Management</p>
-            <h3 class="team-editorial-name">Valerie Gueye</h3>
-            <p class="team-editorial-role">Project Coordination</p>
-          </article>
-
-          <article
-            class="team-editorial-card team-reveal-target" hidden
-            data-team-dept="technical-digital"
-            data-member-name="Ernest Fokuo"
-            data-reveal="fade-up"
-          >
-            <p class="team-editorial-tag">Technical &amp; Digital Solutions</p>
-            <h3 class="team-editorial-name">Ernest Fokuo</h3>
-            <p class="team-editorial-role">insert full name and competencies</p>
-          </article>
-          <article
-            class="team-editorial-card team-reveal-target" hidden
-            data-team-dept="technical-digital"
-            data-member-name="Fabian Williams"
-            data-reveal="fade-up"
-          >
-            <p class="team-editorial-tag">Technical &amp; Digital Solutions</p>
-            <h3 class="team-editorial-name">Fabian Williams</h3>
-            <p class="team-editorial-role">Graphic Design Specialist</p>
-          </article>
-          <article
-            class="team-editorial-card team-reveal-target" hidden
-            data-team-dept="technical-digital"
-            data-member-name="Hans Mills-Lamptey"
-            data-reveal="fade-up"
-          >
-            <p class="team-editorial-tag">Technical &amp; Digital Solutions</p>
-            <h3 class="team-editorial-name">Hans Mills-Lamptey</h3>
-            <p class="team-editorial-role">Web Design &amp; Development Specialist</p>
-          </article>
-          <article
-            class="team-editorial-card team-reveal-target" hidden
-            data-team-dept="technical-digital"
-            data-member-name="Brian BAST"
-            data-reveal="fade-up"
-          >
-            <p class="team-editorial-tag">Technical &amp; Digital Solutions</p>
-            <h3 class="team-editorial-name">Brian BAST</h3>
-            <p class="team-editorial-role">Systems Administrator and Network Engineer</p>
+          <article class="about-template-stat">
+            <span class="about-template-stat-number">100%</span>
+            <span class="about-template-stat-label">Senior-Led Engagements</span>
           </article>
         </div>
       </section>
 
       <section
-        id="company"
-        class="panel panel-light section section-anchor company-story-section"
-        data-header-surface="#ffffff"
+        id="firm-story"
+        class="panel panel-light section section-anchor about-template-story"
+        data-header-surface="#111318"
       >
-        <div class="container section-head company-story-head" data-reveal="fade-up">
-          <h2>The Berecons Story</h2>
-        </div>
+        <aside class="about-template-story-aside" data-reveal="fade-up">
+          <div>
+            <div class="about-template-section-label">
+              <span>Our Story</span>
+            </div>
+            <p class="about-template-story-pullquote">
+              We decided to<br />close the <em>gap.</em>
+            </p>
+          </div>
+          <div class="about-template-story-year">2020</div>
+        </aside>
 
-        <div class="container about-company-layout company-story-layout">
-          <article class="about-company-panel company-story-panel" data-reveal="fade-up">
-            <p>
-              Berecons LLC emerged from a time of uncertainty and despair&mdash;the COVID-19 pandemic 2020.
-              Driven by a desire to make a difference, our pioneers saw an opportunity to address the technical
-              issues that often plague our market segments. And so, Beyond Research &amp; Consulting, or
-              &ldquo;BeReCons&rdquo;, was born. As we evolved from research, content, and management consulting
-              services and to engage our stakeholders more holistically, we expanded our scope of solutions to
-              include an array of business suites, digital solutions, property, and project management.
-            </p>
-            <p>
-              We comprise over 20 consultants from ten countries, all bringing a strong portfolio of diverse
-              expertise and cultural perspectives. Additionally, a five-member Board of Directors oversees the
-              strategic direction and governance of our firm, ensuring alignment with our mission and values,
-              while our management team focuses on day-to-day operations and implementing the Board&rsquo;s
-              directives, driving the firm towards its goals with efficiency and effectiveness.
-            </p>
-            <p>
-              Our firm is committed to upholding its core values in every project we undertake, and our team is
-              dedicated to excellence and providing strategic solutions that ensure our client&rsquo;s complete
-              satisfaction. We believe in building long-lasting relationships with our clients and stakeholders
-              and boast of a 98 per cent client retention rate.
-            </p>
-            <p>We are proud of our journey and are excited to continue growing and evolving with you.</p>
-          </article>
+        <article class="about-template-story-main">
+          <h2 data-reveal="fade-up">
+            Evidence.<br />
+            <span>Every decision.</span>
+          </h2>
+          <p data-reveal="fade-up">
+            We saw a persistent gap between the complexity of the challenges facing African organisations and
+            the quality of advisory support available to them. Generic frameworks, imported methodologies, and
+            a tendency to answer questions before understanding the context. We decided to close that gap.
+          </p>
+          <p data-reveal="fade-up">
+            Over five years, we have grown from a research and consulting practice into a fully integrated
+            advisory firm, adding capabilities in systems thinking, digital solutions, programme management,
+            and policy advisory as our clients&rsquo; challenges demanded them.
+          </p>
+          <p data-reveal="fade-up">
+            We are small by deliberate choice. Every engagement receives senior attention. Every
+            recommendation is defensible. Every intervention is built for execution, not presentation.
+          </p>
+        </article>
+      </section>
 
-          <aside class="about-company-facts company-story-facts" aria-label="Berecons company snapshot" data-reveal="fade-up">
-            <article class="about-company-fact-card">
-              <p class="about-company-fact-label">Global Team</p>
-              <p class="about-company-fact-value">20+ consultants from 10 countries.</p>
+      <section
+        id="our-value"
+        class="panel panel-dark section section-anchor about-template-values"
+        data-header-surface="#000000"
+      >
+        <div class="container about-template-values-inner">
+          <div class="about-template-values-header">
+            <h2 class="about-template-values-title" data-reveal="fade-up">
+              Standards that guide every <em>engagement.</em>
+            </h2>
+            <p class="about-template-values-sub" data-reveal="fade-up">
+              We believe in four principles, applied as non-negotiable standards, not ideals. Each one is
+              tested in every decision, from who gets assigned to a brief, to what is written, shared, and
+              acted on.
+            </p>
+          </div>
+
+          <div class="about-template-values-grid">
+            <article class="about-template-value-card" data-reveal="fade-left">
+              <span class="about-template-value-number">01</span>
+              <h3 class="about-template-value-name">Rigor</h3>
+              <p class="about-template-value-desc">We do not guess. We research, analyse, and verify before we advise.</p>
             </article>
-            <article class="about-company-fact-card">
-              <p class="about-company-fact-label">Governance</p>
-              <p class="about-company-fact-value">Five-member Board of Directors plus a focused management team.</p>
+            <article class="about-template-value-card" data-reveal="fade-right">
+              <span class="about-template-value-number">02</span>
+              <h3 class="about-template-value-name">Integration</h3>
+              <p class="about-template-value-desc">
+                A strategy disconnected from execution is a document. A technology without a strategy is an
+                expense. We connect them.
+              </p>
             </article>
-            <article class="about-company-fact-card">
-              <p class="about-company-fact-label">Retention</p>
-              <p class="about-company-fact-value">98 per cent client retention rate.</p>
+            <article class="about-template-value-card" data-reveal="fade-left">
+              <span class="about-template-value-number">03</span>
+              <h3 class="about-template-value-name">Honesty</h3>
+              <p class="about-template-value-desc">
+                We tell clients what they need to hear, not what confirms the decision already made.
+              </p>
             </article>
-            <article class="about-company-fact-card">
-              <p class="about-company-fact-label">Delivery Focus</p>
-              <p class="about-company-fact-value">Measured, strategic, and execution-ready project outcomes.</p>
+            <article class="about-template-value-card" data-reveal="fade-right">
+              <span class="about-template-value-number">04</span>
+              <h3 class="about-template-value-name">Context</h3>
+              <p class="about-template-value-desc">
+                African institutions operate in African realities. We understand both, and we build from that
+                understanding.
+              </p>
             </article>
-          </aside>
-        </div>
-
-        <div class="container company-pillars-grid">
-          <article class="company-pillar-card" data-reveal="fade-up">
-            <h3>Who We Are</h3>
-            <p>
-              We are a seasoned team of professionals with backgrounds in economics, anthropology, sociology,
-              political science, business management, law, health, and IT. Cumulatively, the Berecons LLC team
-              has several decades of cumulative experience and multidisciplinary expertise from over ten
-              countries and across sectors. With a deep understanding of the sector&rsquo;s intricacies and
-              difficulties, we have an advantage in customising project deliverables to suit each client&rsquo;s
-              needs.
-            </p>
-          </article>
-
-          <article class="company-pillar-card" data-reveal="fade-up">
-            <h3>What We Do</h3>
-            <p>
-              We specialise in research, data analysis, data management, content writing, editing, and a wide
-              range of legal, project, and business solutions, including business analysis, development,
-              strategy, marketing, project design and management. We also offer a scope of IT and web services,
-              including branding, graphic design, website design, development, and ERP solutions. Our customised
-              strategic approaches are uniquely tailored to every client&rsquo;s needs.
-            </p>
-          </article>
-
-          <article class="company-pillar-card" data-reveal="fade-up">
-            <h3>Our Approach</h3>
-            <p>
-              We dedicate ourselves to measurable, sustainable professional pursuits that deeply impact our
-              benefactors and stakeholders. Our commitment is reflected in the careful vetting of 15 projects by
-              our team leaders each quarter. This meticulous selection ensures that dedicated resources and
-              rigorous attention to detail are applied, upholding the highest quality standards. Through this
-              deliberate approach, we assess, prioritise, and execute projects with precision, ultimately
-              maximising positive outcomes for our benefactors and stakeholders alike.
-            </p>
-          </article>
-
-          <article class="company-pillar-card" data-reveal="fade-up">
-            <h3>Our Commitment to Results</h3>
-            <p>
-              We commit ourselves to delivering exceptional results that are meaningful, impactful, and
-              measurable. Through our comprehensive approach to business programming, Berecons delivers practical
-              and strategic solutions, ongoing support, and continuous evaluation to achieve successful outcomes.
-            </p>
-          </article>
-
-          <article class="company-pillar-card" data-reveal="fade-up">
-            <h3>Our Philosophy</h3>
-            <p>
-              Our work philosophy centres on delivering high-quality business consulting services, prioritising
-              practical and strategic solutions, project success, and client satisfaction. We are convinced that
-              the best publicity is recommendations from satisfied clients.
-            </p>
-          </article>
-
-          <article class="company-pillar-card" data-reveal="fade-up">
-            <h3>Testimonials</h3>
-            <p>Word on the street is that we are AWESOME! find out why. Get in touch.</p>
-          </article>
+          </div>
         </div>
       </section>
 
+      <section
+        id="who-we-work-with"
+        class="panel panel-light section section-anchor about-template-clients"
+        data-header-surface="#edeaea"
+      >
+        <div class="container about-template-clients-inner">
+          <div class="about-template-clients-header">
+            <div class="about-template-section-label" data-reveal="fade-up">
+              <span>Who We Work With</span>
+            </div>
+            <h2 data-reveal="fade-up">
+              Built for those where<br />
+              <em>quality of analysis</em> matters.
+            </h2>
+          </div>
+
+          <div class="about-template-clients-grid">
+            <article class="about-template-client-card" data-reveal="fade-left">
+              <h3 class="about-template-client-name">Institutions</h3>
+              <p class="about-template-client-desc">
+                We work with public and private institutions where the quality of analysis actually matters.
+              </p>
+            </article>
+            <article class="about-template-client-card" data-reveal="zoom">
+              <h3 class="about-template-client-name">Public Leaders &amp; Researchers</h3>
+              <p class="about-template-client-desc">
+                Those navigating complex projects, evidence challenges, or professional transitions who need
+                expert support.
+              </p>
+            </article>
+            <article class="about-template-client-card" data-reveal="fade-right">
+              <h3 class="about-template-client-name">SMEs &amp; Entrepreneurs</h3>
+              <p class="about-template-client-desc">
+                Businesses building strategy on a foundation of evidence, not assumption.
+              </p>
+            </article>
+          </div>
+        </div>
+      </section>
     </main>
 
     <footer class="site-footer">
       <div class="container footer-inner">
         <div class="footer-top footer-animate">
-          <a href="index.html?skipPreloader=1#home" class="footer-brand" aria-label="Berecons home">
+          <a href="index.html?skipPreloader=1#home" class="footer-brand" aria-label="Berecons home" data-transition-link>
             <img src="assets/logo-blc-cropped.png?v=20260227-7" alt="Berecons logo" class="footer-logo" />
           </a>
 
           <div class="footer-links-grid">
             <section class="footer-links-group" aria-label="Footer menu">
               <p class="footer-links-title">Menu</p>
-              <a href="index.html?skipPreloader=1#home">Home</a>
-              <a href="about.html">About us</a>
-              <a href="solutions.html">Solutions</a>
+              <a href="index.html?skipPreloader=1#home" data-transition-link>Home</a>
+              <a href="about.html">Our Story</a>
+              <a href="/capabilities">Capabilities</a>
               <a href="get-quote.html">Get Quote</a>
               <a href="contact.html">Contact</a>
             </section>
@@ -663,6 +349,6 @@
 
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
-    <script src="script.js?v=20260303-23"></script>
+    <script src="script.js?v=20260513-5"></script>
   </body>
 </html>
