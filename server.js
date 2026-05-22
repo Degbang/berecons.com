@@ -10,7 +10,7 @@ class BereconsAppServer {
     this.port = Number(options.port || process.env.PORT || 3000);
     this.host = options.host || process.env.HOST || "0.0.0.0";
     this.maxBodySizeBytes = 1024 * 1024;
-    this.formToEmailFallback = "bereconsllc@gmail.com";
+    this.formToEmailFallback = "info@berecons.com";
     this.server = http.createServer((req, res) => {
       this.handleRequest(req, res).catch((error) => {
         console.error("[Berecons] unhandled request error", error);
@@ -59,8 +59,17 @@ class BereconsAppServer {
     const requestUrl = new URL(req.url || "/", `http://${req.headers.host || "localhost"}`);
 
     if (requestUrl.pathname === "/api/quote-submit") {
+      if (req.method === "OPTIONS") {
+        res.writeHead(204, this.getApiCorsHeaders());
+        res.end();
+        return;
+      }
+
       if (req.method !== "POST") {
-        this.sendJson(res, 405, { message: "Method not allowed." }, { Allow: "POST" });
+        this.sendJson(res, 405, { message: "Method not allowed." }, {
+          ...this.getApiCorsHeaders(),
+          Allow: "POST, OPTIONS",
+        });
         return;
       }
 
@@ -251,22 +260,28 @@ class BereconsAppServer {
           ["contact_email", "Contact email"],
         ],
       },
-      "quote-request": {
-        title: "Quote Request",
+      "contact-inquiry": {
+        title: "Contact Inquiry",
         fields: [
-          ["quote_client_name", "Client name"],
-          ["quote_contact_email", "Contact email"],
-          ["quote_project_type", "Project type"],
-          ["quote_timeline", "Preferred timeline"],
-          ["quote_budget", "Budget range"],
-          ["quote_project_summary", "Project summary"],
+          ["name", "Name"],
+          ["organisation", "Organisation"],
+          ["email", "Email"],
+          ["summary", "Short summary"],
+          ["details", "Inquiry details"],
         ],
       },
     };
   }
 
+  ensureBereconsSubject(subject, schemaTitle) {
+    const normalized = typeof subject === "string" ? subject.trim() : "";
+    const fallback = `${schemaTitle} Submission`;
+    const resolved = normalized || fallback;
+    return /\bBerecons\b/i.test(resolved) ? resolved : `[Berecons] ${resolved}`;
+  }
+
   buildEmailText(schema, data, submittedFrom) {
-    const lines = [`Berecons ${schema.title}`, ""];
+    const lines = ["Berecons Keyword: Berecons", `Berecons ${schema.title}`, ""];
 
     for (const [fieldName, label] of schema.fields) {
       lines.push(`${label}:`);
@@ -293,6 +308,7 @@ class BereconsAppServer {
 
     return `
       <div style="font-family:Arial,sans-serif;color:#081234;line-height:1.5;">
+        <p style="margin:0 0 12px;font-size:12px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;">Berecons Keyword: Berecons</p>
         <h1 style="margin:0 0 16px;font-size:20px;">Berecons ${this.escapeHtml(schema.title)}</h1>
         <table style="border-collapse:collapse;width:100%;max-width:900px;">
           <tbody>${rows}</tbody>
@@ -341,7 +357,7 @@ class BereconsAppServer {
     } catch (error) {
       const message = error instanceof Error ? error.message : "Invalid request.";
       const status = message === "Payload too large." ? 413 : 400;
-      this.sendJson(res, status, { message });
+      this.sendJson(res, status, { message }, this.getApiCorsHeaders());
       return;
     }
 
@@ -355,24 +371,37 @@ class BereconsAppServer {
     const schema = formSchemas[formType];
 
     if (!schema) {
-      this.sendJson(res, 400, { message: "Unsupported form type." });
+      this.sendJson(res, 400, { message: "Unsupported form type." }, this.getApiCorsHeaders());
       return;
     }
 
     if (!subject) {
-      this.sendJson(res, 400, { message: "Missing email subject." });
+      this.sendJson(res, 400, { message: "Missing email subject." }, this.getApiCorsHeaders());
       return;
     }
 
     try {
       const text = this.buildEmailText(schema, data, submittedFrom);
       const html = this.buildEmailHtml(schema, data, submittedFrom);
-      await this.sendWithResend(subject, replyTo, text, html);
-      this.sendJson(res, 200, { ok: true });
+      await this.sendWithResend(
+        this.ensureBereconsSubject(subject, schema.title),
+        replyTo,
+        text,
+        html
+      );
+      this.sendJson(res, 200, { ok: true }, this.getApiCorsHeaders());
     } catch (error) {
       const message = error instanceof Error ? error.message : "Email send failed.";
-      this.sendJson(res, 500, { message });
+      this.sendJson(res, 500, { message }, this.getApiCorsHeaders());
     }
+  }
+
+  getApiCorsHeaders() {
+    return {
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Methods": "POST, OPTIONS",
+      "Access-Control-Allow-Headers": "Content-Type",
+    };
   }
 
   sendJson(res, status, payload, extraHeaders = {}) {

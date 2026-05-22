@@ -1064,6 +1064,12 @@ main {
 
 .hero-eyebrow {
   margin: 0 0 1rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  max-width: 100%;
+  overflow-x: auto;
+  white-space: nowrap;
   color: #b8963e;
   font-family: "IBM Plex Sans", system-ui, sans-serif;
   font-size: clamp(0.82rem, 1.15vw, 0.95rem);
@@ -1071,6 +1077,11 @@ main {
   letter-spacing: 0.18em;
   text-transform: uppercase;
   text-shadow: 0 6px 14px rgba(2, 8, 24, 0.35);
+  scrollbar-width: none;
+}
+
+.hero-eyebrow::-webkit-scrollbar {
+  display: none;
 }
 
 .hero-title {
@@ -1187,17 +1198,6 @@ main {
     0 10px 24px rgba(5, 12, 38, 0.3);
 }
 
-.hero-subtitle {
-  margin: 2.4rem auto 0;
-  max-width: min(400px, 100%);
-  color: rgba(255, 255, 255, 0.85);
-  font-family: "IBM Plex Sans", system-ui, sans-serif;
-  font-size: 20px;
-  font-weight: 600;
-  line-height: 2.6;
-  text-align: center;
-}
-
 .hero-support {
   display: grid;
   gap: 1rem;
@@ -1280,6 +1280,7 @@ main {
 
   .hero-eyebrow {
     margin-bottom: 36px;
+    overflow: visible;
   }
 
   .hero-title-line {
@@ -1295,15 +1296,6 @@ main {
     max-width: 100%;
     padding-top: 0;
     padding-right: 0;
-  }
-
-  .hero-subtitle {
-    margin: 2.0rem 0 0;
-    max-width: none;
-    white-space: nowrap;
-    font-size: clamp(0.78rem, 1.15vw, 1.02rem);
-    line-height: 1.4;
-    text-align: center;
   }
 
   .hero-actions {
@@ -1381,7 +1373,22 @@ main {
   text-align: center;
 }
 
+.home-stat-note {
+  margin: 0.35rem auto 0;
+  max-width: 34ch;
+  color: rgba(26, 43, 60, 0.8);
+  font-family: "IBM Plex Sans", system-ui, sans-serif;
+  font-size: clamp(0.92rem, 1.45vw, 1rem);
+  line-height: 1.72;
+  text-align: center;
+}
+
 @media (max-width: 768px) {
+  .hero-eyebrow {
+    font-size: clamp(0.5rem, 2.15vw, 0.72rem);
+    letter-spacing: 0.14em;
+  }
+
   .home-stat-grid {
     grid-template-columns: 1fr;
     gap: 1.5rem;
@@ -6854,6 +6861,9 @@ body.quote-page {
   letter-spacing: 0.065em;
   text-transform: uppercase;
   text-align: left;
+  white-space: normal;
+  overflow: visible;
+  text-wrap: balance;
 }
 
 .footer-animate {
@@ -11559,6 +11569,9 @@ body.capabilities-export-page .site-header.is-on-light .brand-logo {
 
 .site-footer .footer-services-line {
   text-align: left;
+  white-space: normal;
+  overflow: visible;
+  text-wrap: balance;
 }
 
 @media (max-width: 900px) {
@@ -11700,7 +11713,7 @@ body.capabilities-export-page .site-header.is-on-light .brand-logo {
     border: 1px solid #76767e;
     border-left-width: 1px;
     border-radius: 999px;
-    padding: 8px 16px;
+    padding: 8px 14px;
     text-align: center;
   }
 
@@ -11961,6 +11974,10 @@ body.founder-profile-page .site-header .nav-shell {
   line-height: 1.08;
   font-weight: 700;
   letter-spacing: -0.02em;
+}
+
+.founder-profile h1 span {
+  display: block;
 }
 
 .founder-profile-role {
@@ -12610,6 +12627,24 @@ body.quote-v2-page .site-header .nav-shell {
   filter: brightness(1.05);
 }
 
+.inquiry-form-feedback {
+  margin: 0.2rem 0 0;
+  font-family: var(--font-ui);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: rgba(237, 233, 224, 0.64);
+}
+
+.inquiry-form-feedback.is-error {
+  color: #ffb1b1;
+}
+
+.inquiry-form-feedback.is-success {
+  color: #9ce9bb;
+}
+
 body.quote-v2-page {
   background: var(--brand-cream);
   color: var(--brand-ink);
@@ -12791,6 +12826,7 @@ body.quote-v2-page {
 .quote-v2-questionnaire {
   border-top: 1px solid rgba(21, 28, 39, 0.1) !important;
   background: var(--brand-cream);
+  color-scheme: light;
   padding-top: clamp(2rem, 4vw, 3.2rem);
   padding-bottom: clamp(3rem, 6vw, 5.2rem);
 }
@@ -12825,32 +12861,6 @@ body.quote-v2-page {
   font-size: 11px;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-}
-
-.quote-v2-toggle {
-  display: flex;
-  gap: 0.3rem;
-  border-radius: 999px;
-  background: #f0f2f8;
-  padding: 0.24rem;
-}
-
-.quote-v2-toggle button {
-  border: 0;
-  border-radius: 999px;
-  background: transparent;
-  color: rgba(21, 28, 39, 0.7);
-  font-family: var(--font-ui);
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  padding: 0.52rem 0.78rem;
-}
-
-.quote-v2-toggle button.is-active {
-  background: #050d26;
-  color: #ffffff;
 }
 
 .quote-v2-progress {
@@ -12956,6 +12966,8 @@ body.quote-v2-page {
   border-radius: 4px;
   background: #fcfcfe;
   color: var(--brand-ink);
+  -webkit-text-fill-color: var(--brand-ink);
+  caret-color: var(--brand-ink);
   font-family: var(--font-ui);
   font-size: 16px;
   line-height: 1.5;

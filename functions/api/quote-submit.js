@@ -1,4 +1,9 @@
-const TO_EMAIL_FALLBACK = "bereconsllc@gmail.com";
+const TO_EMAIL_FALLBACK = "info@berecons.com";
+const CORS_HEADERS = {
+  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Methods": "POST, OPTIONS",
+  "Access-Control-Allow-Headers": "Content-Type",
+};
 
 const FORM_SCHEMAS = {
   "website-development-questionnaire": {
@@ -18,15 +23,14 @@ const FORM_SCHEMAS = {
       ["contact_email", "Contact email"],
     ],
   },
-  "quote-request": {
-    title: "Quote Request",
+  "contact-inquiry": {
+    title: "Contact Inquiry",
     fields: [
-      ["quote_client_name", "Client name"],
-      ["quote_contact_email", "Contact email"],
-      ["quote_project_type", "Project type"],
-      ["quote_timeline", "Preferred timeline"],
-      ["quote_budget", "Budget range"],
-      ["quote_project_summary", "Project summary"],
+      ["name", "Name"],
+      ["organisation", "Organisation"],
+      ["email", "Email"],
+      ["summary", "Short summary"],
+      ["details", "Inquiry details"],
     ],
   },
 };
@@ -36,7 +40,15 @@ function jsonResponse(status, payload) {
     status,
     headers: {
       "Content-Type": "application/json; charset=utf-8",
+      ...CORS_HEADERS,
     },
+  });
+}
+
+export function onRequestOptions() {
+  return new Response(null, {
+    status: 204,
+    headers: CORS_HEADERS,
   });
 }
 
@@ -59,8 +71,15 @@ function normalizeData(input) {
   );
 }
 
+function ensureBereconsSubject(subject, schemaTitle) {
+  const normalized = typeof subject === "string" ? subject.trim() : "";
+  const fallback = `${schemaTitle} Submission`;
+  const resolved = normalized || fallback;
+  return /\bBerecons\b/i.test(resolved) ? resolved : `[Berecons] ${resolved}`;
+}
+
 function buildEmailText(schema, data, submittedFrom) {
-  const lines = [`Berecons ${schema.title}`, ""];
+  const lines = ["Berecons Keyword: Berecons", `Berecons ${schema.title}`, ""];
 
   for (const [fieldName, label] of schema.fields) {
     lines.push(`${label}:`);
@@ -87,6 +106,7 @@ function buildEmailHtml(schema, data, submittedFrom) {
 
   return `
     <div style="font-family:Arial,sans-serif;color:#081234;line-height:1.5;">
+      <p style="margin:0 0 12px;font-size:12px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;">Berecons Keyword: Berecons</p>
       <h1 style="margin:0 0 16px;font-size:20px;">Berecons ${escapeHtml(schema.title)}</h1>
       <table style="border-collapse:collapse;width:100%;max-width:900px;">
         <tbody>${rows}</tbody>
@@ -154,7 +174,7 @@ export async function onRequestPost({ request, env }) {
   try {
     const text = buildEmailText(schema, data, submittedFrom);
     const html = buildEmailHtml(schema, data, submittedFrom);
-    await sendWithResend(env, subject, replyTo, text, html);
+    await sendWithResend(env, ensureBereconsSubject(subject, schema.title), replyTo, text, html);
     return jsonResponse(200, { ok: true });
   } catch (error) {
     const message = error instanceof Error ? error.message : "Email send failed.";
