@@ -1,6 +1,6 @@
 (function initQuoteV2() {
   const form = document.getElementById("quote-v2-form");
-  if (!form) return;
+  if (!form || !window.BereconsFormSubmit) return;
 
   const panels = [...form.querySelectorAll("[data-quote-v2-panel]")];
   const indicators = [...document.querySelectorAll(".quote-v2-progress .quote-v2-step")];
@@ -11,7 +11,6 @@
 
   if (!panels.length || !prevButton || !nextButton || !submitButton) return;
 
-  const SUBMIT_ENDPOINT = "/api/quote-submit";
   const DRAFT_KEY = "berecons-quote-v2-draft";
   let activeStep = 0;
 
@@ -102,36 +101,17 @@
 
   async function submitQuestionnaire() {
     const data = serializeFormData();
-    const subject = `Berecons Website Development Questionnaire - ${data.client_name || "Client"}`;
+    const subject = `[Berecons] Website Development Questionnaire - ${data.client_name || "Client"}`;
 
-    const response = await fetch(SUBMIT_ENDPOINT, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        formType: "website-development-questionnaire",
-        subject,
-        replyTo: data.contact_email || "",
-        submittedFrom: window.location.href,
-        data,
-      }),
-    });
+    const payload = {
+      formType: "website-development-questionnaire",
+      subject,
+      replyTo: data.contact_email || "",
+      submittedFrom: window.location.href,
+      data,
+    };
 
-    let payload = null;
-    try {
-      payload = await response.json();
-    } catch {
-      payload = null;
-    }
-
-    if (!response.ok) {
-      const message =
-        payload && typeof payload.message === "string" && payload.message.trim()
-          ? payload.message.trim()
-          : "Submission failed. Try again in a moment.";
-      throw new Error(message);
-    }
+    await window.BereconsFormSubmit.submitPayload(payload);
   }
 
   prevButton.addEventListener("click", () => {

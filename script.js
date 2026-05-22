@@ -2,6 +2,15 @@ const body = document.body;
 body.classList.add("has-js");
 
 const BUILD_VERSION = "20260303-10";
+
+function syncCurrentYear() {
+  const year = String(new Date().getFullYear());
+  document.querySelectorAll("[data-current-year]").forEach((node) => {
+    node.textContent = year;
+  });
+}
+
+syncCurrentYear();
 const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 const PRELOADER_SKIP_HOME_KEY = "berecons-skip-preloader-once";
 const PRELOADER_SKIP_QUERY_PARAM = "skipPreloader";
@@ -1075,8 +1084,6 @@ function initGsapMotion() {
   if (hasScrollTrigger) gsap.registerPlugin(ScrollTrigger);
 
   const heroTitle = document.querySelector(".hero-title");
-  const heroServicesSlider = document.querySelector(".hero-services-slider");
-  const heroSubtitle = document.querySelector(".hero-subtitle");
   const heroActions = document.querySelector(".hero-actions");
   const heroActionLinks = heroActions
     ? Array.from(heroActions.querySelectorAll(".hero-primary-link, .hero-secondary-link"))
@@ -1091,32 +1098,6 @@ function initGsapMotion() {
       ease: "power2.out",
       clearProps: "opacity,visibility,transform",
     }, 0);
-  }
-
-  if (heroServicesSlider) {
-    heroTimeline.from(
-      heroServicesSlider,
-      {
-        y: 16,
-        autoAlpha: 0,
-        duration: 0.72,
-        ease: "power2.out",
-      },
-      "<+0.1"
-    );
-  }
-
-  if (heroSubtitle) {
-    heroTimeline.from(
-      heroSubtitle,
-      {
-        y: 18,
-        autoAlpha: 0,
-        duration: 0.62,
-        ease: "power3.out",
-      },
-      0.3
-    );
   }
 
   if (heroActions) {
