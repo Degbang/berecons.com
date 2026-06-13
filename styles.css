@@ -1308,9 +1308,10 @@ main {
 }
 
 .home-stat-strip {
-  background: #f5f4f0;
-  padding-top: clamp(2.8rem, 6vw, 4.2rem);
-  padding-bottom: clamp(2.8rem, 6vw, 4.2rem);
+  background: linear-gradient(160deg, #0c1e36 0%, #1a2b3c 60%, #0d1a2e 100%);
+  padding-top: clamp(3rem, 6vw, 5rem);
+  padding-bottom: clamp(3rem, 6vw, 5rem);
+  border-top: 1px solid rgba(184, 150, 62, 0.18);
 }
 
 .section-anchor.home-stat-strip {
@@ -1329,6 +1330,13 @@ main {
   justify-items: center;
   gap: 0.62rem;
   text-align: center;
+  padding: clamp(1.6rem, 3vw, 2.4rem) clamp(1rem, 2vw, 1.8rem);
+  border-top: 2px solid rgba(184, 150, 62, 0.35);
+  transition: border-color 0.25s ease;
+}
+
+.home-stat-card:hover {
+  border-top-color: #b8963e;
 }
 
 .home-stat-value {
@@ -1362,23 +1370,23 @@ main {
 
 .home-stat-label {
   margin: 0;
-  color: rgba(26, 43, 60, 0.65);
+  color: rgba(214, 228, 255, 0.55);
   font-family: "IBM Plex Sans", system-ui, sans-serif;
-  font-size: 0.73rem;
+  font-size: 0.72rem;
   font-weight: 600;
-  letter-spacing: 0.16em;
+  letter-spacing: 0.18em;
   line-height: 1.45;
   text-transform: uppercase;
   text-align: center;
 }
 
 .home-stat-note {
-  margin: 0.35rem auto 0;
-  max-width: 34ch;
-  color: rgba(26, 43, 60, 0.8);
+  margin: 0.55rem auto 0;
+  max-width: 28ch;
+  color: rgba(214, 228, 255, 0.4);
   font-family: "IBM Plex Sans", system-ui, sans-serif;
-  font-size: clamp(0.92rem, 1.45vw, 1rem);
-  line-height: 1.72;
+  font-size: clamp(0.82rem, 1.1vw, 0.9rem);
+  line-height: 1.7;
   text-align: center;
 }
 
