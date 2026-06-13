@@ -190,8 +190,7 @@ a {
 }
 
 main p {
-  text-align: justify;
-  text-justify: inter-word;
+  text-align: left;
 }
 
 img {
@@ -1338,7 +1337,7 @@ main {
   align-items: baseline;
   justify-content: center;
   gap: 0.35rem;
-  color: #1a2b3c;
+  color: #b8963e;
   font-family: "Playfair Display", Georgia, serif;
   font-size: clamp(46px, 5.2vw, 56px);
   line-height: 0.95;
@@ -1363,7 +1362,7 @@ main {
 
 .home-stat-label {
   margin: 0;
-  color: #1a2b3c;
+  color: rgba(26, 43, 60, 0.65);
   font-family: "IBM Plex Sans", system-ui, sans-serif;
   font-size: 0.73rem;
   font-weight: 600;
@@ -2916,7 +2915,7 @@ body.has-js.capabilities-reveal-ready .capabilities-card.is-in-view .capabilitie
   gap: 0.8rem;
   margin-bottom: 12px;
   padding-top: 12px;
-  border-top: 1px solid rgba(19, 66, 198, 0.28);
+  border-top: 1px solid rgba(184, 150, 62, 0.3);
 }
 
 .process-flow-col-title {
@@ -2927,14 +2926,14 @@ body.has-js.capabilities-reveal-ready .capabilities-card.is-in-view .capabilitie
   font-family: "Neue Montreal", Arial, sans-serif;
   font-size: 18px;
   line-height: 22px;
-  font-weight: 500;
-  color: rgb(0, 43, 186);
+  font-weight: 600;
+  color: #1a2b3c;
 }
 
 .process-flow-icon {
   width: 20px;
   height: 20px;
-  color: rgb(0, 43, 186);
+  color: #b8963e;
   flex-shrink: 0;
 }
 
@@ -2952,11 +2951,10 @@ body.has-js.capabilities-reveal-ready .capabilities-card.is-in-view .capabilitie
   margin: 0;
   font-family: "Neue Montreal", Arial, sans-serif;
   font-size: 18px;
-  line-height: 22px;
-  color: rgb(0, 43, 186);
+  line-height: 1.65;
+  color: rgba(26, 43, 60, 0.72);
   font-weight: 400;
   text-align: left;
-  text-justify: auto;
 }
 
 @media (hover: hover) and (pointer: fine) {
@@ -3390,8 +3388,8 @@ body.has-js.capabilities-reveal-ready .capabilities-card.is-in-view .capabilitie
 }
 
 .about-template-values {
-  background: #1a2b3c;
-  color: #ffffff;
+  background: #b8963e;
+  color: #1a2b3c;
   padding: clamp(4rem, 8vw, 9rem) 0;
   position: relative;
   overflow: hidden;
@@ -3408,7 +3406,7 @@ body.has-js.capabilities-reveal-ready .capabilities-card.is-in-view .capabilitie
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
-  color: rgba(255, 255, 255, 0.02);
+  color: rgba(26, 43, 60, 0.07);
   font-family: "Playfair Display", "Times New Roman", serif;
   font-size: clamp(6rem, 16vw, 20rem);
   font-weight: 700;
@@ -3434,7 +3432,7 @@ body.has-js.capabilities-reveal-ready .capabilities-card.is-in-view .capabilitie
 .about-template-values-title {
   margin: 0;
   max-width: 16ch;
-  color: #ffffff;
+  color: #1a2b3c;
   font-family: "Playfair Display", "Times New Roman", serif;
   font-size: clamp(2.4rem, 4.2vw, 4.2rem);
   font-weight: 400;
@@ -3443,13 +3441,13 @@ body.has-js.capabilities-reveal-ready .capabilities-card.is-in-view .capabilitie
 
 .about-template-values-title em {
   font-style: italic;
-  color: #f5f4f0;
+  color: #1a2b3c;
 }
 
 .about-template-values-sub {
   margin: 0;
   max-width: 38ch;
-  color: rgba(255, 255, 255, 0.58);
+  color: rgba(26, 43, 60, 0.7);
   font-family: "IBM Plex Sans", system-ui, sans-serif;
   font-size: 0.9rem;
   line-height: 1.8;
@@ -3464,8 +3462,8 @@ body.has-js.capabilities-reveal-ready .capabilities-card.is-in-view .capabilitie
 .about-template-value-card {
   position: relative;
   overflow: hidden;
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(26, 43, 60, 0.06);
+  border: 1px solid rgba(26, 43, 60, 0.14);
   padding: clamp(1.7rem, 4vw, 3.5rem) clamp(1.4rem, 4vw, 4rem);
   transition: background 0.32s ease, border-color 0.32s ease;
 }
@@ -3477,7 +3475,7 @@ body.has-js.capabilities-reveal-ready .capabilities-card.is-in-view .capabilitie
   left: 0;
   width: 3px;
   height: 0;
-  background: #b8963e;
+  background: #1a2b3c;
   transition: height 0.4s ease;
 }
 
@@ -3486,14 +3484,14 @@ body.has-js.capabilities-reveal-ready .capabilities-card.is-in-view .capabilitie
 }
 
 .about-template-value-card:hover {
-  background: rgba(255, 255, 255, 0.06);
-  border-color: rgba(255, 255, 255, 0.14);
+  background: rgba(26, 43, 60, 0.1);
+  border-color: rgba(26, 43, 60, 0.22);
 }
 
 .about-template-value-number {
   display: block;
   margin-bottom: 1.2rem;
-  color: #b8963e;
+  color: rgba(26, 43, 60, 0.45);
   font-family: "IBM Plex Sans", system-ui, sans-serif;
   font-size: 0.7rem;
   font-weight: 600;
@@ -3502,7 +3500,7 @@ body.has-js.capabilities-reveal-ready .capabilities-card.is-in-view .capabilitie
 
 .about-template-value-name {
   margin: 0 0 1rem;
-  color: #ffffff;
+  color: #1a2b3c;
   font-family: "Playfair Display", "Times New Roman", serif;
   font-size: clamp(1.5rem, 2.8vw, 1.9rem);
   font-weight: 600;
@@ -3514,12 +3512,11 @@ body.has-js.capabilities-reveal-ready .capabilities-card.is-in-view .capabilitie
 .about-template-value-desc {
   margin: 0;
   max-width: 32ch;
-  color: rgba(255, 255, 255, 0.6);
+  color: rgba(26, 43, 60, 0.72);
   font-family: "IBM Plex Sans", system-ui, sans-serif;
   font-size: 0.9rem;
   line-height: 1.8;
   text-align: left;
-  text-justify: auto;
 }
 
 .about-template-clients {
@@ -5810,7 +5807,7 @@ body.has-js #services.process-section .process-card:not(.is-in-view) {
 .home-ticket-back-a {
   width: 86%;
   height: 74%;
-  background: linear-gradient(130deg, #03153f 0%, #0a2d74 48%, #031530 100%);
+  background: linear-gradient(130deg, #1a2b3c 0%, #243548 48%, #141e2a 100%);
   box-shadow: 0 18px 44px rgba(2, 11, 36, 0.28);
   transform: translate(-7.5%, 8%) rotate(-4.6deg);
 }
@@ -5818,7 +5815,7 @@ body.has-js #services.process-section .process-card:not(.is-in-view) {
 .home-ticket-back-b {
   width: 88%;
   height: 76%;
-  background: linear-gradient(130deg, rgba(7, 53, 186, 0.9) 0%, rgba(6, 27, 102, 0.96) 100%);
+  background: linear-gradient(130deg, rgba(184, 150, 62, 0.22) 0%, rgba(26, 43, 60, 0.96) 100%);
   box-shadow: 0 12px 30px rgba(7, 26, 79, 0.2);
   transform: translate(6%, -1.5%) rotate(4.2deg);
 }
@@ -5828,8 +5825,8 @@ body.has-js #services.process-section .process-card:not(.is-in-view) {
   width: 89%;
   height: 82%;
   border-radius: 18px;
-  border: 1px solid rgba(255, 255, 255, 0.22);
-  background: linear-gradient(120deg, #0c2fba 0%, #1136c7 54%, #1540d8 100%);
+  border: 1px solid rgba(184, 150, 62, 0.22);
+  background: linear-gradient(150deg, #111318 0%, #1a2535 55%, #0d1520 100%);
   box-shadow: 0 18px 42px rgba(8, 22, 74, 0.28);
   overflow: hidden;
   transform: rotate(2deg);
@@ -5876,9 +5873,9 @@ body.has-js #services.process-section .process-card:not(.is-in-view) {
 }
 
 .home-ticket-meta {
-  border-left: 1px dashed rgba(255, 255, 255, 0.36);
+  border-left: 1px dashed rgba(184, 150, 62, 0.4);
   padding: 1rem 1rem 0.84rem;
-  color: rgba(246, 250, 255, 0.94);
+  color: rgba(245, 244, 240, 0.94);
   text-align: left;
   display: grid;
   align-content: start;
@@ -5921,6 +5918,39 @@ body.has-js #services.process-section .process-card:not(.is-in-view) {
   letter-spacing: 0.07em;
   text-transform: uppercase;
   opacity: 0.68;
+}
+
+.home-ticket-call-cta {
+  display: inline-block;
+  margin: auto 0 0;
+  padding: 0.32rem 0.72rem;
+  background: #b8963e;
+  color: #111318;
+  font-family: "IBM Plex Sans", system-ui, sans-serif;
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-decoration: none;
+  border-radius: 4px;
+  width: fit-content;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.home-ticket-call-cta:hover {
+  background: #c9a84c;
+  transform: translateY(-1px);
+}
+
+.home-ticket-engagement-note {
+  max-width: 58ch;
+  margin: 2.4rem auto 0;
+  color: rgba(245, 244, 240, 0.55);
+  font-family: "IBM Plex Sans", system-ui, sans-serif;
+  font-size: clamp(0.9rem, 1.1vw, 1rem);
+  line-height: 1.72;
+  text-align: center;
+  font-style: italic;
 }
 
 @keyframes homeTicketFloat {
@@ -11527,7 +11557,7 @@ body.capabilities-export-page .site-header.is-on-light .brand-logo {
 
 .site-footer .footer-links-grid {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(120px, 0.28fr);
+  grid-template-columns: minmax(0, 1fr) minmax(140px, 0.55fr) minmax(100px, 0.2fr);
   gap: 20px;
   align-items: start;
 }
@@ -11559,14 +11589,11 @@ body.capabilities-export-page .site-header.is-on-light .brand-logo {
 }
 
 .site-footer .footer-links-group:first-child {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(110px, 1fr));
-  column-gap: 18px;
-  row-gap: 2px;
+  display: block;
 }
 
 .site-footer .footer-links-group:first-child .footer-links-title {
-  grid-column: 1 / -1;
+  grid-column: auto;
 }
 
 .site-footer .footer-links-group a:hover {
@@ -11689,12 +11716,8 @@ body.capabilities-export-page .site-header.is-on-light .brand-logo {
   }
 
   .site-footer .footer-links-grid {
-    grid-template-columns: minmax(0, 1fr) minmax(104px, 0.34fr);
+    grid-template-columns: minmax(0, 1fr) minmax(120px, 0.5fr) minmax(80px, 0.18fr);
     gap: 18px;
-  }
-
-  .site-footer .footer-links-group:first-child {
-    grid-template-columns: repeat(2, minmax(92px, 1fr));
   }
 
   .site-footer .footer-bottom {
@@ -11885,9 +11908,8 @@ body.capabilities-export-page .site-header.is-on-light .brand-logo {
     --cap-gutter: 20px;
   }
 
-  .site-footer .footer-links-grid,
-  .site-footer .footer-links-group:first-child {
-    grid-template-columns: 1fr;
+  .site-footer .footer-links-grid {
+    grid-template-columns: 1fr 1fr;
   }
 
   .cap-export-stats {
@@ -14325,7 +14347,7 @@ body.groundwork-page {
 
 /* WhatsApp float */
 .gw-whatsapp {
-  display: none;
+  display: flex;
   position: fixed;
   bottom: 1.5rem;
   right: 1.5rem;
@@ -14338,7 +14360,16 @@ body.groundwork-page {
   justify-content: center;
   box-shadow: 0 4px 18px rgba(0, 0, 0, 0.32);
   text-decoration: none;
-  transition: transform 0.22s ease, box-shadow 0.22s ease;
+  opacity: 0;
+  pointer-events: none;
+  transform: scale(0.8) translateY(8px);
+  transition: opacity 0.35s ease, transform 0.35s ease, box-shadow 0.22s ease;
+}
+
+.gw-whatsapp.is-visible {
+  opacity: 1;
+  pointer-events: auto;
+  transform: scale(1) translateY(0);
 }
 
 .gw-whatsapp:hover {
@@ -14368,7 +14399,7 @@ body.groundwork-page {
 @media (max-width: 768px) {
   .gw-trust-grid { grid-template-columns: 1fr; gap: 1.2rem; }
   .gw-process-steps { grid-template-columns: 1fr; gap: 2.5rem; }
-  .gw-whatsapp { display: flex; }
+  /* gw-whatsapp visibility now controlled by JS scroll logic */
   .gw-cta-trust-strip { flex-direction: column; align-items: center; gap: 0.5rem; }
 }
 

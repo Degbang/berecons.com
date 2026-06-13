@@ -38,4 +38,24 @@
 
   window.addEventListener("scroll", updateActiveAnchor, { passive: true });
   updateActiveAnchor();
+
+  // WhatsApp float: show after 25% scroll, hide near footer
+  var waBtn = document.querySelector('.gw-whatsapp');
+  if (waBtn) {
+    function updateWhatsApp() {
+      var scrollTop = window.scrollY || document.documentElement.scrollTop;
+      var docHeight = document.body.scrollHeight - window.innerHeight;
+      var footerEl  = document.querySelector('.site-footer');
+      var footerTop = footerEl ? footerEl.getBoundingClientRect().top : Infinity;
+      var pastThreshold = docHeight > 0 && (scrollTop / docHeight) > 0.18;
+      var nearFooter    = footerTop < window.innerHeight + 80;
+      if (pastThreshold && !nearFooter) {
+        waBtn.classList.add('is-visible');
+      } else {
+        waBtn.classList.remove('is-visible');
+      }
+    }
+    window.addEventListener('scroll', updateWhatsApp, { passive: true });
+    updateWhatsApp();
+  }
 })();
