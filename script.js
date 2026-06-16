@@ -1,7 +1,7 @@
 const body = document.body;
 body.classList.add("has-js");
 
-const BUILD_VERSION = "20260303-10";
+const BUILD_VERSION = "20260614-9";
 
 function syncCurrentYear() {
   const year = String(new Date().getFullYear());
@@ -1195,7 +1195,6 @@ function initGsapMotion() {
 
     gsap.fromTo(item, from, revealTo);
   });
-
 }
 
 function initNativeScrollEffects() {
@@ -1829,18 +1828,25 @@ function initCapabilitiesExportFilters() {
 
   const getScrollOffset = () => {
     const headerOffset = header ? header.getBoundingClientRect().height : 0;
-    const navOffset =
-      sectionNav && window.matchMedia("(max-width: 900px)").matches
-        ? sectionNav.getBoundingClientRect().height
-        : 0;
+    const navOffset = sectionNav ? sectionNav.getBoundingClientRect().height : 0;
     return headerOffset + navOffset - 1;
   };
 
+  let activeFilterId = "";
+
   const setActiveFilter = (targetId) => {
+    if (targetId === activeFilterId) return;
+    activeFilterId = targetId;
     filterButtons.forEach((button) => {
       const isActive = button.dataset.capExportFilter === targetId;
       button.classList.toggle("is-active", isActive);
       button.setAttribute("aria-pressed", isActive ? "true" : "false");
+      if (isActive && sectionNav && window.innerWidth <= 900) {
+        button.scrollIntoView({
+          block: "nearest",
+          inline: "center",
+        });
+      }
     });
   };
 
@@ -1874,6 +1880,554 @@ function initCapabilitiesExportFilters() {
   window.addEventListener("scroll", syncActiveFilter, { passive: true });
   window.addEventListener("resize", syncActiveFilter);
   syncActiveFilter();
+}
+
+function initCapabilitiesExportMotion() {
+  const root = document.querySelector(".capabilities-export");
+  if (!root) return;
+
+  const motionSections = [...root.querySelectorAll(".cap-export-hero, .cap-export-section")];
+  if (!motionSections.length) return;
+
+  const buttonById = new Map(
+    [...root.querySelectorAll("[data-cap-export-filter]")].map((button) => [button.dataset.capExportFilter, button])
+  );
+  buttonById.forEach((button) => button.style.setProperty("--cap-filter-progress", "0"));
+
+  body.classList.add("capabilities-export-motion-ready");
+
+  const setLiveState = (section, nextState) => {
+    section.classList.toggle("is-live", nextState);
+  };
+
+  if (prefersReducedMotion) {
+    motionSections.forEach((section) => section.classList.add("is-live"));
+    return;
+  }
+
+  const compactMotion = window.matchMedia("(max-width: 900px)").matches;
+  const chapterRise = compactMotion ? 32 : 68;
+  const chapterDrift = compactMotion ? -14 : -28;
+
+  if (window.gsap && window.ScrollTrigger) {
+    const gsap = window.gsap;
+    const ScrollTrigger = window.ScrollTrigger;
+    gsap.registerPlugin(ScrollTrigger);
+
+    const animateCluster = (timeline, elements, vars, position = 0) => {
+      if (!elements.length) return;
+      timeline.from(
+        elements,
+        {
+          autoAlpha: 0,
+          duration: 0.82,
+          ease: "power3.out",
+          stagger: 0.08,
+          ...vars,
+        },
+        position
+      );
+    };
+
+    const animateList = (timeline, listItems, options = {}, position = 0.18) => {
+      if (!listItems.length) return;
+      const {
+        fromX = 0,
+        fromY = 0,
+        stagger = 0.08,
+        ease = "power3.out",
+        duration = 0.82,
+        scale = 1,
+      } = options;
+
+      const resolveOffset = (offset, index, element) => {
+        if (typeof offset === "function") return offset(index, element);
+        if (Array.isArray(offset)) return offset[index] ?? 0;
+        return offset;
+      };
+
+      timeline.from(
+        listItems,
+        {
+          autoAlpha: 0,
+          duration,
+          ease,
+          stagger,
+          x: (index, element) => resolveOffset(fromX, index, element),
+          y: (index, element) => resolveOffset(fromY, index, element),
+          scale,
+        },
+        position
+      );
+    };
+
+    motionSections.forEach((section) => {
+      const sectionId = section.id;
+      const container = section.querySelector(".cap-export-container");
+      if (container) {
+        gsap.fromTo(
+          container,
+          {
+            y: chapterRise,
+            scale: compactMotion ? 0.96 : 0.88,
+            transformOrigin: "50% 50%",
+          },
+          {
+            y: 0,
+            scale: 1,
+            ease: "none",
+            scrollTrigger: {
+              trigger: section,
+              start: "top bottom",
+              end: "top 36%",
+              scrub: 0.9,
+            },
+          }
+        );
+
+        gsap.to(container, {
+          y: chapterDrift,
+          scale: compactMotion ? 0.978 : 0.94,
+          ease: "none",
+          scrollTrigger: {
+            trigger: section,
+            start: "bottom 72%",
+            end: "bottom top",
+            scrub: 1.0,
+          },
+        });
+      }
+
+      ScrollTrigger.create({
+        trigger: section,
+        start: "top 70%",
+        end: "bottom 34%",
+        onUpdate: ({ progress }) => {
+          const normalized = progress.toFixed(3);
+          section.style.setProperty("--cap-progress", normalized);
+          const filterButton = buttonById.get(sectionId);
+          if (filterButton) filterButton.style.setProperty("--cap-filter-progress", normalized);
+        },
+        onToggle: ({ isActive }) => setLiveState(section, isActive),
+      });
+    });
+
+    motionSections.forEach((section) => {
+      const timeline = gsap.timeline({
+        defaults: { overwrite: "auto" },
+        scrollTrigger: {
+          trigger: section,
+          start: "top 72%",
+          end: "bottom 34%",
+          toggleActions: "play reverse play reverse",
+        },
+      });
+
+      if (section.classList.contains("cap-export-hero")) {
+        const heroTitle = section.querySelector("h1");
+        const heroCopy = section.querySelector("p");
+        animateCluster(timeline, [heroTitle], {
+          y: compactMotion ? 120 : 180,
+          scale: 0.72,
+          transformOrigin: "50% 100%",
+          duration: 1.1,
+          ease: "expo.out",
+        }, 0);
+        animateCluster(timeline, [heroCopy], {
+          y: 60,
+          x: compactMotion ? 0 : 40,
+          scale: 0.9,
+          duration: 0.9,
+          ease: "power4.out",
+        }, 0.28);
+        return;
+      }
+
+      const copyChildren = [...section.querySelectorAll(".cap-export-copy > *")];
+      const listItems = [...section.querySelectorAll(".cap-export-list li")];
+      const sideParagraphs = [...section.querySelectorAll(".cap-export-side > p:not(.cap-export-note)")];
+      const sideLink = section.querySelector(".cap-export-link");
+      const note = section.querySelector(".cap-export-note");
+
+      if (section.id === "cap-export-research") {
+        animateCluster(timeline, copyChildren, {
+          y: 0, x: compactMotion ? -60 : -180,
+          scale: 0.86,
+          transformOrigin: "0% 50%",
+          duration: 1.0,
+          ease: "expo.out",
+        }, 0);
+        animateList(timeline, listItems, {
+          fromX: compactMotion ? 28 : 84,
+          fromY: 0,
+          ease: "power3.out",
+          duration: 0.74,
+          stagger: 0.06,
+        }, 0.18);
+        animateCluster(timeline, [sideLink], { y: 40, x: 20 }, 0.58);
+        return;
+      }
+
+      if (section.id === "cap-export-content") {
+        const quote = section.querySelector("blockquote");
+        const quoteIndex = copyChildren.indexOf(quote);
+        const introCopy = quoteIndex === -1 ? copyChildren : copyChildren.filter((item) => item !== quote);
+        animateCluster(timeline, introCopy, {
+          x: compactMotion ? 40 : 160,
+          scale: 0.88,
+          transformOrigin: "100% 50%",
+          duration: 1.0,
+          ease: "expo.out",
+        }, 0);
+        if (quote) {
+          timeline.from(quote, {
+            autoAlpha: 0,
+            y: compactMotion ? 50 : 100,
+            rotateX: -28,
+            scaleY: 0.6,
+            transformOrigin: "50% 0%",
+            duration: 0.9,
+            ease: "back.out(1.4)",
+          }, 0.24);
+        }
+        animateList(timeline, listItems, {
+          fromX: compactMotion ? -28 : -82,
+          fromY: 0,
+          ease: "power3.out",
+          duration: 0.72,
+          stagger: 0.06,
+        }, 0.2);
+        animateCluster(timeline, [sideLink], { x: -40, y: 0 }, 0.6);
+        return;
+      }
+
+      if (section.id === "cap-export-systems") {
+        const diagram = section.querySelector(".cap-export-diagram");
+        const lines = diagram ? [...diagram.querySelectorAll("line")] : [];
+        const circles = diagram ? [...diagram.querySelectorAll("circle")] : [];
+        const labels = diagram ? [...diagram.querySelectorAll("text")] : [];
+
+        animateCluster(timeline, copyChildren, {
+          y: compactMotion ? 60 : 120,
+          scale: 0.88,
+          transformOrigin: "50% 0%",
+          duration: 1.0,
+          ease: "expo.out",
+        }, 0);
+        animateList(timeline, listItems, {
+          fromX: compactMotion ? 24 : 72,
+          fromY: 0,
+          ease: "power3.out",
+          duration: 0.72,
+          stagger: 0.06,
+        }, 0.2);
+        animateCluster(timeline, [diagram], {
+          x: compactMotion ? 24 : 90,
+          y: 60,
+          scale: 0.6,
+          rotate: compactMotion ? 0 : -30,
+          transformOrigin: "50% 50%",
+          duration: 1.1,
+          ease: "elastic.out(1, 0.55)",
+        }, 0.14);
+
+        if (lines.length) {
+          gsap.set(lines, { strokeDasharray: 300, strokeDashoffset: 300, opacity: 0 });
+          timeline.to(lines, {
+            strokeDashoffset: 0, opacity: 1,
+            duration: 1.0, ease: "power3.out", stagger: 0.07,
+          }, 0.32);
+        }
+
+        if (circles.length) {
+          timeline.from(circles, {
+            autoAlpha: 0, scale: 0.1,
+            x: (i) => [-80, 30, -30, 60, 90][i] || 0,
+            y: (i) => [30, -80, 80, -20, 0][i] || 0,
+            duration: 0.78,
+            ease: "elastic.out(1.2, 0.5)",
+            stagger: 0.07,
+          }, 0.38);
+        }
+
+        animateCluster(timeline, labels, { y: 24, autoAlpha: 0 }, 0.52);
+        animateCluster(timeline, [sideLink], { y: 30 }, 0.64);
+        return;
+      }
+
+      if (section.id === "cap-export-strategy") {
+        const quote = section.querySelector("blockquote");
+        const quoteIndex = copyChildren.indexOf(quote);
+        const introCopy = quoteIndex === -1 ? copyChildren : copyChildren.filter((item) => item !== quote);
+        // Left column slams in from far right
+        animateCluster(timeline, introCopy, {
+          x: compactMotion ? 60 : 200,
+          scale: 0.82,
+          transformOrigin: "100% 50%",
+          duration: 1.1,
+          ease: "expo.out",
+        }, 0);
+        if (quote) {
+          timeline.from(quote, {
+            autoAlpha: 0,
+            scaleX: 0,
+            transformOrigin: "0% 50%",
+            duration: 0.7,
+            ease: "power4.out",
+          }, 0.26);
+        }
+        // Right column slams in from far left
+        animateCluster(timeline, sideParagraphs, {
+          x: compactMotion ? -50 : -180,
+          scale: 0.85,
+          duration: 1.0,
+          ease: "expo.out",
+        }, 0.08);
+        animateList(timeline, listItems, {
+          fromX: compactMotion ? -26 : -78,
+          fromY: 0,
+          ease: "power3.out",
+          duration: 0.72,
+          stagger: 0.06,
+        }, 0.24);
+        animateCluster(timeline, [sideLink], { x: -50 }, 0.62);
+        return;
+      }
+
+      if (section.id === "cap-export-programmes") {
+        const timelineSteps = [...section.querySelectorAll(".cap-export-timeline div")];
+        const stepBadges = timelineSteps.map((step) => step.querySelector("span")).filter(Boolean);
+        const stepLabels = timelineSteps.map((step) => step.querySelector("strong")).filter(Boolean);
+        animateCluster(timeline, copyChildren, {
+          y: compactMotion ? 80 : 150,
+          scale: 0.84,
+          transformOrigin: "50% 100%",
+          duration: 1.0,
+          ease: "expo.out",
+        }, 0);
+        animateList(timeline, listItems, {
+          fromX: compactMotion ? 20 : 64,
+          fromY: 0,
+          ease: "power3.out",
+          duration: 0.72,
+          stagger: 0.06,
+        }, 0.16);
+        // Domino cascade - each step tilts in from top
+        timeline.from(timelineSteps, {
+          autoAlpha: 0,
+          y: compactMotion ? -60 : -140,
+          rotate: (i) => (i % 2 === 0 ? -12 : 12),
+          scale: 0.7,
+          transformOrigin: "50% 0%",
+          duration: 1.0,
+          ease: "elastic.out(1, 0.6)",
+          stagger: 0.12,
+        }, 0.28);
+        timeline.from(stepBadges, {
+          autoAlpha: 0, scale: 0.1,
+          duration: 0.5, ease: "back.out(3)", stagger: 0.12,
+        }, 0.38);
+        timeline.from(stepLabels, {
+          autoAlpha: 0, y: 12,
+          duration: 0.4, ease: "power3.out", stagger: 0.1,
+        }, 0.44);
+        animateCluster(timeline, [sideLink], { y: 30, scale: 0.9 }, 0.68);
+        return;
+      }
+
+      if (section.id === "cap-export-technology") {
+        const headChildren = [...section.querySelectorAll(".cap-export-digital-head > *")];
+        const stats = [...section.querySelectorAll(".cap-export-stats > div")];
+        const panels = [...section.querySelectorAll(".cap-export-panels article")];
+        const digitalNote = section.querySelector(".cap-export-digital-note");
+        const dashboard = section.querySelector(".cap-export-dashboard");
+        const dashboardStream = [...section.querySelectorAll(".cap-export-dashboard-stream article")];
+        const dashboardIcons = [...section.querySelectorAll(".cap-export-dashboard aside span")];
+        const dashboardCards = [...section.querySelectorAll(".cap-export-dashboard-metrics article")];
+        const statusLine = section.querySelector(".cap-export-status p");
+        const statusBars = [...section.querySelectorAll(".cap-export-status span")];
+        const problems = [...section.querySelectorAll(".cap-export-problems article")];
+        const darkLink = section.querySelector(".cap-export-link--dark");
+
+        // Head cascade from bottom with stagger
+        animateCluster(timeline, headChildren, {
+          y: compactMotion ? 60 : 120, scale: 0.88,
+          transformOrigin: "50% 100%",
+          duration: 0.96, ease: "expo.out",
+        }, 0);
+        // Stats pop in like dice
+        timeline.from(stats, {
+          autoAlpha: 0, y: compactMotion ? 50 : 100, scale: 0.5,
+          rotate: (i) => [-8, 0, 8][i] || 0,
+          duration: 0.8, ease: "back.out(2.2)", stagger: 0.12,
+        }, 0.2);
+        // Panels slide in alternating diagonal
+        timeline.from(panels, {
+          autoAlpha: 0,
+          x: (i) => (i % 2 === 0 ? (compactMotion ? -40 : -110) : (compactMotion ? 40 : 110)),
+          y: (i) => i * (compactMotion ? 10 : 20),
+          scale: 0.88,
+          duration: 0.84, ease: "expo.out", stagger: 0.09,
+        }, 0.28);
+        animateCluster(timeline, [digitalNote], { y: 24, x: 0 }, 0.5);
+        // Dashboard flips in from right with 3D perspective
+        timeline.from(dashboard, {
+          autoAlpha: 0,
+          x: compactMotion ? 40 : 180,
+          y: compactMotion ? 10 : 30,
+          rotateY: compactMotion ? 0 : -22,
+          scale: 0.78,
+          transformOrigin: "100% 50%",
+          duration: 1.0, ease: "expo.out",
+        }, 0.3);
+        // Dashboard stream tiles fall in from top
+        timeline.from(dashboardStream, {
+          autoAlpha: 0, y: compactMotion ? -30 : -70,
+          x: (i) => (i - 1) * (compactMotion ? 12 : 28),
+          scale: 0.8, rotate: (i) => (i - 1) * 4,
+          duration: 0.72, ease: "back.out(1.6)", stagger: 0.1,
+        }, 0.46);
+        timeline.from(dashboardIcons, {
+          autoAlpha: 0, scale: 0.2, rotate: -180,
+          duration: 0.52, ease: "back.out(2.5)", stagger: 0.07,
+        }, 0.44);
+        // Dashboard metric cards cascade diagonally
+        timeline.from(dashboardCards, {
+          autoAlpha: 0,
+          x: (i) => i * (compactMotion ? 12 : 24),
+          y: (i) => i * (compactMotion ? 8 : 18),
+          scale: 0.78, rotate: (i) => i * 3,
+          duration: 0.64, ease: "back.out(1.8)", stagger: 0.09,
+        }, 0.52);
+        animateCluster(timeline, [statusLine], { x: 40, opacity: 0 }, 0.6);
+        timeline.from(
+          statusBars,
+          {
+            scaleX: 0,
+            transformOrigin: "0% 50%",
+            autoAlpha: 0,
+            duration: 0.44,
+            ease: "power2.out",
+            stagger: 0.05,
+          },
+          0.68
+        );
+        timeline.from(
+          problems,
+          {
+            autoAlpha: 0,
+            y: compactMotion ? 32 : 74,
+            rotateX: compactMotion ? 0 : -8,
+            transformOrigin: "50% 100%",
+            duration: 0.82,
+            ease: "power3.out",
+            stagger: 0.08,
+          },
+          0.42
+        );
+        animateCluster(timeline, [darkLink], { y: 24 }, 0.78);
+        return;
+      }
+
+      if (section.id === "cap-export-legal") {
+        const icons = [...section.querySelectorAll(".cap-export-icons div")];
+        animateCluster(timeline, copyChildren, {
+          x: compactMotion ? 50 : 160,
+          scale: 0.84,
+          transformOrigin: "100% 50%",
+          duration: 1.0,
+          ease: "expo.out",
+        }, 0);
+        // Icons spin in like balance scales settling
+        timeline.from(icons, {
+          autoAlpha: 0,
+          scale: 0.2,
+          rotate: (i) => [-180, 0, 180][i] || 0,
+          y: compactMotion ? 30 : 70,
+          duration: 0.88,
+          ease: "elastic.out(1.1, 0.5)",
+          stagger: 0.12,
+        }, 0.22);
+        animateList(timeline, listItems, {
+          fromX: compactMotion ? -28 : -84,
+          fromY: 0,
+          ease: "power3.out",
+          duration: 0.72,
+          stagger: 0.06,
+        }, 0.18);
+        animateCluster(timeline, [note], { y: 30, x: -24 }, 0.56);
+        animateCluster(timeline, [sideLink], { x: -50 }, 0.66);
+        return;
+      }
+
+      if (section.id === "cap-export-groundwork") {
+        const quote = section.querySelector("blockquote");
+        const quoteIndex = copyChildren.indexOf(quote);
+        const introCopy = quoteIndex === -1 ? copyChildren : copyChildren.filter((item) => item !== quote);
+        // Emerge from the ground - scale from bottom, y large
+        animateCluster(timeline, introCopy, {
+          y: compactMotion ? 100 : 200,
+          scale: 0.72,
+          transformOrigin: "50% 100%",
+          duration: 1.1,
+          ease: "expo.out",
+        }, 0);
+        if (quote) {
+          timeline.from(quote, {
+            autoAlpha: 0,
+            clipPath: "inset(100% 0% 0% 0%)",
+            y: 40,
+            duration: 0.82,
+            ease: "power4.out",
+          }, 0.28);
+        }
+        // List items emerge from below like stakes being driven
+        animateList(timeline, listItems, {
+          fromX: 0,
+          fromY: compactMotion ? 24 : 56,
+          ease: "power3.out",
+          duration: 0.76,
+          stagger: 0.06,
+        }, 0.2);
+        animateCluster(timeline, sideParagraphs, { y: 50, scale: 0.9 }, 0.4);
+        animateCluster(timeline, [sideLink], { y: 50, scale: 0.88 }, 0.64);
+        return;
+      }
+
+      animateCluster(timeline, copyChildren, { y: compactMotion ? 70 : 140, scale: 0.88, ease: "expo.out" }, 0);
+      animateList(timeline, listItems, {
+        fromX: compactMotion ? 24 : 70,
+        fromY: 0,
+        ease: "power3.out",
+        duration: 0.72,
+        stagger: 0.06,
+      }, 0.2);
+      animateCluster(timeline, sideParagraphs, { y: 40, x: -20 }, 0.28);
+      animateCluster(timeline, [note, sideLink], { y: 36 }, 0.56);
+    });
+
+    ScrollTrigger.refresh();
+    return;
+  }
+
+  if (!("IntersectionObserver" in window)) {
+    motionSections.forEach((section) => section.classList.add("is-live"));
+    return;
+  }
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        setLiveState(entry.target, entry.isIntersecting);
+      });
+    },
+    {
+      threshold: 0.22,
+      rootMargin: "-10% 0px -10% 0px",
+    }
+  );
+
+  motionSections.forEach((section) => observer.observe(section));
 }
 
 function initProcessTriadCircles() {
@@ -2179,6 +2733,84 @@ function initTeamSectionReveal() {
   }, 900);
 }
 
+function initTeamRosterSlider() {
+  const viewport = document.querySelector("[data-team-slider-viewport]");
+  const track = viewport?.querySelector("[data-team-slider-track]");
+  const prevButton = document.querySelector("[data-team-slider-prev]");
+  const nextButton = document.querySelector("[data-team-slider-next]");
+  const countLabel = document.querySelector("[data-team-slider-count]");
+  const cards = track ? [...track.querySelectorAll(".ppl-card:not([hidden])")] : [];
+
+  if (!viewport || !track || !prevButton || !nextButton || !cards.length) return;
+
+  viewport.tabIndex = 0;
+
+  const formatCount = (value) => String(value).padStart(2, "0");
+
+  const getCardStep = () => {
+    const sampleCard = cards[0];
+    if (!sampleCard) return viewport.clientWidth;
+
+    const trackStyles = window.getComputedStyle(track);
+    const gap = parseFloat(trackStyles.columnGap || trackStyles.gap || "0");
+    return sampleCard.getBoundingClientRect().width + gap;
+  };
+
+  const getActiveIndex = () => {
+    const step = Math.max(getCardStep(), 1);
+    return clampValue(Math.round(viewport.scrollLeft / step), 0, Math.max(cards.length - 1, 0));
+  };
+
+  const syncSliderState = () => {
+    const maxScroll = Math.max(viewport.scrollWidth - viewport.clientWidth, 0);
+    const activeIndex = getActiveIndex();
+
+    prevButton.disabled = viewport.scrollLeft <= 4;
+    nextButton.disabled = viewport.scrollLeft >= maxScroll - 4;
+
+    if (countLabel) {
+      countLabel.textContent = `${formatCount(activeIndex + 1)} / ${formatCount(cards.length)}`;
+    }
+  };
+
+  const scrollByStep = (direction) => {
+    const step = getCardStep();
+    viewport.scrollBy({
+      left: step * direction,
+      behavior: prefersReducedMotion ? "auto" : "smooth",
+    });
+  };
+
+  prevButton.addEventListener("click", () => scrollByStep(-1));
+  nextButton.addEventListener("click", () => scrollByStep(1));
+
+  viewport.addEventListener("keydown", (event) => {
+    if (event.key === "ArrowLeft") {
+      event.preventDefault();
+      scrollByStep(-1);
+    }
+
+    if (event.key === "ArrowRight") {
+      event.preventDefault();
+      scrollByStep(1);
+    }
+  });
+
+  let syncFrame = 0;
+  const requestSync = () => {
+    if (syncFrame) return;
+    syncFrame = window.requestAnimationFrame(() => {
+      syncFrame = 0;
+      syncSliderState();
+    });
+  };
+
+  viewport.addEventListener("scroll", requestSync, { passive: true });
+  window.addEventListener("resize", requestSync);
+
+  syncSliderState();
+}
+
 function initTeamAboutMediaFade() {
   const aboutMedia = document.querySelector(".team-about-media");
   const aboutLabel = aboutMedia?.querySelector(".team-about-label");
@@ -2472,6 +3104,269 @@ function initCounters() {
   );
 
   statValues.forEach((element) => observer.observe(element));
+}
+
+function initClientsReveal() {
+  const grid = document.querySelector(".about-template-clients-grid");
+  if (!grid) return;
+
+  if (!("IntersectionObserver" in window) || prefersReducedMotion) {
+    grid.classList.add("is-visible");
+    return;
+  }
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        grid.classList.add("is-visible");
+        observer.unobserve(grid);
+      });
+    },
+    { threshold: 0.18 }
+  );
+
+  observer.observe(grid);
+}
+
+function initAboutHeroSignals() {
+  const signalRail = document.querySelector("[data-about-hero-signals]");
+  const signalTags = signalRail ? [...signalRail.querySelectorAll("[data-about-hero-tag]")] : [];
+
+  if (!signalRail || !signalTags.length) return;
+
+  signalTags.forEach((tag, index) => {
+    tag.style.setProperty("--about-tag-order", String(index));
+    tag.tabIndex = 0;
+  });
+
+  let activeIndex = 0;
+  let cycleTimer = 0;
+  let isVisible = false;
+
+  const setActiveTag = (index) => {
+    signalTags.forEach((tag, tagIndex) => {
+      tag.classList.toggle("is-active", tagIndex === index);
+    });
+  };
+
+  const stopCycle = () => {
+    if (!cycleTimer) return;
+    window.clearInterval(cycleTimer);
+    cycleTimer = 0;
+  };
+
+  const startCycle = () => {
+    if (cycleTimer || prefersReducedMotion || signalTags.length < 2 || !isVisible) return;
+    cycleTimer = window.setInterval(() => {
+      activeIndex = (activeIndex + 1) % signalTags.length;
+      setActiveTag(activeIndex);
+    }, 1500);
+  };
+
+  const activateTag = (index) => {
+    activeIndex = index;
+    setActiveTag(index);
+    stopCycle();
+  };
+
+  const resumeCycle = () => {
+    if (!isVisible) return;
+    startCycle();
+  };
+
+  setActiveTag(activeIndex);
+
+  if (prefersReducedMotion) return;
+
+  signalTags.forEach((tag, index) => {
+    tag.addEventListener("pointerenter", () => activateTag(index));
+    tag.addEventListener("focusin", () => activateTag(index));
+    tag.addEventListener("pointerleave", resumeCycle);
+    tag.addEventListener("focusout", (event) => {
+      if (tag.contains(event.relatedTarget)) return;
+      resumeCycle();
+    });
+  });
+
+  if (!("IntersectionObserver" in window)) {
+    isVisible = true;
+    startCycle();
+    return;
+  }
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.target !== signalRail) return;
+        isVisible = entry.isIntersecting;
+
+        if (!isVisible) {
+          stopCycle();
+          setActiveTag(activeIndex);
+          return;
+        }
+
+        startCycle();
+      });
+    },
+    { threshold: 0.45 }
+  );
+
+  observer.observe(signalRail);
+}
+
+function initAboutStatsExperience() {
+  const aboutStatsSection = document.getElementById("about-stats");
+  const aboutStatsInner = aboutStatsSection?.querySelector(".about-template-stats-inner");
+  const statCards = aboutStatsInner ? [...aboutStatsInner.querySelectorAll("[data-about-stat-card]")] : [];
+  const statNumbers = aboutStatsInner
+    ? [...aboutStatsInner.querySelectorAll(".about-template-stat-number[data-about-count-end]")]
+    : [];
+
+  if (!aboutStatsSection || !aboutStatsInner || !statCards.length || !statNumbers.length) return;
+
+  const activeKeys = statCards
+    .map((card) => card.dataset.aboutStatCard || "")
+    .filter(Boolean);
+
+  const renderCounter = (element, value) => {
+    const prefix = element.dataset.aboutCountPrefix || "";
+    const suffix = element.dataset.aboutCountSuffix || "";
+    element.textContent = `${prefix}${Math.round(value)}${suffix}`;
+  };
+
+  const setFinalCounters = () => {
+    statNumbers.forEach((element) => {
+      renderCounter(element, Number(element.dataset.aboutCountEnd || 0));
+    });
+  };
+
+  let activeIndex = 0;
+  let cycleTimer = 0;
+  let hasPlayed = false;
+  let isVisible = false;
+
+  const setActive = (key) => {
+    if (!key) return;
+    aboutStatsSection.dataset.aboutActive = key;
+  };
+
+  const stopCycle = () => {
+    if (!cycleTimer) return;
+    window.clearInterval(cycleTimer);
+    cycleTimer = 0;
+  };
+
+  const startCycle = () => {
+    if (cycleTimer || prefersReducedMotion || activeKeys.length < 2) return;
+    cycleTimer = window.setInterval(() => {
+      activeIndex = (activeIndex + 1) % activeKeys.length;
+      setActive(activeKeys[activeIndex]);
+    }, 2200);
+  };
+
+  const animateCounter = (element, delay) => {
+    const start = Number(element.dataset.aboutCountStart || 0);
+    const end = Number(element.dataset.aboutCountEnd || 0);
+    const duration = Number(element.dataset.aboutCountDuration || 1500);
+
+    window.setTimeout(() => {
+      const startTime = performance.now();
+      element.classList.add("is-counting");
+      renderCounter(element, start);
+
+      const frame = (now) => {
+        const progress = clampValue((now - startTime) / duration, 0, 1);
+        const eased = 1 - Math.pow(1 - progress, 3);
+        const wobble = Math.sin(progress * Math.PI * 6) * (end - start) * 0.035 * (1 - progress);
+        const value = start + (end - start) * eased + wobble;
+        renderCounter(element, value);
+
+        if (progress < 1) {
+          window.requestAnimationFrame(frame);
+          return;
+        }
+
+        renderCounter(element, end);
+        element.classList.remove("is-counting");
+      };
+
+      window.requestAnimationFrame(frame);
+    }, delay);
+  };
+
+  const playCounters = () => {
+    statNumbers.forEach((element, index) => {
+      animateCounter(element, index * 180);
+    });
+  };
+
+  if (prefersReducedMotion) {
+    setFinalCounters();
+    return;
+  }
+
+  statCards.forEach((card) => {
+    const key = card.dataset.aboutStatCard || "";
+    if (!key) return;
+
+    const activateCard = () => {
+      activeIndex = Math.max(activeKeys.indexOf(key), 0);
+      setActive(key);
+      stopCycle();
+    };
+
+    const resumeCycle = () => {
+      if (!isVisible) return;
+      startCycle();
+    };
+
+    card.addEventListener("pointerenter", activateCard);
+    card.addEventListener("focusin", activateCard);
+    card.addEventListener("pointerleave", resumeCycle);
+    card.addEventListener("focusout", (event) => {
+      if (card.contains(event.relatedTarget)) return;
+      resumeCycle();
+    });
+  });
+
+  const setLiveState = (nextVisible) => {
+    isVisible = nextVisible;
+    aboutStatsSection.classList.toggle("is-live", nextVisible);
+
+    if (!nextVisible) {
+      stopCycle();
+      setActive(activeKeys[activeIndex] || "years");
+      return;
+    }
+
+    if (!hasPlayed) {
+      hasPlayed = true;
+      playCounters();
+    }
+
+    startCycle();
+  };
+
+  if (!("IntersectionObserver" in window)) {
+    setLiveState(true);
+    return;
+  }
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.target !== aboutStatsSection) return;
+        setLiveState(entry.isIntersecting);
+      });
+    },
+    {
+      threshold: 0.35,
+    }
+  );
+
+  observer.observe(aboutStatsSection);
 }
 
 function initDifferenceCanvas() {
@@ -3182,12 +4077,17 @@ initServicesSummaryCards();
 initServicesScrollReveal();
 initSolutionsSelection();
 initCapabilitiesPage();
+initCapabilitiesExportMotion();
 initCapabilitiesExportFilters();
 initProcessTriadCircles();
 initProcessFlowReveal();
+initTeamRosterSlider();
 initTeamAboutMediaFade();
 initTeamEditorialBoard();
 initTeamSectionReveal();
 initFooterReveal();
 initAboutTopOverscrollLock();
 initCounters();
+initAboutHeroSignals();
+initAboutStatsExperience();
+initClientsReveal();

@@ -6,7 +6,7 @@
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
     <meta http-equiv="Pragma" content="no-cache" />
     <meta http-equiv="Expires" content="0" />
-    <title>Meet the Team | Berecons LLC — Consulting Firm Ghana</title>
+    <title>Meet the Team | Berecons LLC, Consulting Firm Ghana</title>
     <meta
       name="description"
       content="Meet the Berecons LLC team: senior consultants and specialists in strategy, research, legal advisory, financial planning, digital solutions, and project management in Ghana and Africa."
@@ -33,7 +33,7 @@
       type="font/woff2"
       crossorigin
     />
-    <link rel="stylesheet" href="../styles.css?v=20260613-1" />
+    <link rel="stylesheet" href="../styles.css?v=20260615-4" />
   </head>
   <body class="is-loading specialists-page">
     <div class="site-ambient" aria-hidden="true">
@@ -138,7 +138,12 @@
 
     <main>
       <!-- HERO -->
-      <section class="ppl-hero" aria-labelledby="ppl-hero-title">
+      <section
+        id="team-hero"
+        class="ppl-hero section-anchor"
+        data-header-surface="transparent"
+        aria-labelledby="ppl-hero-title"
+      >
         <div class="container">
           <p class="ppl-hero-eyebrow" data-reveal="fade-up">Our People</p>
           <h1 id="ppl-hero-title" class="ppl-hero-heading" data-reveal="fade-up">
@@ -153,9 +158,31 @@
         </div>
       </section>
 
-      <!-- TEAM GRID -->
-      <section class="ppl-grid-section" aria-label="Team roster">
-        <div class="ppl-grid container">
+      <!-- TEAM SLIDER -->
+      <section
+        id="team-roster"
+        class="ppl-grid-section section-anchor"
+        data-header-surface="#f5f4f0"
+        aria-label="Team roster"
+      >
+        <div class="ppl-grid-shell container">
+          <div class="ppl-grid-toolbar" data-reveal="fade-up">
+            <p class="ppl-grid-toolbar-label">Swipe through the team</p>
+            <div class="ppl-grid-toolbar-meta">
+              <span class="ppl-grid-toolbar-count" data-team-slider-count>01 / 09</span>
+              <div class="ppl-grid-controls">
+                <button class="ppl-grid-control" type="button" data-team-slider-prev aria-label="Previous team member">
+                  <span aria-hidden="true">←</span>
+                </button>
+                <button class="ppl-grid-control" type="button" data-team-slider-next aria-label="Next team member">
+                  <span aria-hidden="true">→</span>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="ppl-grid-viewport" data-team-slider-viewport>
+            <div class="ppl-grid" data-team-slider-track>
 
           <!-- 01: Lorenda E. A. Parker -->
           <article class="ppl-card" data-person="lorenda" role="button" tabindex="0" aria-label="Read bio: Lorenda E. A. Parker" data-reveal="fade-up">
@@ -165,15 +192,12 @@
             <div class="ppl-card-body">
               <h3 class="ppl-card-name">Lorenda E. A. Parker</h3>
               <p class="ppl-card-title">Founder &amp; Principal Consultant</p>
-              <div class="ppl-card-tags">
-                <span class="ppl-card-tag">Strategy Consulting Ghana</span>
-                <span class="ppl-card-tag">Evidence-Based Research</span>
-                <span class="ppl-card-tag">Policy Advisory Africa</span>
-                <span class="ppl-card-tag">Systems + Design Thinking</span>
-                <span class="ppl-card-tag">Programme Management</span>
-                <span class="ppl-card-tag">Business Advisory Accra</span>
+              <div class="ppl-card-bio-cta" aria-hidden="true">
+                <span class="ppl-card-bio-cta-dot"></span>
+                <span class="ppl-card-bio-cta-text">Read profile</span>
+                <span class="ppl-card-bio-cta-arrow" aria-hidden="true">&#8599;</span>
               </div>
-            </div>
+</div>
           </article>
 
           <!-- 02: Raymond Atuguba -->
@@ -188,14 +212,12 @@
             <div class="ppl-card-body">
               <h3 class="ppl-card-name">Raymond Atuguba</h3>
               <p class="ppl-card-title">Senior Consultant, Policy &amp; Legal</p>
-              <div class="ppl-card-tags">
-                <span class="ppl-card-tag">Constitutional Law Ghana</span>
-                <span class="ppl-card-tag">Policy Development</span>
-                <span class="ppl-card-tag">Legal Advisory Africa</span>
-                <span class="ppl-card-tag">Corporate Governance</span>
-                <span class="ppl-card-tag">Institutional Design</span>
+              <div class="ppl-card-bio-cta" aria-hidden="true">
+                <span class="ppl-card-bio-cta-dot"></span>
+                <span class="ppl-card-bio-cta-text">Read profile</span>
+                <span class="ppl-card-bio-cta-arrow" aria-hidden="true">&#8599;</span>
               </div>
-            </div>
+</div>
           </article>
 
           <!-- 03: Emmanuelle M. Marchand -->
@@ -210,13 +232,12 @@
             <div class="ppl-card-body">
               <h3 class="ppl-card-name">Emmanuelle M. Marchand</h3>
               <p class="ppl-card-title">Consultant, Project Management</p>
-              <div class="ppl-card-tags">
-                <span class="ppl-card-tag">Project Management Ghana</span>
-                <span class="ppl-card-tag">Programme Delivery Africa</span>
-                <span class="ppl-card-tag">Monitoring &amp; Evaluation</span>
-                <span class="ppl-card-tag">Stakeholder Management</span>
+              <div class="ppl-card-bio-cta" aria-hidden="true">
+                <span class="ppl-card-bio-cta-dot"></span>
+                <span class="ppl-card-bio-cta-text">Read profile</span>
+                <span class="ppl-card-bio-cta-arrow" aria-hidden="true">&#8599;</span>
               </div>
-            </div>
+</div>
           </article>
 
           <!-- 04: Mark Ofori-Amanfo -->
@@ -227,22 +248,19 @@
             <div class="ppl-card-body">
               <h3 class="ppl-card-name">Mark Ofori-Amanfo</h3>
               <p class="ppl-card-title">Senior Consultant, Strategy &amp; Finance</p>
-              <div class="ppl-card-tags">
-                <span class="ppl-card-tag">Financial Planning Ghana</span>
-                <span class="ppl-card-tag">Business Strategy Africa</span>
-                <span class="ppl-card-tag">Investment Advisory Ghana</span>
-                <span class="ppl-card-tag">Audit &amp; Accounting</span>
-                <span class="ppl-card-tag">Tax Advisory Ghana</span>
-                <span class="ppl-card-tag">Financial Modelling</span>
+              <div class="ppl-card-bio-cta" aria-hidden="true">
+                <span class="ppl-card-bio-cta-dot"></span>
+                <span class="ppl-card-bio-cta-text">Read profile</span>
+                <span class="ppl-card-bio-cta-arrow" aria-hidden="true">&#8599;</span>
               </div>
-            </div>
+</div>
           </article>
 
           <!-- 05: Maxfield J. Peterson -->
           <article class="ppl-card" data-person="maxfield" role="button" tabindex="0" aria-label="Read bio: Maxfield J. Peterson" data-reveal="fade-up">
             <div class="ppl-card-photo">
               <img
-                src="https://static.wixstatic.com/media/285ff0_0e5da58e5d794fe2ab5702e04e28f2be~mv2.jpg/v1/crop/x_158,y_76,w_454,h_520/fill/w_545,h_624,al_c,lg_1,q_80,enc_avif,quality_auto/IMG-20220314-WA0008_edited.jpg"
+                src="../assets/max1.jpeg"
                 alt="Maxfield J. Peterson"
                 loading="lazy"
               />
@@ -250,85 +268,76 @@
             <div class="ppl-card-body">
               <h3 class="ppl-card-name">Maxfield J. Peterson</h3>
               <p class="ppl-card-title">Senior Consultant, Corporate Intelligence &amp; Analytics</p>
-              <div class="ppl-card-tags">
-                <span class="ppl-card-tag">Market Research Ghana</span>
-                <span class="ppl-card-tag">Corporate Intelligence Africa</span>
-                <span class="ppl-card-tag">Qualitative Research</span>
-                <span class="ppl-card-tag">Data Analysis Ghana</span>
-                <span class="ppl-card-tag">Business Analytics Africa</span>
+              <div class="ppl-card-bio-cta" aria-hidden="true">
+                <span class="ppl-card-bio-cta-dot"></span>
+                <span class="ppl-card-bio-cta-text">Read profile</span>
+                <span class="ppl-card-bio-cta-arrow" aria-hidden="true">&#8599;</span>
               </div>
-            </div>
+</div>
           </article>
 
           <!-- 06: Imad U. Ahmed -->
           <article class="ppl-card" data-person="imad" role="button" tabindex="0" aria-label="Read bio: Imad U. Ahmed" data-reveal="fade-up">
             <div class="ppl-card-photo">
-              <div class="ppl-card-mono">IA</div>
+              <img src="../assets/imad1.jpeg" alt="Imad U. Ahmed" loading="lazy" />
             </div>
             <div class="ppl-card-body">
               <h3 class="ppl-card-name">Imad U. Ahmed</h3>
               <p class="ppl-card-title">Senior Consultant, Infrastructure &amp; Economics</p>
-              <div class="ppl-card-tags">
-                <span class="ppl-card-tag">Infrastructure Finance Africa</span>
-                <span class="ppl-card-tag">PPP Advisory Ghana</span>
-                <span class="ppl-card-tag">Investment Advisory Africa</span>
-                <span class="ppl-card-tag">Capital Structuring</span>
-                <span class="ppl-card-tag">Asset Management Ghana</span>
+              <div class="ppl-card-bio-cta" aria-hidden="true">
+                <span class="ppl-card-bio-cta-dot"></span>
+                <span class="ppl-card-bio-cta-text">Read profile</span>
+                <span class="ppl-card-bio-cta-arrow" aria-hidden="true">&#8599;</span>
               </div>
-            </div>
+</div>
           </article>
 
           <!-- 07: Sylvester Asare -->
-          <article class="ppl-card" data-person="sylvester" role="button" tabindex="0" aria-label="Read bio: Sylvester Asare" data-reveal="fade-up">
+          <article class="ppl-card" data-person="sylvester" role="button" tabindex="0" aria-label="Read bio: Sylvester Asare" data-reveal="fade-up" hidden>
             <div class="ppl-card-photo">
               <div class="ppl-card-mono">SA</div>
             </div>
             <div class="ppl-card-body">
               <h3 class="ppl-card-name">Sylvester Asare</h3>
               <p class="ppl-card-title">Senior Consultant, Legal</p>
-              <div class="ppl-card-tags">
-                <span class="ppl-card-tag">Transactional Law Ghana</span>
-                <span class="ppl-card-tag">Property Law Ghana</span>
-                <span class="ppl-card-tag">Corporate Law Africa</span>
-                <span class="ppl-card-tag">Statutory Compliance Ghana</span>
+              <div class="ppl-card-bio-cta" aria-hidden="true">
+                <span class="ppl-card-bio-cta-dot"></span>
+                <span class="ppl-card-bio-cta-text">Read profile</span>
+                <span class="ppl-card-bio-cta-arrow" aria-hidden="true">&#8599;</span>
               </div>
-            </div>
+</div>
           </article>
 
           <!-- 08: Delasi Frank Amable -->
           <article class="ppl-card" data-person="delasi" role="button" tabindex="0" aria-label="Read bio: Delasi Frank Amable" data-reveal="fade-up">
             <div class="ppl-card-photo">
-              <div class="ppl-card-mono">DA</div>
+              <img src="../assets/delasi-frank-amable.jpg" alt="Delasi Frank Amable" loading="lazy" />
             </div>
             <div class="ppl-card-body">
               <h3 class="ppl-card-name">Delasi Frank Amable</h3>
               <p class="ppl-card-title">Senior Consultant, Institutional Development</p>
-              <div class="ppl-card-tags">
-                <span class="ppl-card-tag">Institutional Development Africa</span>
-                <span class="ppl-card-tag">Organisational Development Ghana</span>
-                <span class="ppl-card-tag">Natural Resource Governance</span>
-                <span class="ppl-card-tag">Monitoring &amp; Evaluation</span>
-                <span class="ppl-card-tag">Community Development Africa</span>
+              <div class="ppl-card-bio-cta" aria-hidden="true">
+                <span class="ppl-card-bio-cta-dot"></span>
+                <span class="ppl-card-bio-cta-text">Read profile</span>
+                <span class="ppl-card-bio-cta-arrow" aria-hidden="true">&#8599;</span>
               </div>
-            </div>
+</div>
           </article>
 
           <!-- 09: Alfred Degbang -->
           <article class="ppl-card" data-person="alfred" role="button" tabindex="0" aria-label="Read bio: Alfred Degbang" data-reveal="fade-up">
             <div class="ppl-card-photo">
-              <img src="../assets/image.png" alt="Alfred Degbang" loading="lazy" />
+              <img src="../assets/alfred1.png" alt="Alfred Degbang" loading="lazy" />
             </div>
             <div class="ppl-card-body">
               <h3 class="ppl-card-name">Alfred Degbang</h3>
               <p class="ppl-card-title">Associate Consultant, Software Engineering</p>
-              <div class="ppl-card-tags">
-                <span class="ppl-card-tag">Software Development Ghana</span>
-                <span class="ppl-card-tag">Digital Solutions Africa</span>
-                <span class="ppl-card-tag">Platform Engineering</span>
-                <span class="ppl-card-tag">IT Consulting Ghana</span>
-                <span class="ppl-card-tag">Systems Architecture</span>
+              <div class="ppl-card-bio-cta" aria-hidden="true">
+                <span class="ppl-card-bio-cta-dot"></span>
+                <span class="ppl-card-bio-cta-text">Read profile</span>
+                <span class="ppl-card-bio-cta-arrow" aria-hidden="true">&#8599;</span>
               </div>
-            </div>
+</div>
           </article>
 
           <!-- 10: Fabian Williams -->
@@ -339,20 +348,21 @@
             <div class="ppl-card-body">
               <h3 class="ppl-card-name">Fabian Williams</h3>
               <p class="ppl-card-title">Associate, Design &amp; Communications</p>
-              <div class="ppl-card-tags">
-                <span class="ppl-card-tag">Brand Design Ghana</span>
-                <span class="ppl-card-tag">Visual Identity Africa</span>
-                <span class="ppl-card-tag">Graphic Design Accra</span>
-                <span class="ppl-card-tag">Brand Communications</span>
+              <div class="ppl-card-bio-cta" aria-hidden="true">
+                <span class="ppl-card-bio-cta-dot"></span>
+                <span class="ppl-card-bio-cta-text">Read profile</span>
+                <span class="ppl-card-bio-cta-arrow" aria-hidden="true">&#8599;</span>
               </div>
-            </div>
+</div>
           </article>
 
+            </div>
+          </div>
         </div>
       </section>
 
       <!-- CLOSING -->
-      <section class="ppl-closing">
+      <section id="team-closing" class="ppl-closing section-anchor" data-header-surface="#111827">
         <div class="ppl-closing-inner container">
           <h2 class="ppl-closing-heading" data-reveal="fade-up">We are a small firm.<br />That is deliberate.</h2>
           <p class="ppl-closing-body" data-reveal="fade-up">
@@ -411,10 +421,12 @@
         </div>
 
         <div class="footer-bottom footer-animate">
-          <p class="footer-copy">&copy; <span data-current-year>2026</span> Berecons LLC. All rights reserved.</p>
+          <p class="footer-copy">
+            &copy; <span data-current-year>2026</span> Berecons LLC. All rights reserved. | Engineered by Berecons LLC
+          </p>
           <p class="footer-services-line">
             Research | Data | Content | Systems + Design | Strategy Consulting | Programme/Projects | Policy &amp;
-            Legal | Technology
+            Legal | Technology | Groundwork
           </p>
         </div>
       </div>
@@ -434,7 +446,7 @@
 
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
-    <script src="../script.js?v=20260513-5"></script>
+    <script src="../script.js?v=20260614-2"></script>
     <script>
       (function () {
         const bios = {
@@ -469,7 +481,7 @@
             title: 'Senior Consultant, Strategy & Finance',
             tags: ['Financial Planning Ghana', 'Business Strategy Africa', 'Investment Advisory Ghana', 'Audit & Accounting', 'Tax Advisory Ghana', 'Financial Modelling'],
             body: [
-              'Mark brings structured financial and strategic expertise to Berecons LLC engagements requiring rigorous cost analysis, business planning, audit readiness, and financial governance. His work spans business strategy development, financial modelling, accounting practice, and audit — disciplines that anchor the firm\'s strategy consulting capability in financial reality.',
+              'Mark brings structured financial and strategic expertise to Berecons LLC engagements requiring rigorous cost analysis, business planning, audit readiness, and financial governance. His work spans business strategy development, financial modelling, accounting practice, and audit: disciplines that anchor the firm\'s strategy consulting capability in financial reality.',
               'Mark is a Financial Management and Business Strategy Consultant at Berecons LLC, backed by more than 22 years of international corporate experience across sub-Saharan Africa. His extensive background spans financial accounting, audit assurance, business systems development, and tax law. At Berecons, he leverages this deep leadership experience to offer institutional clients unparalleled insights into financial management, investment advisory, and general business strategy.'
             ]
           },
@@ -533,6 +545,8 @@
         const titleEl  = document.getElementById('bio-drawer-title');
         const tagsEl   = document.getElementById('bio-drawer-tags');
         const bodyEl   = document.getElementById('bio-drawer-body');
+        const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        const openTimers = new WeakMap();
 
         function openBio(key) {
           const data = bios[key];
@@ -563,14 +577,56 @@
           overlay.setAttribute('aria-hidden', 'true');
           drawer.setAttribute('aria-hidden', 'true');
           document.body.style.overflow = '';
+          document.querySelectorAll('.ppl-card.is-primed').forEach(card => card.classList.remove('is-primed'));
         }
 
         document.querySelectorAll('.ppl-card').forEach(card => {
-          card.addEventListener('click', () => openBio(card.dataset.person));
+          const body = card.querySelector('.ppl-card-body');
+          const tags = [...card.querySelectorAll('.ppl-card-tag')];
+
+          tags.forEach((tag, index) => {
+            tag.style.setProperty('--tag-index', String(index));
+          });
+
+          const primeCard = () => {
+            card.classList.add('is-primed');
+          };
+
+          const restCard = event => {
+            if (event?.relatedTarget && card.contains(event.relatedTarget)) return;
+            if (drawer.classList.contains('is-open')) return;
+            card.classList.remove('is-primed');
+          };
+
+          const openFromCard = () => {
+            const existingTimer = openTimers.get(card);
+            if (existingTimer) {
+              window.clearTimeout(existingTimer);
+            }
+
+            primeCard();
+
+            const delay = reduceMotion ? 0 : 120;
+            const timer = window.setTimeout(() => {
+              openTimers.delete(card);
+              openBio(card.dataset.person);
+            }, delay);
+
+            openTimers.set(card, timer);
+          };
+
+          card.addEventListener('pointerenter', primeCard);
+          card.addEventListener('focusin', primeCard);
+          card.addEventListener('pointerleave', restCard);
+          card.addEventListener('focusout', restCard);
+          card.addEventListener('click', event => {
+            event.preventDefault();
+            openFromCard();
+          });
           card.addEventListener('keydown', e => {
             if (e.key === 'Enter' || e.key === ' ') {
               e.preventDefault();
-              openBio(card.dataset.person);
+              openFromCard();
             }
           });
         });
