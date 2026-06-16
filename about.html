@@ -33,7 +33,7 @@
       type="font/woff2"
       crossorigin
     />
-    <link rel="stylesheet" href="styles.css?v=20260513-6" />
+    <link rel="stylesheet" href="styles.css?v=20260614-1" />
   </head>
   <body class="is-loading about-page">
     <div class="site-ambient" aria-hidden="true">
@@ -98,7 +98,7 @@
             data-text="Teams"
             data-transition-link
             data-transition-label="Teams"
-            href="/about/consultants/"
+            href="/teams/"
             ><span>Teams</span></a
           >
           <a
@@ -142,11 +142,11 @@
           >
           <a
             class="about-template-founder-link"
-            href="about/consultants/"
+            href="/teams/"
             data-transition-link
             data-transition-label="Teams"
             data-reveal="fade-up"
-            >The Team →</a
+            >Meet the Team →</a
           >
 
           <div class="about-template-eyebrow" data-reveal="fade-up">
@@ -159,18 +159,28 @@
             Not assumptions.
           </h1>
 
+          <div class="about-template-signal-rail" data-about-hero-signals data-reveal="fade-up">
+            <div class="about-template-tags" aria-label="Practice areas">
+              <span class="about-template-tag" data-about-hero-tag>Programmes/Projects</span>
+              <span class="about-template-tag" data-about-hero-tag>Management Consulting</span>
+              <span class="about-template-tag" data-about-hero-tag>Asset Origination &amp; Strategic Structuring</span>
+              <span class="about-template-tag" data-about-hero-tag>Investment Advisory</span>
+            </div>
+            <a
+              class="about-template-bio-link"
+              href="/teams/"
+              data-transition-link
+              data-transition-label="Read bios"
+            >
+              <span class="about-template-bio-link-icon" aria-hidden="true"></span>
+              <span>Read the team bios</span>
+            </a>
+          </div>
+
           <p class="about-template-body" data-reveal="fade-up">
             Berecons LLC was founded in Accra in 2020, not because the market needed another consulting
             firm, but because it needed a different kind.
           </p>
-
-          <div class="about-template-tags" data-reveal="fade-up">
-            <span class="about-template-tag">Management Consulting</span>
-            <span class="about-template-tag">Research</span>
-            <span class="about-template-tag">Content</span>
-            <span class="about-template-tag">Projects</span>
-            <span class="about-template-tag">Technology</span>
-          </div>
         </div>
       </section>
 
@@ -178,19 +188,39 @@
         id="about-stats"
         class="panel panel-light section section-anchor about-template-stats-band"
         data-header-surface="#b8963e"
+        data-about-active="years"
       >
-        <div class="about-template-stats-inner" data-reveal="fade-up">
-          <article class="about-template-stat">
-            <span class="about-template-stat-number">20+</span>
+        <div class="about-template-stats-inner">
+          <article class="about-template-stat about-template-stat--years" data-about-stat-card="years" tabindex="0">
+            <span class="about-template-stat-shadow" aria-hidden="true">20+</span>
+            <span class="about-template-stat-kicker">Depth</span>
+            <span class="about-template-stat-number" data-about-count-start="34" data-about-count-end="20" data-about-count-suffix="+"
+              >20+</span
+            >
             <span class="about-template-stat-label">Years in Practice (Combined)</span>
+            <p class="about-template-stat-note">
+              Senior advisory shaped by fieldwork, policy work, and execution across sectors.
+            </p>
           </article>
-          <article class="about-template-stat">
-            <span class="about-template-stat-number">7</span>
-            <span class="about-template-stat-label">Integrated Capabilities</span>
+          <article class="about-template-stat about-template-stat--areas" data-about-stat-card="areas" tabindex="0">
+            <span class="about-template-stat-shadow" aria-hidden="true">08</span>
+            <span class="about-template-stat-kicker">Range</span>
+            <span class="about-template-stat-number" data-about-count-start="16" data-about-count-end="8">8</span>
+            <span class="about-template-stat-label">Integrated Practice Areas</span>
+            <p class="about-template-stat-note">
+              Research, strategy, structuring, delivery, and advisory connected in one operating lens.
+            </p>
           </article>
-          <article class="about-template-stat">
-            <span class="about-template-stat-number">100%</span>
+          <article class="about-template-stat about-template-stat--senior" data-about-stat-card="senior" tabindex="0">
+            <span class="about-template-stat-shadow" aria-hidden="true">100</span>
+            <span class="about-template-stat-kicker">Approach</span>
+            <span class="about-template-stat-number" data-about-count-start="132" data-about-count-end="100" data-about-count-suffix="%"
+              >100%</span
+            >
             <span class="about-template-stat-label">Senior-Led Engagements</span>
+            <p class="about-template-stat-note">
+              No bait-and-switch handoffs. Core thinking stays with the people leading the work.
+            </p>
           </article>
         </div>
       </section>
@@ -239,6 +269,12 @@
         class="panel panel-dark section section-anchor about-template-values"
         data-header-surface="#000000"
       >
+        <div class="about-values-slides" aria-hidden="true">
+          <div class="about-values-slide about-values-slide--1"></div>
+          <div class="about-values-slide about-values-slide--2"></div>
+          <div class="about-values-slide about-values-slide--3"></div>
+        </div>
+        <div class="about-values-overlay" aria-hidden="true"></div>
         <div class="container about-template-values-inner">
           <div class="about-template-values-header">
             <h2 class="about-template-values-title" data-reveal="fade-up">
@@ -254,30 +290,31 @@
           <div class="about-template-values-grid">
             <article class="about-template-value-card" data-reveal="fade-left">
               <span class="about-template-value-number">01</span>
-              <h3 class="about-template-value-name">Rigor</h3>
-              <p class="about-template-value-desc">We do not guess. We research, analyse, and verify before we advise.</p>
+              <h3 class="about-template-value-name">Honesty</h3>
+              <p class="about-template-value-desc">We tell clients what they need to hear, not what confirms the decision already made.</p>
             </article>
             <article class="about-template-value-card" data-reveal="fade-right">
               <span class="about-template-value-number">02</span>
-              <h3 class="about-template-value-name">Integration</h3>
+              <h3 class="about-template-value-name">Rigour</h3>
               <p class="about-template-value-desc">
-                A strategy disconnected from execution is a document. A technology without a strategy is an
-                expense. We connect them.
+                We do not guess. We research, analyse, and verify before we advise. Every recommendation is
+                defensible.
               </p>
             </article>
             <article class="about-template-value-card" data-reveal="fade-left">
               <span class="about-template-value-number">03</span>
-              <h3 class="about-template-value-name">Honesty</h3>
+              <h3 class="about-template-value-name">Context</h3>
               <p class="about-template-value-desc">
-                We tell clients what they need to hear, not what confirms the decision already made.
+                African institutions operate in African realities. We understand both, and we build every
+                recommendation from that foundation.
               </p>
             </article>
             <article class="about-template-value-card" data-reveal="fade-right">
               <span class="about-template-value-number">04</span>
-              <h3 class="about-template-value-name">Context</h3>
+              <h3 class="about-template-value-name">Integrity</h3>
               <p class="about-template-value-desc">
-                African institutions operate in African realities. We understand both, and we build from that
-                understanding.
+                A strategy disconnected from execution is a document. We connect research, design, technology,
+                and delivery, and stand behind what we produce.
               </p>
             </article>
           </div>
@@ -301,20 +338,20 @@
           </div>
 
           <div class="about-template-clients-grid">
-            <article class="about-template-client-card" data-reveal="fade-left">
+            <article class="about-template-client-card">
               <h3 class="about-template-client-name">Institutions</h3>
               <p class="about-template-client-desc">
                 We work with public and private institutions where the quality of analysis actually matters.
               </p>
             </article>
-            <article class="about-template-client-card" data-reveal="zoom">
+            <article class="about-template-client-card">
               <h3 class="about-template-client-name">Public Leaders &amp; Researchers</h3>
               <p class="about-template-client-desc">
                 Those navigating complex projects, evidence challenges, or professional transitions who need
                 expert support.
               </p>
             </article>
-            <article class="about-template-client-card" data-reveal="fade-right">
+            <article class="about-template-client-card">
               <h3 class="about-template-client-name">SMEs &amp; Entrepreneurs</h3>
               <p class="about-template-client-desc">
                 Businesses building strategy on a foundation of evidence, not assumption.
@@ -336,10 +373,19 @@
             <section class="footer-links-group" aria-label="Footer menu">
               <p class="footer-links-title">Menu</p>
               <a href="index.html?skipPreloader=1#home" data-transition-link>Home</a>
-              <a href="about.html">Our Story</a>
+              <a href="about.html">About Us</a>
+              <a href="/teams/">Team</a>
               <a href="/capabilities">Capabilities</a>
-              <a href="get-quote.html">Get Quote</a>
+              <a href="get-quote.html">Get a Quote</a>
               <a href="contact.html">Contact</a>
+            </section>
+
+            <section class="footer-links-group" aria-label="Footer about">
+              <p class="footer-links-title">About</p>
+              <a href="about/founder/leaparker/">Meet the Founder</a>
+              <a href="/teams/">Meet the Team</a>
+              <a href="about.html">Our Story</a>
+              <a href="about.html#our-value">Our Standards</a>
             </section>
 
             <section class="footer-links-group" aria-label="Footer socials">
@@ -355,10 +401,12 @@
         </div>
 
         <div class="footer-bottom footer-animate">
-          <p class="footer-copy">&copy; <span data-current-year>2026</span> Berecons LLC. All rights reserved.</p>
+          <p class="footer-copy">
+            &copy; <span data-current-year>2026</span> Berecons LLC. All rights reserved. | Engineered by Berecons LLC
+          </p>
           <p class="footer-services-line">
             Research | Data | Content | Systems + Design | Strategy Consulting | Programme/Projects | Policy &amp;
-            Legal | Technology
+            Legal | Technology | Groundwork
           </p>
         </div>
       </div>
@@ -366,6 +414,6 @@
 
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
-    <script src="script.js?v=20260513-5"></script>
+    <script src="script.js?v=20260614-1"></script>
   </body>
 </html>
