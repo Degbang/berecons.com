@@ -17,14 +17,12 @@
           if (window.sessionStorage.getItem("berecons-page-transition-reveal-once")) {
             document.documentElement.classList.add("transition-reveal-pending");
           }
-        } catch {
-          // Ignore storage access issues.
-        }
+        } catch {}
       })();
     </script>
     <link
       rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Manrope:wght@400;500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500;1,600;1,700&family=Manrope:wght@400;500;700&display=swap"
     />
     <link
       rel="preload"
@@ -33,11 +31,10 @@
       type="font/woff2"
       crossorigin
     />
-    <link rel="stylesheet" href="../styles.css?v=20260615-4" />
+    <link rel="stylesheet" href="../styles.css?v=20260618-8" />
   </head>
-  <body class="is-loading groundwork-page">
 
-    <div class="gw-progress" id="gw-progress" aria-hidden="true"></div>
+  <body class="is-loading groundwork-page">
 
     <div class="site-ambient" aria-hidden="true">
       <span class="ambient-glow ambient-glow-a"></span>
@@ -74,158 +71,80 @@
           </span>
         </a>
 
-        <button
-          id="menu-toggle"
-          class="menu-toggle"
-          type="button"
-          aria-expanded="false"
-          aria-controls="site-nav"
-        >
+        <button id="menu-toggle" class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav">
           Menu
         </button>
 
         <nav id="site-nav" class="site-nav" aria-label="Main navigation">
-          <a
-            class="nav-link"
-            data-text="Home"
-            data-transition-link
-            data-transition-label="Home"
-            href="../index.html?skipPreloader=1#home"
-            ><span>Home</span></a
-          >
-          <a
-            class="nav-link"
-            data-text="About us"
-            data-transition-link
-            data-transition-label="About us"
-            href="../about.html"
-            ><span>About us</span></a
-          >
-          <a
-            class="nav-link"
-            data-text="Teams"
-            data-transition-link
-            data-transition-label="Teams"
-            href="/teams/"
-            ><span>Teams</span></a
-          >
-          <a
-            class="nav-link is-active"
-            data-text="Capabilities"
-            data-transition-link
-            data-transition-label="Capabilities"
-            href="/capabilities"
-            ><span>Capabilities</span></a
-          >
+          <a class="nav-link" data-text="Home" data-transition-link data-transition-label="Home" href="../index.html?skipPreloader=1#home"><span>Home</span></a>
+          <a class="nav-link" data-text="About us" data-transition-link data-transition-label="About us" href="../about.html"><span>About us</span></a>
+          <a class="nav-link" data-text="Teams" data-transition-link data-transition-label="Teams" href="/teams/"><span>Teams</span></a>
+          <a class="nav-link is-active" data-text="Capabilities" data-transition-link data-transition-label="Capabilities" href="/capabilities"><span>Capabilities</span></a>
           <div class="site-nav-right">
-            <a
-              class="nav-link"
-              data-text="Contact"
-              data-transition-link
-              data-transition-label="Contact"
-              href="../contact.html"
-              ><span>Contact</span></a
-            >
-            <a
-              class="nav-link"
-              data-text="Get Quote"
-              data-transition-link
-              data-transition-label="Get Quote"
-              href="../get-quote.html"
-              ><span>Get Quote</span></a
-            >
+            <a class="nav-link" data-text="Contact" data-transition-link data-transition-label="Contact" href="../contact.html"><span>Contact</span></a>
+            <a class="nav-link" data-text="Get Quote" data-transition-link data-transition-label="Get Quote" href="../get-quote.html"><span>Get Quote</span></a>
           </div>
         </nav>
       </div>
     </header>
 
-    <main>
-      <section class="gw-hero section-anchor" id="gw-overview" data-header-surface="#09142f">
-        <div class="gw-hero-film" aria-hidden="true">
-          <video autoplay muted loop playsinline preload="metadata">
-            <source src="../assets/capability-videos/groundwork.mp4" type="video/mp4" />
-          </video>
-        </div>
-        <div class="container gw-hero-grid">
-          <div class="gw-hero-copy" data-reveal="fade-up">
-            <p class="gw-hero-overline">Berecons LLC &middot; Groundwork</p>
-            <h1>
-              <span>Your investment.</span>
-              <span>Your property.</span>
-              <span class="gw-hero-focus">Your protection.</span>
-            </h1>
-            <p class="gw-hero-desc">
-              Ghana's property market rewards precision and penalises absence. Whether you are acquiring
-              land from London, executing a project from Accra, or navigating an inheritance, Berecons
-              LLC provides the institutional infrastructure that stands between your capital and the
-              risks that end transactions before they begin.
-            </p>
-            <div class="gw-hero-actions">
-              <a href="#gw-services" class="gw-btn gw-btn--primary">Explore our services</a>
-              <a
-                href="../contact.html"
-                class="gw-btn gw-btn--outline"
-                data-transition-link
-                data-transition-label="Contact"
-                >Request a consultation</a
-              >
-            </div>
-            <div class="gw-hero-note">
-              <strong>Ground truth before capital moves.</strong>
-              <span>Independent verification, written findings, and senior-led local execution.</span>
-            </div>
+    <main class="gw-v2" id="gw-overview">
+
+      <!-- ═══ HERO ═══ -->
+      <section class="gw-v2-hero section-anchor" data-header-surface="#ffffff">
+        <div class="gw-v2-hero-body">
+          <span class="cv-eyebrow">Berecons LLC · Groundwork</span>
+          <h1>Your Investment.<br />Your Property.<br /><em>Your Protection.</em></h1>
+          <p class="gw-v2-hero-desc">
+            Ghana's property market rewards precision and penalises absence. Whether you are acquiring land from London, executing a project from Accra, or navigating an inheritance, Berecons LLC provides the institutional infrastructure that stands between your capital and the risks that end transactions before they begin.
+          </p>
+          <div class="gw-v2-hero-actions">
+            <a href="#gw-services" class="gw-btn gw-btn--primary">Explore our services</a>
+            <a href="../contact.html" class="gw-btn gw-btn--outline" data-transition-link data-transition-label="Contact">Request a consultation</a>
           </div>
+          <div class="gw-v2-hero-note">
+            <strong>Ground truth before capital moves.</strong>
+            <span>Independent verification, written findings, and senior-led local execution.</span>
+          </div>
+        </div>
+        <div class="gw-v2-hero-media" aria-hidden="true">
+          <img src="../assets/w1.jpg" alt="" />
         </div>
       </section>
 
-      <nav class="gw-anchor-nav" id="gw-anchor-nav" aria-label="Groundwork sections">
-        <div class="gw-anchor-nav-inner">
-          <a href="#gw-overview" class="is-active">Overview</a>
-          <a href="#gw-services">Services</a>
-          <a href="#gw-how-it-works">How it works</a>
-          <a href="#gw-fee-guide">Service guide</a>
-          <a href="#gw-faq">FAQ</a>
-          <a href="#gw-get-started">Get started</a>
-        </div>
-      </nav>
-
-      <section class="gw-proof section-anchor" data-header-surface="#f7f5ee">
-        <div class="container">
-          <div class="gw-proof-grid" data-reveal="fade-up">
-            <article class="gw-proof-card">
-              <h2>Independent</h2>
-              <p>No financial interest in any property, developer, or contractor we introduce.</p>
-            </article>
-            <article class="gw-proof-card">
-              <h2>Systems-led</h2>
-              <p>Every engagement follows a documented process. Nothing proceeds on assumptions.</p>
-            </article>
-            <article class="gw-proof-card">
-              <h2>Evidence-based</h2>
-              <p>Due diligence findings are documented, referenced, and delivered in writing.</p>
-            </article>
-            <article class="gw-proof-card">
-              <h2>Senior-led</h2>
-              <p>Every Groundwork engagement is managed at principal level. No delegation.</p>
-            </article>
+      <!-- ═══ PILLARS ═══ -->
+      <div class="gw-v2-pillars">
+        <div class="gw-v2-pillars-inner">
+          <div class="gw-v2-pillar">
+            <strong>Independent</strong>
+            <span>No financial interest in any property, developer, or contractor we introduce.</span>
+          </div>
+          <div class="gw-v2-pillar">
+            <strong>Systems-led</strong>
+            <span>Every engagement follows a documented process. Nothing proceeds on assumptions.</span>
+          </div>
+          <div class="gw-v2-pillar">
+            <strong>Evidence-based</strong>
+            <span>Due diligence findings are documented, referenced, and delivered in writing.</span>
+          </div>
+          <div class="gw-v2-pillar">
+            <strong>Senior-led</strong>
+            <span>Every Groundwork engagement is managed at principal level. No delegation.</span>
           </div>
         </div>
-      </section>
+      </div>
 
-      <section class="gw-problem section-anchor" data-header-surface="#f7f5ee">
-        <div class="container gw-problem-layout">
-          <div class="gw-problem-copy" data-reveal="fade-up">
-            <p class="gw-section-eyebrow">The problem we solve</p>
-            <h2>The market is not broken. It is opaque.</h2>
-            <p>
-              Opacity is the environment in which most investment losses occur. Deals collapse not
-              because the asset was not real, but because the verification was not done. Because no
-              one asked the right questions before the money moved.
-            </p>
+      <!-- ═══ THE PROBLEM ═══ -->
+      <section class="gw-v2-problem section-anchor" data-header-surface="#ffffff">
+        <div class="gw-v2-problem-inner">
+          <div class="gw-v2-problem-copy">
+            <span class="cv-eyebrow">The problem we solve</span>
+            <h2>The market is not broken.<br /><em>It is opaque.</em></h2>
+            <p>Opacity is the environment in which most investment losses occur. Deals collapse not because the asset was not real, but because the verification was not done. Because no one asked the right questions before the money moved.</p>
           </div>
-          <div class="gw-risk-panel" data-reveal="fade-up">
-            <p class="gw-risk-title">Where transactions fail</p>
-            <ul class="gw-risk-list">
+          <div class="gw-v2-risk-wrap">
+            <p class="gw-v2-risk-title">Where transactions fail</p>
+            <ol class="gw-v2-risk-list">
               <li>Double-allocation of the same parcel</li>
               <li>Title fraud and forged documentation</li>
               <li>Contractors who abandon projects mid-build</li>
@@ -233,233 +152,148 @@
               <li>Developer overpricing with no benchmarking</li>
               <li>No representation for remote investors</li>
               <li>Regulatory non-compliance found too late</li>
-            </ul>
+            </ol>
           </div>
         </div>
       </section>
 
-      <section class="gw-approach section-anchor" data-header-surface="#0f1d3f">
-        <div class="container gw-approach-layout">
-          <div class="gw-approach-copy" data-reveal="fade-up">
-            <p class="gw-section-eyebrow">The Berecons approach</p>
-            <h2>
-              We do not remove risk. We document it, quantify it, and build the structural safeguards
-              that ensure you are never exposed to risks you did not knowingly accept.
-            </h2>
-            <p>
-              Independent verification. Process documentation. No conflicts of interest. Local
-              presence, international standards.
-            </p>
-          </div>
+      <!-- ═══ APPROACH STATEMENT ═══ -->
+      <div class="gw-v2-approach">
+        <div class="gw-v2-approach-inner">
+          <span class="cv-eyebrow">The Berecons approach</span>
+          <h2>We do not remove risk. We document it, quantify it, and build the structural safeguards that ensure you are never exposed to risks you did not knowingly accept.</h2>
+          <p>Independent verification. Process documentation. No conflicts of interest. Local presence, international standards.</p>
         </div>
-      </section>
+      </div>
 
-      <section class="gw-capabilities section-anchor" id="gw-services" data-header-surface="#ffffff">
-        <div class="container">
-          <div class="gw-capabilities-head" data-reveal="fade-up">
-            <p class="gw-section-eyebrow">Our capabilities</p>
-            <h2>Eight structured services</h2>
-            <p>
-              Each one designed to address a specific point of failure in the Ghanaian property and
-              investment transaction cycle. Full fee structures are included in the downloadable
-              service guide below.
-            </p>
+      <!-- ═══ SERVICES ═══ -->
+      <section class="gw-v2-services-section section-anchor" id="gw-services" data-header-surface="#ffffff" style="padding: clamp(3.5rem,6vw,6.5rem) var(--cv-gutter); background: #ffffff; border-bottom: 1px solid rgba(200,169,106,0.1);">
+
+        <div class="gw-v2-services-head">
+          <span class="cv-eyebrow">Our capabilities</span>
+          <h2>Eight structured services</h2>
+          <p>Each one designed to address a specific point of failure in the Ghanaian property and investment transaction cycle.</p>
+        </div>
+
+        <!-- 01 Featured -->
+        <div style="max-width: 1240px; margin: 0 auto;">
+          <div class="cv-cap-rule" style="margin-bottom: clamp(1.5rem,2.5vw,2.5rem); padding-bottom: 1.25rem; border-bottom: 1px solid rgba(200,169,106,0.18); display: flex; align-items: center; gap: 1.25rem;">
+            <span class="cv-cap-num">01</span>
           </div>
-
-          <article class="gw-capability-feature" data-reveal="fade-up">
-            <div class="gw-capability-feature-copy">
-              <span class="gw-capability-index">01</span>
-              <h3>Land and property acquisition security</h3>
-              <p class="gw-capability-tagline">No title, no transfer. No exceptions.</p>
-              <p>
-                Comprehensive pre-acquisition checks that establish the verifiable status of any
-                asset before capital is committed. We work independently of the selling agent and
-                vendor, so our findings reflect the asset's actual condition, not the transaction's
-                commercial interest.
-              </p>
-              <p class="gw-capability-list-title">What we do</p>
-              <ul class="gw-capability-checklist">
+          <div style="display: grid; grid-template-columns: minmax(0,1fr) minmax(0,1fr); gap: clamp(2.5rem,5vw,6rem); margin-bottom: clamp(3rem,5vw,5rem);">
+            <div style="display: grid; gap: 1.25rem; align-content: start;">
+              <div>
+                <h3 style="font-family:'Playfair Display',Georgia,serif; font-size: clamp(1.6rem,2.5vw,2.2rem); font-weight:700; line-height:1.1; letter-spacing:-0.015em; color:#0d1012; margin:0 0 0.5rem;">Land &amp; Property Acquisition Security</h3>
+                <span class="cv-tagline">No title, no transfer. No exceptions.</span>
+              </div>
+              <p style="margin:0; font-size:clamp(0.93rem,1.02vw,1.05rem); line-height:1.8; color:#56575f;">Comprehensive pre-acquisition checks that establish the verifiable status of any asset before capital is committed. We work independently of the selling agent and vendor, so our findings reflect the asset's actual condition, not the transaction's commercial interest.</p>
+            </div>
+            <div style="display: grid; gap: 1.5rem; align-content: start;">
+              <ul class="cv-services">
                 <li>Independent title search at the Lands Commission</li>
-                <li>Parcel history and ownership lineage verification</li>
-                <li>Boundary demarcation and licensed surveyor coordination</li>
-                <li>Double-allocation and encumbrance screening</li>
+                <li>Parcel history &amp; ownership lineage verification</li>
+                <li>Boundary demarcation &amp; surveyor coordination</li>
+                <li>Double-allocation &amp; encumbrance screening</li>
                 <li>Planning and zoning status confirmation</li>
                 <li>Developer background check for off-plan acquisitions</li>
                 <li>Stool land and family land identification</li>
               </ul>
-              <p class="gw-capability-footnote">Fee structures included in the service guide.</p>
-              <a href="#gw-fee-guide" class="gw-service-link">Download the guide <span aria-hidden="true">→</span></a>
+              <a class="cv-cta" href="#gw-fee-guide">Download the service guide <span aria-hidden="true">→</span></a>
             </div>
-          </article>
+          </div>
+        </div>
 
-          <div class="gw-capability-cards" data-reveal="fade-up">
-            <article class="gw-capability-card">
-              <span>02</span>
-              <h3>Due diligence and forensic research</h3>
-              <p>Investigative checks before capital is committed.</p>
-            </article>
-            <article class="gw-capability-card">
-              <span>03</span>
-              <h3>Legal advisory and statutory compliance</h3>
-              <p>Contracts, regulatory process, and compliance guidance before exposure.</p>
-            </article>
-            <article class="gw-capability-card">
-              <span>04</span>
-              <h3>Local executive representation and project oversight</h3>
-              <p>Trusted local execution when the principal is not physically present.</p>
-            </article>
-            <article class="gw-capability-card">
-              <span>05</span>
-              <h3>Asset and property registration</h3>
-              <p>Registration support that carries the asset from paperwork to enforceable record.</p>
-            </article>
-            <article class="gw-capability-card">
-              <span>06</span>
-              <h3>Relocation, inward investment and concierge settlement</h3>
-              <p>Structured support for returnees, inward investors, and settling families.</p>
-            </article>
-            <article class="gw-capability-card">
-              <span>07</span>
-              <h3>Dispute resolution, mediation and asset recovery</h3>
-              <p>Documentation, mediation, and escalation support when a transaction breaks down.</p>
-            </article>
-            <article class="gw-capability-card">
-              <span>08</span>
-              <h3>Portfolio asset management and investment structuring</h3>
-              <p>Oversight and structuring for clients managing multiple assets or holdings.</p>
-            </article>
+        <!-- 02–08 Grid -->
+        <div class="gw-service-grid">
+          <div class="gw-service-item">
+            <span class="gw-service-num">02</span>
+            <h3>Due Diligence &amp; Forensic Research</h3>
+            <p>Investigative checks before capital is committed. Background checks on vendors, developers, and counterparties.</p>
+          </div>
+          <div class="gw-service-item">
+            <span class="gw-service-num">03</span>
+            <h3>Legal Advisory &amp; Statutory Compliance</h3>
+            <p>Contracts, regulatory process, and compliance guidance before exposure. We work alongside qualified legal practitioners.</p>
+          </div>
+          <div class="gw-service-item">
+            <span class="gw-service-num">04</span>
+            <h3>Local Executive Representation</h3>
+            <p>Trusted local execution when the principal is not physically present. Project oversight, site visits, and progress reporting.</p>
+          </div>
+          <div class="gw-service-item">
+            <span class="gw-service-num">05</span>
+            <h3>Asset &amp; Property Registration</h3>
+            <p>Registration support that carries the asset from paperwork to enforceable record. Stamps, forms, and process managed end-to-end.</p>
+          </div>
+          <div class="gw-service-item">
+            <span class="gw-service-num">06</span>
+            <h3>Relocation &amp; Concierge Settlement</h3>
+            <p>Structured support for returnees, inward investors, and settling families. From school searches to property orientation.</p>
+          </div>
+          <div class="gw-service-item">
+            <span class="gw-service-num">07</span>
+            <h3>Dispute Resolution &amp; Asset Recovery</h3>
+            <p>Documentation, mediation, and escalation support when a transaction breaks down. Structured path to resolution.</p>
+          </div>
+          <div class="gw-service-item">
+            <span class="gw-service-num">08</span>
+            <h3>Portfolio Asset Management</h3>
+            <p>Oversight and structuring for clients managing multiple assets or holdings. Periodic reporting, oversight, and optimisation.</p>
           </div>
         </div>
       </section>
 
-      <section class="gw-process section-anchor" id="gw-how-it-works" data-header-surface="#f7f5ee">
-        <div class="container gw-process-container">
-          <div class="gw-process-head" data-reveal="fade-up">
-            <p class="gw-section-eyebrow">How Groundwork works</p>
+      <!-- ═══ HOW IT WORKS ═══ -->
+      <section class="gw-v2-process section-anchor" id="gw-how-it-works" data-header-surface="#f9f8f5">
+        <div class="gw-v2-process-inner">
+          <div class="gw-v2-process-head">
+            <span class="cv-eyebrow">How Groundwork works</span>
             <h2>Four steps to a protected transaction</h2>
-            <p>Select each step to read the detail.</p>
           </div>
-
-          <div class="gw-process-shell" data-reveal="fade-up">
-            <div class="gw-process-tabs" role="tablist" aria-label="Groundwork process">
-              <button type="button" class="is-active" data-gw-step-trigger="1" aria-pressed="true">1 Consultation</button>
-              <button type="button" data-gw-step-trigger="2" aria-pressed="false">2 Scoping and proposal</button>
-              <button type="button" data-gw-step-trigger="3" aria-pressed="false">3 Execution</button>
-              <button type="button" data-gw-step-trigger="4" aria-pressed="false">4 Delivery and advisory</button>
+          <div class="gw-v2-steps">
+            <div class="gw-v2-step">
+              <span class="gw-v2-step-num">01</span>
+              <h3>Consultation</h3>
+              <p>A structured conversation by call, video, or in person. We listen to your objective, the asset in question, and your timeline. No fee for the initial consultation and no obligation to proceed.</p>
             </div>
-
-            <div class="gw-process-panels">
-              <article class="gw-process-panel is-active" data-gw-step-panel="1">
-                <div class="gw-process-panel-head">
-                  <span class="gw-process-panel-icon" aria-hidden="true">
-                    <svg viewBox="0 0 24 24" focusable="false">
-                      <path d="M4.5 6.5h15M4.5 12h15M4.5 17.5h9" />
-                      <path d="M16.5 15.5 19 18l4-4" />
-                    </svg>
-                  </span>
-                  <span class="gw-process-panel-num">01</span>
-                </div>
-                <h3>Consultation</h3>
-                <p>
-                  A structured conversation by call, video, or in person. We listen to your objective,
-                  the asset or investment in question, and your timeline. No fee for the initial
-                  consultation and no obligation to proceed.
-                </p>
-              </article>
-
-              <article class="gw-process-panel" data-gw-step-panel="2" hidden>
-                <div class="gw-process-panel-head">
-                  <span class="gw-process-panel-icon" aria-hidden="true">
-                    <svg viewBox="0 0 24 24" focusable="false">
-                      <path d="M6 4.5h8l4 4v11H6z" />
-                      <path d="M14 4.5V9h4" />
-                      <path d="M8.5 13h7M8.5 16h5" />
-                    </svg>
-                  </span>
-                  <span class="gw-process-panel-num">02</span>
-                </div>
-                <h3>Scoping and proposal</h3>
-                <p>
-                  Within 48 hours, we deliver a formal scope of objectives, a preliminary engagement
-                  framework, and a fixed-fee investment structure. You will know exactly what
-                  milestones will be achieved, the precise timeframe, and the exact cost. Nothing
-                  proceeds until terms are mutually agreed and confirmed in writing.
-                </p>
-              </article>
-
-              <article class="gw-process-panel" data-gw-step-panel="3" hidden>
-                <div class="gw-process-panel-head">
-                  <span class="gw-process-panel-icon" aria-hidden="true">
-                    <svg viewBox="0 0 24 24" focusable="false">
-                      <path d="M5 18.5h14" />
-                      <path d="M7.5 18.5V11M12 18.5V7.5M16.5 18.5v-4.5" />
-                      <path d="M6.5 9.5 11 5l3 3 4-4" />
-                    </svg>
-                  </span>
-                  <span class="gw-process-panel-num">03</span>
-                </div>
-                <h3>Execution</h3>
-                <p>
-                  We carry out the agreed verification, due diligence, oversight, or registration work
-                  according to scope. Progress is documented. Findings are recorded. You receive
-                  structured updates throughout.
-                </p>
-              </article>
-
-              <article class="gw-process-panel" data-gw-step-panel="4" hidden>
-                <div class="gw-process-panel-head">
-                  <span class="gw-process-panel-icon" aria-hidden="true">
-                    <svg viewBox="0 0 24 24" focusable="false">
-                      <path d="M4.5 7.5h15v9h-15z" />
-                      <path d="M8 15h8M8 11h4" />
-                      <path d="M19.5 9.5 22 12l-2.5 2.5" />
-                    </svg>
-                  </span>
-                  <span class="gw-process-panel-num">04</span>
-                </div>
-                <h3>Delivery and advisory</h3>
-                <p>
-                  You receive the final written output, transaction record, registration update, or
-                  oversight summary. Where findings raise concerns, we advise you before any
-                  irreversible step is taken.
-                </p>
-              </article>
+            <div class="gw-v2-step">
+              <span class="gw-v2-step-num">02</span>
+              <h3>Scoping &amp; Proposal</h3>
+              <p>Within 48 hours, we deliver a formal scope of objectives, a preliminary engagement framework, and a fixed-fee structure. You know exactly what will be achieved, the timeframe, and the cost.</p>
+            </div>
+            <div class="gw-v2-step">
+              <span class="gw-v2-step-num">03</span>
+              <h3>Execution</h3>
+              <p>We carry out the agreed verification, due diligence, oversight, or registration work to scope. Progress is documented. Findings are recorded. You receive structured updates throughout.</p>
+            </div>
+            <div class="gw-v2-step">
+              <span class="gw-v2-step-num">04</span>
+              <h3>Delivery &amp; Advisory</h3>
+              <p>You receive the final written output, transaction record, or oversight summary. Where findings raise concerns, we advise you before any irreversible step is taken.</p>
             </div>
           </div>
         </div>
       </section>
 
-      <section class="gw-guide section-anchor" id="gw-fee-guide" data-header-surface="#ffffff">
-        <div class="container gw-guide-layout">
-          <div class="gw-guide-copy" data-reveal="fade-up">
-            <p class="gw-section-eyebrow">Service guide</p>
+      <!-- ═══ SERVICE GUIDE FORM ═══ -->
+      <section class="gw-v2-guide section-anchor" id="gw-fee-guide" data-header-surface="#ffffff">
+        <div class="gw-v2-guide-inner">
+          <div class="gw-v2-guide-copy">
+            <span class="cv-eyebrow">Service guide</span>
             <h2>Full fee structures, on request</h2>
-            <p>
-              We do not publish fee schedules publicly. Every engagement is scoped individually, and
-              we want to give you accurate figures rather than indicative ranges without context. The
-              Groundwork Service Guide covers all eight capabilities in detail.
-            </p>
-
-            <div class="gw-guide-card">
-              <p class="gw-guide-card-kicker">The Groundwork Service Guide</p>
-              <p>
-                A detailed breakdown of all eight capabilities: what each engagement covers, how we
-                scope and price our work, and what you should expect from the process. Sent to your
-                inbox within one business day.
-              </p>
-              <ul class="gw-guide-points">
-                <li>All 8 service capabilities</li>
-                <li>Full fee structures</li>
-                <li>Fee model explanations</li>
-                <li>Bundled engagement options</li>
-              </ul>
-            </div>
+            <p>We do not publish fee schedules publicly. Every engagement is scoped individually, and we want to give you accurate figures rather than indicative ranges without context.</p>
+            <ul class="gw-v2-guide-points">
+              <li>All 8 service capabilities in detail</li>
+              <li>Full fee structures per service</li>
+              <li>Fee model explanations</li>
+              <li>Bundled engagement options</li>
+            </ul>
           </div>
 
-          <div class="gw-guide-form-shell" id="gw-guide-form" data-reveal="fade-up">
-            <p class="gw-guide-form-kicker">How to get started</p>
-            <h3>Enter your details below. We will send the guide to your inbox and follow up within one business day.</h3>
-            <form class="gw-guide-form" action="#" method="post" novalidate>
+          <div class="gw-v2-form-shell">
+            <p class="gw-v2-form-kicker">Request the guide</p>
+            <h3>Enter your details. We will send the guide to your inbox and follow up within one business day.</h3>
+            <form class="gw-v2-form" action="#" method="post" novalidate>
               <label>
                 <span>First name</span>
                 <input type="text" name="first_name" placeholder="First name" />
@@ -468,31 +302,33 @@
                 <span>Last name</span>
                 <input type="text" name="last_name" placeholder="Last name" />
               </label>
-              <label class="gw-guide-form-full">
+              <label class="form-full">
                 <span>Email address</span>
                 <input type="email" name="email" placeholder="name@example.com" />
               </label>
-              <label class="gw-guide-form-full">
-                <span>Brief context: what are you working on? (optional)</span>
+              <label class="form-full">
+                <span>Brief context (optional)</span>
                 <textarea name="context" rows="4" placeholder="Property acquisition, inheritance matter, project oversight, or another Groundwork need."></textarea>
               </label>
-              <button type="submit" class="gw-btn gw-btn--primary">Send me the service guide</button>
+              <div class="form-full" style="display:grid; gap: 0.75rem;">
+                <button type="submit" class="gw-btn gw-btn--primary" style="width: fit-content;">Send me the service guide</button>
+                <p class="gw-v2-form-note">Your details are used solely to send the guide and for Berecons LLC to follow up. We do not share your information with third parties.</p>
+              </div>
             </form>
-            <p class="gw-guide-form-note">
-              Your details are used solely to send the guide and for Berecons LLC to follow up on your enquiry. We do not share your information with third parties.
-            </p>
           </div>
         </div>
       </section>
 
-      <section class="gw-faq section-anchor" id="gw-faq" data-header-surface="#f7f5ee">
-        <div class="container">
-          <div class="gw-faq-head" data-reveal="fade-up">
-            <p class="gw-section-eyebrow">Frequently asked questions</p>
+      <!-- ═══ FAQ ═══ -->
+      <section class="gw-v2-faq section-anchor" id="gw-faq" data-header-surface="#f9f8f5">
+        <div class="gw-v2-faq-inner">
+          <div class="gw-v2-faq-head">
+            <span class="cv-eyebrow">Frequently asked questions</span>
             <h2>Common questions</h2>
+            <p>If your question is not here, contact us directly; we respond to every enquiry.</p>
           </div>
 
-          <div class="gw-faq-list" data-reveal="fade-up">
+          <div class="gw-v2-faq-list">
             <details open>
               <summary>Do I need to be in Ghana to use your services?</summary>
               <p>No. Many Groundwork engagements are built for remote clients who need verified local representation before capital moves.</p>
@@ -511,7 +347,7 @@
             </details>
             <details>
               <summary>Do you have relationships with developers or agents?</summary>
-              <p>No financial interest in any property, developer, or contractor we introduce. Groundwork is designed to remain independent.</p>
+              <p>No financial interest in any property, developer, or contractor we introduce. Groundwork is designed to remain independent at every stage.</p>
             </details>
             <details>
               <summary>Can I bundle services?</summary>
@@ -521,46 +357,32 @@
         </div>
       </section>
 
-      <section class="gw-cta section-anchor" id="gw-get-started" data-header-surface="#071126">
-        <div class="gw-cta-container" data-reveal="fade-up">
-          <p class="gw-section-eyebrow">Get started</p>
-          <h2>Protect your investment before you make it.</h2>
-          <p class="gw-cta-desc">
-            The cost of a Berecons LLC Groundwork engagement is a fraction of the cost of a
-            transaction that fails, a title that cannot be registered, or a project that never
-            completes.
-          </p>
-          <div class="gw-cta-actions">
-            <a
-              href="../contact.html"
-              class="gw-btn gw-btn--primary"
-              data-transition-link
-              data-transition-label="Contact"
-              >Request a consultation</a
-            >
+      <!-- ═══ CTA ═══ -->
+      <section class="gw-v2-cta section-anchor" id="gw-get-started" data-header-surface="#ffffff">
+        <div class="gw-v2-cta-inner">
+          <span class="cv-eyebrow">Get started</span>
+          <h2>Protect your investment<br /><em>before you make it.</em></h2>
+          <p>The cost of a Berecons LLC Groundwork engagement is a fraction of the cost of a transaction that fails, a title that cannot be registered, or a project that never completes.</p>
+          <div class="gw-v2-cta-actions">
+            <a href="../contact.html" class="gw-btn gw-btn--primary" data-transition-link data-transition-label="Contact">Request a consultation</a>
             <a href="#gw-fee-guide" class="gw-btn gw-btn--outline">Download the service guide</a>
           </div>
-          <div class="gw-cta-points">
+          <div class="gw-v2-cta-trust">
             <span>No engagement without written scope</span>
             <span>Fixed fees before work commences</span>
-            <span>Independent - no agent relationships</span>
+            <span>Independent, no agent relationships</span>
           </div>
         </div>
       </section>
+
     </main>
 
     <footer class="site-footer">
       <div class="container footer-inner">
         <div class="footer-top footer-animate">
-          <a
-            href="../index.html?skipPreloader=1#home"
-            class="footer-brand"
-            aria-label="Berecons home"
-            data-transition-link
-          >
+          <a href="../index.html?skipPreloader=1#home" class="footer-brand" aria-label="Berecons home" data-transition-link>
             <img src="../assets/logo-blc-cropped.png?v=20260227-7" alt="Berecons logo" class="footer-logo" />
           </a>
-
           <div class="footer-links-grid">
             <section class="footer-links-group" aria-label="Footer menu">
               <p class="footer-links-title">Menu</p>
@@ -571,7 +393,6 @@
               <a href="../get-quote.html">Get a Quote</a>
               <a href="../contact.html">Contact</a>
             </section>
-
             <section class="footer-links-group" aria-label="Footer about">
               <p class="footer-links-title">About</p>
               <a href="../about/founder/leaparker/">Meet the Founder</a>
@@ -579,39 +400,169 @@
               <a href="../about.html">Our Story</a>
               <a href="../about.html#our-value">Our Standards</a>
             </section>
-
             <section class="footer-links-group" aria-label="Footer socials">
               <p class="footer-links-title">Socials</p>
-              <a
-                href="https://www.linkedin.com/company/bereconsllc"
-                target="_blank"
-                rel="noopener noreferrer"
-                >LinkedIn</a
-              >
+              <a href="https://www.linkedin.com/company/bereconsllc" target="_blank" rel="noopener noreferrer">LinkedIn</a>
             </section>
           </div>
         </div>
-
         <div class="footer-bottom footer-animate">
-          <p class="footer-copy">
-            &copy; <span data-current-year>2026</span> Berecons LLC. All rights reserved. | Engineered by Berecons LLC
-          </p>
-          <p class="footer-services-line">
-            Research | Data | Content | Systems + Design | Strategy Consulting | Programme/Projects | Policy &amp;
-            Legal | Technology | Groundwork
-          </p>
+          <p class="footer-copy">&copy; <span data-current-year>2026</span> Berecons LLC. All rights reserved. | Engineered by Berecons LLC</p>
+          <p class="footer-services-line">Research | Data | Content | Systems + Design | Strategy Consulting | Programme/Projects | Policy &amp; Legal | Technology | Groundwork</p>
         </div>
       </div>
     </footer>
 
-    <!-- WhatsApp float (mobile) -->
-    <a class="gw-float-cta" href="#gw-fee-guide" aria-label="Jump to the Groundwork service guide">
-      Guide
-    </a>
-
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
-    <script src="../script.js?v=20260513-5"></script>
-    <script src="../groundwork.js?v=20260611-1"></script>
+    <script src="../script.js?v=20260614-9"></script>
+    <script>
+    (function () {
+      function gwAnims() {
+        if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
+        gsap.registerPlugin(ScrollTrigger);
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+        /* ── HERO ── */
+        var heroBody  = document.querySelector('.gw-v2-hero-body');
+        var heroMedia = document.querySelector('.gw-v2-hero-media img');
+        if (heroBody) {
+          var tl = gsap.timeline({ delay: 0.25 });
+          var eyebrow  = heroBody.querySelector('.cv-eyebrow');
+          var h1Lines  = heroBody.querySelectorAll('h1');
+          var desc     = heroBody.querySelector('.gw-v2-hero-desc');
+          var btns     = heroBody.querySelectorAll('.gw-v2-hero-actions a');
+          var note     = heroBody.querySelector('.gw-v2-hero-note');
+          if (eyebrow) tl.from(eyebrow, { y: 26, opacity: 0, duration: 0.6,  ease: 'power3.out' });
+          if (h1Lines.length) tl.from(h1Lines, { y: 68, opacity: 0, duration: 1.1, ease: 'power4.out' }, '-=0.25');
+          if (desc)    tl.from(desc,    { y: 32, opacity: 0, duration: 0.8,  ease: 'power2.out' }, '-=0.6');
+          if (btns.length) tl.from(btns, { y: 20, opacity: 0, stagger: 0.1, duration: 0.5, ease: 'back.out(1.5)' }, '-=0.45');
+          if (note)    tl.from(note,    { x: -28, opacity: 0, duration: 0.65, ease: 'power2.out' }, '-=0.35');
+        }
+        if (heroMedia) {
+          gsap.from(heroMedia, { scale: 1.14, duration: 1.9, ease: 'power3.out', delay: 0.1 });
+          gsap.to(heroMedia, { scale: 1.06, duration: 22, ease: 'none', repeat: -1, yoyo: true, delay: 2 });
+        }
+
+        /* ── PILLARS ── */
+        var pillars = document.querySelectorAll('.gw-v2-pillar');
+        if (pillars.length) {
+          gsap.from(pillars, {
+            scrollTrigger: { trigger: '.gw-v2-pillars', start: 'top 86%', once: true },
+            y: 36, opacity: 0, stagger: 0.11, duration: 0.65, ease: 'power3.out'
+          });
+        }
+
+        /* ── PROBLEM ── */
+        var problemCopy = document.querySelector('.gw-v2-problem-copy');
+        var riskWrap    = document.querySelector('.gw-v2-risk-wrap');
+        if (problemCopy) {
+          var tlP = gsap.timeline({ scrollTrigger: { trigger: problemCopy, start: 'top 80%', once: true } });
+          tlP.from(problemCopy.querySelector('.cv-eyebrow'), { x: -32, opacity: 0, duration: 0.55, ease: 'power3.out' })
+             .from(problemCopy.querySelector('h2'), { x: -42, opacity: 0, duration: 0.85, ease: 'power4.out' }, '-=0.3')
+             .from(problemCopy.querySelector('p'),  { x: -28, opacity: 0, duration: 0.7,  ease: 'power2.out' }, '-=0.5');
+        }
+        if (riskWrap) {
+          var items = riskWrap.querySelectorAll('li');
+          gsap.from(riskWrap.querySelector('.gw-v2-risk-title'), {
+            scrollTrigger: { trigger: riskWrap, start: 'top 82%', once: true },
+            x: 32, opacity: 0, duration: 0.5, ease: 'power2.out'
+          });
+          gsap.from(items, {
+            scrollTrigger: { trigger: riskWrap, start: 'top 80%', once: true },
+            x: 36, opacity: 0, stagger: 0.09, duration: 0.5, ease: 'power2.out',
+            delay: 0.1
+          });
+        }
+
+        /* ── APPROACH ── */
+        var approach = document.querySelector('.gw-v2-approach-inner');
+        if (approach) {
+          gsap.from(approach.children, {
+            scrollTrigger: { trigger: approach, start: 'top 82%', once: true },
+            y: 32, opacity: 0, stagger: 0.16, duration: 0.8, ease: 'power3.out'
+          });
+        }
+
+        /* ── SERVICES ── */
+        var svcHead = document.querySelector('.gw-v2-services-head');
+        if (svcHead) {
+          gsap.from(svcHead.children, {
+            scrollTrigger: { trigger: svcHead, start: 'top 84%', once: true },
+            y: 30, opacity: 0, stagger: 0.13, duration: 0.7, ease: 'power3.out'
+          });
+        }
+        /* Featured service 01 */
+        var featRule = document.querySelector('.gw-v2-services-section .cv-cap-rule');
+        if (featRule) {
+          gsap.fromTo(featRule,
+            { scaleX: 0, transformOrigin: 'left center' },
+            { scaleX: 1, duration: 0.65, ease: 'power3.inOut',
+              scrollTrigger: { trigger: featRule, start: 'top 82%', once: true } }
+          );
+        }
+        var svcItems = document.querySelectorAll('.gw-service-item');
+        if (svcItems.length) {
+          gsap.from(svcItems, {
+            scrollTrigger: { trigger: '.gw-service-grid', start: 'top 80%', once: true },
+            y: 32, opacity: 0, stagger: 0.07, duration: 0.55, ease: 'power3.out'
+          });
+        }
+
+        /* ── PROCESS STEPS ── */
+        var steps = document.querySelectorAll('.gw-v2-step');
+        if (steps.length) {
+          gsap.from(steps, {
+            scrollTrigger: { trigger: '.gw-v2-steps', start: 'top 78%', once: true },
+            y: 44, opacity: 0, stagger: 0.14, duration: 0.75, ease: 'power4.out'
+          });
+        }
+
+        /* ── GUIDE / FORM ── */
+        var guideCopy = document.querySelector('.gw-v2-guide-copy');
+        var formShell = document.querySelector('.gw-v2-form-shell');
+        if (guideCopy) {
+          gsap.from(guideCopy.children, {
+            scrollTrigger: { trigger: guideCopy, start: 'top 82%', once: true },
+            x: -36, opacity: 0, stagger: 0.13, duration: 0.75, ease: 'power3.out'
+          });
+        }
+        if (formShell) {
+          gsap.from(formShell.children, {
+            scrollTrigger: { trigger: formShell, start: 'top 82%', once: true },
+            x: 36, opacity: 0, stagger: 0.11, duration: 0.7, ease: 'power3.out'
+          });
+        }
+
+        /* ── FAQ ── */
+        var faqHead  = document.querySelector('.gw-v2-faq-head');
+        var faqItems = document.querySelectorAll('.gw-v2-faq-list details');
+        if (faqHead) {
+          gsap.from(faqHead.children, {
+            scrollTrigger: { trigger: faqHead, start: 'top 84%', once: true },
+            y: 28, opacity: 0, stagger: 0.12, duration: 0.65, ease: 'power3.out'
+          });
+        }
+        if (faqItems.length) {
+          gsap.from(faqItems, {
+            scrollTrigger: { trigger: '.gw-v2-faq-list', start: 'top 82%', once: true },
+            y: 22, opacity: 0, stagger: 0.09, duration: 0.55, ease: 'power2.out'
+          });
+        }
+
+        /* ── CTA ── */
+        var ctaInner = document.querySelector('.gw-v2-cta-inner');
+        if (ctaInner) {
+          gsap.from(ctaInner.children, {
+            scrollTrigger: { trigger: ctaInner, start: 'top 80%', once: true },
+            y: 40, opacity: 0, stagger: 0.14, duration: 0.85, ease: 'power4.out'
+          });
+        }
+      }
+
+      if (document.readyState === 'complete') { gwAnims(); }
+      else { window.addEventListener('load', gwAnims); }
+    })();
+    </script>
   </body>
 </html>

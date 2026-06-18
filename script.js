@@ -1084,13 +1084,53 @@ function initGsapMotion() {
   if (hasScrollTrigger) gsap.registerPlugin(ScrollTrigger);
 
   const heroTitle = document.querySelector(".hero-title");
+  const heroTitleWords = heroTitle
+    ? Array.from(heroTitle.querySelectorAll(".hero-title-word"))
+    : [];
   const heroActions = document.querySelector(".hero-actions");
   const heroActionLinks = heroActions
     ? Array.from(heroActions.querySelectorAll(".hero-primary-link, .hero-secondary-link"))
     : [];
   const heroTimeline = gsap.timeline({ paused: true });
 
-  if (heroTitle) {
+  if (heroTitleWords.length) {
+    heroTimeline.from(
+      heroTitle,
+      {
+        filter: "blur(8px)",
+        duration: 0.42,
+        ease: "power2.out",
+        clearProps: "filter",
+      },
+      0.02
+    );
+
+    heroTitleWords.forEach((word, index) => {
+      heroTimeline.from(
+        word,
+        {
+          yPercent: -190,
+          y: -135,
+          rotate: -7,
+          autoAlpha: 0,
+          duration: 0.78,
+          ease: "power3.in",
+        },
+        index === 0 ? 0.02 : ">0.1"
+      );
+
+      heroTimeline.to(word, {
+        keyframes: [
+          { yPercent: 10, y: 10, rotate: 1.2, duration: 0.12, ease: "power2.in" },
+          { yPercent: 0, y: 0, rotate: 0, duration: 0.3, ease: "bounce.out" },
+          { x: -6, rotate: -0.8, duration: 0.04, ease: "none" },
+          { x: 4, rotate: 0.55, duration: 0.04, ease: "none" },
+          { x: 0, rotate: 0, duration: 0.035, ease: "none" },
+        ],
+        clearProps: "opacity,visibility,transform,x,y,rotate",
+      });
+    });
+  } else if (heroTitle) {
     heroTimeline.from(heroTitle, {
       y: 10,
       autoAlpha: 0,
@@ -1833,8 +1873,36 @@ function initCapabilitiesExportFilters() {
   };
 
   let activeFilterId = "";
+  let navPeekTimer = null;
 
-  const setActiveFilter = (targetId) => {
+  const showSectionNav = () => {
+    if (!sectionNav) return;
+    if (navPeekTimer) {
+      window.clearTimeout(navPeekTimer);
+    }
+    sectionNav.classList.add("is-peeking");
+    sectionNav.removeAttribute("aria-hidden");
+    sectionNav.inert = false;
+    navPeekTimer = window.setTimeout(() => {
+      sectionNav.classList.remove("is-peeking");
+      sectionNav.setAttribute("aria-hidden", "true");
+      sectionNav.inert = true;
+    }, prefersReducedMotion ? 2200 : 1700);
+  };
+
+  const hideSectionNav = () => {
+    if (!sectionNav) return;
+    if (navPeekTimer) {
+      window.clearTimeout(navPeekTimer);
+      navPeekTimer = null;
+    }
+    sectionNav.classList.remove("is-peeking");
+    sectionNav.setAttribute("aria-hidden", "true");
+    sectionNav.inert = true;
+  };
+
+  const setActiveFilter = (targetId, options = {}) => {
+    const { reveal = true } = options;
     if (targetId === activeFilterId) return;
     activeFilterId = targetId;
     filterButtons.forEach((button) => {
@@ -1848,7 +1916,10 @@ function initCapabilitiesExportFilters() {
         });
       }
     });
+    if (reveal) showSectionNav();
   };
+
+  hideSectionNav();
 
   filterButtons.forEach((button) => {
     button.setAttribute("aria-pressed", button.classList.contains("is-active") ? "true" : "false");
@@ -1857,7 +1928,7 @@ function initCapabilitiesExportFilters() {
       const target = targetId ? document.getElementById(targetId) : null;
       if (!target) return;
 
-      setActiveFilter(targetId);
+      setActiveFilter(targetId, { reveal: true });
       const top = target.getBoundingClientRect().top + window.scrollY - getScrollOffset();
       window.scrollTo({
         top: Math.max(0, top),
@@ -1874,7 +1945,7 @@ function initCapabilitiesExportFilters() {
         .slice()
         .reverse()
         .find(({ target }) => target.offsetTop <= probeY) || targets[0];
-    setActiveFilter(activeTarget.id);
+    setActiveFilter(activeTarget.id, { reveal: activeFilterId !== "" });
   };
 
   window.addEventListener("scroll", syncActiveFilter, { passive: true });
