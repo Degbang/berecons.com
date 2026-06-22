@@ -3200,6 +3200,40 @@ function initClientsReveal() {
   observer.observe(grid);
 }
 
+function initClientsTitleReveal() {
+  const title = document.querySelector("[data-client-title]");
+  if (!title) return;
+
+  const strips = [...title.querySelectorAll(".about-template-clients-title-strip")];
+  if (!strips.length || typeof gsap === "undefined") return;
+
+  if (prefersReducedMotion) {
+    gsap.set(strips, { opacity: 1, x: 0, clearProps: "transform" });
+    return;
+  }
+
+  gsap.set(strips, { opacity: 0, x: 54 });
+
+  const revealTo = {
+    opacity: 1,
+    x: 0,
+    duration: 1.18,
+    stagger: 0.2,
+    ease: "power3.out",
+    clearProps: "transform",
+  };
+
+  if (hasScrollTrigger) {
+    revealTo.scrollTrigger = {
+      trigger: title,
+      start: "top 84%",
+      once: true,
+    };
+  }
+
+  gsap.to(strips, revealTo);
+}
+
 function initAboutHeroSignals() {
   const signalRail = document.querySelector("[data-about-hero-signals]");
   const signalTags = signalRail ? [...signalRail.querySelectorAll("[data-about-hero-tag]")] : [];
@@ -4161,4 +4195,5 @@ initAboutTopOverscrollLock();
 initCounters();
 initAboutHeroSignals();
 initAboutStatsExperience();
+initClientsTitleReveal();
 initClientsReveal();
