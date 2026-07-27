@@ -1,3 +1,0 @@
-Maintenance mode is enabled for the public website.
-Remove this file to restore the full site.
-Optional: set MAINTENANCE_BYPASS_TOKEN in the server environment, then visit any page with ?preview=YOUR_TOKEN once to bypass maintenance privately.

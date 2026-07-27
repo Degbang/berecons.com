@@ -26,7 +26,7 @@
       rel="stylesheet"
       href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Manrope:wght@400;500;600;700&display=swap"
     />
-    <link rel="stylesheet" href="styles.css?v=20260621-11" />
+    <link rel="stylesheet" href="styles.css?v=20260513-6" />
   </head>
   <body class="is-loading inquiry-page">
     <div id="page-transition" class="page-transition" aria-hidden="true">
@@ -87,14 +87,6 @@
           >
           <a
             class="nav-link"
-            data-text="Teams"
-            data-transition-link
-            data-transition-label="Teams"
-            href="/teams/"
-            ><span>Teams</span></a
-          >
-          <a
-            class="nav-link"
             data-text="Capabilities"
             data-transition-link
             data-transition-label="Capabilities"
@@ -123,59 +115,45 @@
       </div>
     </header>
 
-    <main class="contact-v2" id="contact">
+    <main>
       <section
-        id="contact-section"
-        class="inquiry-section section-anchor"
-        data-header-surface="#ffffff"
+        id="contact"
+        class="panel section section-anchor inquiry-section"
+        data-header-surface="#050d26"
       >
-        <!-- Page header -->
-        <div class="ctv-header">
-          <div class="ctv-header-inner">
-            <span class="cv-eyebrow">Get in Touch</span>
-            <h1>Let&rsquo;s <em>talk.</em></h1>
-          </div>
-        </div>
+        <div class="container inquiry-layout">
+          <article class="inquiry-copy" data-reveal="fade-up">
+            <h1>Let's talk.</h1>
+            <p class="inquiry-lead">
+              Whether you have a defined challenge or an emerging one, the right starting point is
+              a conversation. We listen, ask the questions that matter, and tell you honestly what
+              we can do, and what we cannot. We respond to every inquiry within one business day.
+            </p>
 
-        <!-- Two-column body -->
-        <div class="ctv-body">
-
-          <!-- Left: info -->
-          <div class="ctv-info">
-
-            <div class="ctv-signals">
-              <div class="ctv-signal">
-                <p class="ctv-signal-title">Response</p>
-                <p>Within one business day</p>
+            <div class="inquiry-details">
+              <div>
+                <p class="inquiry-label">Email</p>
+                <a href="mailto:info@berecons.com?subject=Berecons%20Website%20Inquiry&amp;body=Hello%20Berecons%2C%0A%0AI%20would%20like%20to%20discuss%3A%0A%0AName%3A%0AOrganisation%3A%0APhone%2FWhatsApp%3A%0A%0ARegards%2C%0A">info@berecons.com</a>
               </div>
-              <div class="ctv-signal">
-                <p class="ctv-signal-title">Review</p>
-                <p>Senior-led from the first reply</p>
+              <div>
+                <p class="inquiry-label">Phone / WhatsApp</p>
+                <a href="tel:+14433006748">+1 (443) 300-6748</a>
               </div>
-              <div class="ctv-signal">
-                <p class="ctv-signal-title">Fit</p>
-                <p>Clear next steps, not vague follow-ups</p>
+              <div>
+                <p class="inquiry-label">Location</p>
+                <p class="inquiry-location">Accra, Ghana</p>
               </div>
             </div>
 
-            <div class="ctv-details">
-              <div class="ctv-detail">
-                <p class="ctv-detail-label">Email</p>
-                <p class="ctv-detail-value ctv-detail-value--muted">Shared after first response</p>
-              </div>
-              <div class="ctv-detail">
-                <p class="ctv-detail-label">Phone / WhatsApp</p>
-                <p class="ctv-detail-value ctv-detail-value--muted">Available on request</p>
-              </div>
-              <div class="ctv-detail">
-                <p class="ctv-detail-label">Location</p>
-                <p class="ctv-detail-value">Accra, Ghana</p>
-              </div>
-            </div>
+            <a
+              class="inquiry-whatsapp"
+              href="https://wa.me/14433006748"
+              target="_blank"
+              rel="noopener noreferrer"
+              >Chat on WhatsApp <span aria-hidden="true">→</span></a
+            >
 
-            <p class="ctv-privacy">To reduce spam, phishing, and cold outreach, direct contact details are shared after an initial review.</p>
-
-            <div class="ctv-map">
+            <div class="inquiry-map">
               <iframe
                 src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d127066.253351912!2d-0.2591244465406798!3d5.591208962295627!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xfdf9084b2b7a773%3A0xbed14ed8650e2dd3!2sAccra!5e0!3m2!1sen!2sgh!4v1715600000000!5m2!1sen!2sgh"
                 allowfullscreen=""
@@ -184,13 +162,9 @@
                 title="Accra map"
               ></iframe>
             </div>
-          </div>
+          </article>
 
-          <!-- Right: form -->
-          <div class="ctv-form-shell" id="contact-inquiry-form">
-            <p class="ctv-form-kicker">Send a message</p>
-            <h2>Start the conversation</h2>
-
+          <article class="inquiry-form-shell" data-reveal="fade-up">
             <form class="inquiry-form" action="#" method="post" novalidate>
               <label>
                 <span>Your Name *</span>
@@ -208,12 +182,12 @@
               </label>
 
               <label>
-                <span>What brings you here? (1&ndash;2 sentences)</span>
+                <span>What brings you here? (short - 1-2 sentences)</span>
                 <input type="text" name="summary" placeholder="e.g. Digital Strategy Audit for 2025" />
               </label>
 
               <label>
-                <span>How can Berecons LLC help?</span>
+                <span>How can Berecons LLC help? (longer text)</span>
                 <textarea
                   name="details"
                   rows="5"
@@ -224,77 +198,54 @@
               <button type="submit">Send Message</button>
               <p class="inquiry-form-feedback" id="inquiry-form-feedback" aria-live="polite"></p>
             </form>
-          </div>
-
+          </article>
         </div>
       </section>
     </main>
 
+    <footer class="site-footer">
+      <div class="container footer-inner">
+        <div class="footer-top footer-animate">
+          <a href="index.html?skipPreloader=1#home" class="footer-brand" aria-label="Berecons home" data-transition-link>
+            <img src="assets/logo-blc-cropped.png?v=20260227-7" alt="Berecons logo" class="footer-logo" />
+          </a>
+
+          <div class="footer-links-grid">
+            <section class="footer-links-group" aria-label="Footer menu">
+              <p class="footer-links-title">Menu</p>
+              <a href="index.html?skipPreloader=1#home" data-transition-link>Home</a>
+              <a href="about.html" data-transition-link>Our Story</a>
+              <a href="/capabilities" data-transition-link>Capabilities</a>
+              <a href="get-quote.html" data-transition-link>Get Quote</a>
+              <a href="contact.html" data-transition-link>Contact</a>
+            </section>
+
+            <section class="footer-links-group" aria-label="Footer socials">
+              <p class="footer-links-title">Socials</p>
+              <a
+                href="https://www.linkedin.com/company/bereconsllc"
+                target="_blank"
+                rel="noopener noreferrer"
+                >LinkedIn</a
+              >
+            </section>
+          </div>
+        </div>
+
+        <div class="footer-bottom footer-animate">
+          <p class="footer-copy">&copy; <span data-current-year>2026</span> Berecons LLC. All rights reserved.</p>
+          <p class="footer-services-line">
+            Research | Data | Content | Systems + Design | Strategy Consulting | Programme/Projects | Policy &amp;
+            Legal | Technology
+          </p>
+        </div>
+      </div>
+    </footer>
+
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
-    <script src="script.js?v=20260614-9"></script>
+    <script src="script.js?v=20260513-5"></script>
     <script src="form-submit.js?v=20260522-1"></script>
     <script src="contact.js?v=20260522-1"></script>
-    <script>
-    (function () {
-      function contactAnims() {
-        if (typeof gsap === 'undefined') return;
-        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-        gsap.registerPlugin(ScrollTrigger);
-
-        /* Header */
-        var hInner = document.querySelector('.ctv-header-inner');
-        if (hInner) {
-          var tl = gsap.timeline({ delay: 0.3 });
-          var eyebrow = hInner.querySelector('.cv-eyebrow');
-          var h1      = hInner.querySelector('h1');
-          var desc    = hInner.querySelector('p');
-          if (eyebrow) tl.from(eyebrow, { y: 20, opacity: 0, duration: 0.55, ease: 'power3.out' });
-          if (h1)      tl.from(h1,      { y: 62, opacity: 0, duration: 1.05, ease: 'power4.out' }, '-=0.2');
-          if (desc)    tl.from(desc,    { y: 28, opacity: 0, duration: 0.75, ease: 'power2.out' }, '-=0.55');
-        }
-
-        /* Signals */
-        var signals = document.querySelectorAll('.ctv-signal');
-        if (signals.length) {
-          gsap.from(signals, {
-            scrollTrigger: { trigger: '.ctv-signals', start: 'top 84%', once: true },
-            x: -28, opacity: 0, stagger: 0.1, duration: 0.6, ease: 'power3.out'
-          });
-        }
-
-        /* Details */
-        var details = document.querySelectorAll('.ctv-detail');
-        if (details.length) {
-          gsap.from(details, {
-            scrollTrigger: { trigger: '.ctv-details', start: 'top 84%', once: true },
-            x: -24, opacity: 0, stagger: 0.09, duration: 0.55, ease: 'power2.out'
-          });
-        }
-
-        /* Map */
-        var mapEl = document.querySelector('.ctv-map');
-        if (mapEl) {
-          gsap.from(mapEl, {
-            scrollTrigger: { trigger: mapEl, start: 'top 82%', once: true },
-            y: 24, opacity: 0, duration: 0.8, ease: 'power3.out'
-          });
-        }
-
-        /* Form column */
-        var formShell = document.querySelector('.ctv-form-shell');
-        if (formShell) {
-          var kids = formShell.querySelectorAll('.ctv-form-kicker, h2, .inquiry-form label, .inquiry-form button');
-          gsap.from(kids, {
-            scrollTrigger: { trigger: formShell, start: 'top 80%', once: true },
-            x: 36, opacity: 0, stagger: 0.07, duration: 0.65, ease: 'power3.out'
-          });
-        }
-      }
-
-      if (document.readyState === 'complete') { contactAnims(); }
-      else { window.addEventListener('load', contactAnims); }
-    })();
-    </script>
   </body>
 </html>

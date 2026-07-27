@@ -58,10 +58,6 @@ class BereconsAppServer {
   async handleRequest(req, res) {
     const requestUrl = new URL(req.url || "/", `http://${req.headers.host || "localhost"}`);
 
-    if (this.tryHandleMaintenanceMode(req, res, requestUrl)) {
-      return;
-    }
-
     if (requestUrl.pathname === "/api/quote-submit") {
       if (req.method === "OPTIONS") {
         res.writeHead(204, this.getApiCorsHeaders());
@@ -87,119 +83,6 @@ class BereconsAppServer {
     }
 
     await this.serveStatic(requestUrl.pathname, req.method === "HEAD", res);
-  }
-
-  tryHandleMaintenanceMode(req, res, requestUrl) {
-    if (!this.isMaintenanceModeEnabled()) return false;
-    if (req.method !== "GET" && req.method !== "HEAD") return false;
-    if (this.requestBypassesMaintenance(req, res, requestUrl)) return false;
-    if (!this.isMaintenanceDocumentRequest(requestUrl.pathname)) return false;
-
-    this.serveMaintenancePage(req.method === "HEAD", res);
-    return true;
-  }
-
-  isMaintenanceModeEnabled() {
-    const envValue = (process.env.MAINTENANCE_MODE || "").trim().toLowerCase();
-    if (envValue === "true" || envValue === "1" || envValue === "yes" || envValue === "on") {
-      return true;
-    }
-
-    const flagPath = path.join(this.rootDir, ".maintenance");
-    return fs.existsSync(flagPath);
-  }
-
-  requestBypassesMaintenance(req, res, requestUrl) {
-    const bypassToken = (process.env.MAINTENANCE_BYPASS_TOKEN || "").trim();
-    if (!bypassToken) return false;
-
-    const previewToken = (requestUrl.searchParams.get("preview") || "").trim();
-    if (previewToken && previewToken === bypassToken) {
-      res.writeHead(302, {
-        Location: `${requestUrl.pathname}${requestUrl.searchParams.toString() ? `?${this.getRedirectQueryWithoutPreview(requestUrl)}` : ""}`.replace(/\?$/, ""),
-        "Set-Cookie": this.createMaintenanceBypassCookie(bypassToken),
-        "Cache-Control": "no-cache, no-store, must-revalidate",
-        Pragma: "no-cache",
-        Expires: "0",
-      });
-      res.end();
-      return true;
-    }
-
-    const cookies = this.parseCookies(req.headers.cookie || "");
-    return cookies.berecons_preview === bypassToken;
-  }
-
-  getRedirectQueryWithoutPreview(requestUrl) {
-    const nextParams = new URLSearchParams(requestUrl.searchParams);
-    nextParams.delete("preview");
-    return nextParams.toString();
-  }
-
-  createMaintenanceBypassCookie(token) {
-    return [
-      `berecons_preview=${encodeURIComponent(token)}`,
-      "Path=/",
-      "HttpOnly",
-      "SameSite=Lax",
-      "Max-Age=28800",
-    ].join("; ");
-  }
-
-  parseCookies(cookieHeader) {
-    return cookieHeader
-      .split(";")
-      .map((part) => part.trim())
-      .filter(Boolean)
-      .reduce((acc, part) => {
-        const separatorIndex = part.indexOf("=");
-        if (separatorIndex === -1) return acc;
-        const key = part.slice(0, separatorIndex).trim();
-        const value = part.slice(separatorIndex + 1).trim();
-        if (!key) return acc;
-        acc[key] = decodeURIComponent(value);
-        return acc;
-      }, {});
-  }
-
-  isMaintenanceDocumentRequest(requestPath) {
-    const pathname = decodeURIComponent(requestPath || "/");
-    if (pathname === "/maintenance.html") return false;
-    if (pathname.startsWith("/api/")) return false;
-
-    const extension = path.extname(pathname).toLowerCase();
-    if (!extension) return true;
-    return extension === ".html";
-  }
-
-  serveMaintenancePage(isHeadRequest, res) {
-    const filePath = path.join(this.rootDir, "maintenance.html");
-    let contents = "";
-
-    try {
-      contents = fs.readFileSync(filePath, "utf8");
-    } catch (error) {
-      console.error("[Berecons] failed to read maintenance page", error);
-      this.sendPlainText(res, 503, "Temporarily unavailable.");
-      return;
-    }
-
-    const body = Buffer.from(contents, "utf8");
-    res.writeHead(503, {
-      "Content-Type": "text/html; charset=utf-8",
-      "Content-Length": body.length,
-      "Cache-Control": "no-cache, no-store, must-revalidate",
-      Pragma: "no-cache",
-      Expires: "0",
-      "Retry-After": "3600",
-    });
-
-    if (isHeadRequest) {
-      res.end();
-      return;
-    }
-
-    res.end(body);
   }
 
   resolveStaticPath(requestPath) {

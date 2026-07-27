@@ -9,7 +9,7 @@
     <title>Our Capabilities | Berecons LLC</title>
     <meta
       name="description"
-      content="Eight integrated Berecons capabilities spanning research, strategy, programmes, digital, policy advisory, and Groundwork."
+      content="Seven integrated Berecons capabilities spanning research, strategy, programmes, digital, and policy advisory."
     />
     <script>
       (function markTransitionRevealPending() {
@@ -17,12 +17,18 @@
           if (window.sessionStorage.getItem("berecons-page-transition-reveal-once")) {
             document.documentElement.classList.add("transition-reveal-pending");
           }
-        } catch {}
+        } catch {
+          // Ignore storage access issues.
+        }
       })();
     </script>
     <link
       rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500;1,600;1,700&family=Manrope:wght@400;500;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Manrope:wght@400;500;700&display=swap"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
     />
     <link
       rel="preload"
@@ -31,9 +37,8 @@
       type="font/woff2"
       crossorigin
     />
-    <link rel="stylesheet" href="../styles.css?v=20260621-11" />
+    <link rel="stylesheet" href="../styles.css?v=20260513-6" />
   </head>
-
   <body class="is-loading capabilities-page capabilities-export-page">
     <div class="site-ambient" aria-hidden="true">
       <span class="ambient-glow ambient-glow-a"></span>
@@ -81,277 +86,581 @@
         </button>
 
         <nav id="site-nav" class="site-nav" aria-label="Main navigation">
-          <a class="nav-link" data-text="Home" data-transition-link data-transition-label="Home" href="../index.html?skipPreloader=1#home"><span>Home</span></a>
-          <a class="nav-link" data-text="About us" data-transition-link data-transition-label="About us" href="../about.html"><span>About us</span></a>
-          <a class="nav-link" data-text="Teams" data-transition-link data-transition-label="Teams" href="/teams/"><span>Teams</span></a>
-          <a class="nav-link is-active" data-text="Capabilities" data-transition-link data-transition-label="Capabilities" href="/capabilities"><span>Capabilities</span></a>
+          <a
+            class="nav-link"
+            data-text="Home"
+            data-transition-link
+            data-transition-label="Home"
+            href="../index.html?skipPreloader=1#home"
+            ><span>Home</span></a
+          >
+          <a
+            class="nav-link"
+            data-text="About us"
+            data-transition-link
+            data-transition-label="About us"
+            href="../about.html"
+            ><span>About us</span></a
+          >
+          <a
+            class="nav-link is-active"
+            data-text="Capabilities"
+            data-transition-link
+            data-transition-label="Capabilities"
+            href="/capabilities"
+            ><span>Capabilities</span></a
+          >
           <div class="site-nav-right">
-            <a class="nav-link" data-text="Contact" data-transition-link data-transition-label="Contact" href="../contact.html"><span>Contact</span></a>
-            <a class="nav-link" data-text="Get Quote" data-transition-link data-transition-label="Get Quote" href="../get-quote.html"><span>Get Quote</span></a>
+            <a
+              class="nav-link"
+              data-text="Contact"
+              data-transition-link
+              data-transition-label="Contact"
+              href="../contact.html"
+              ><span>Contact</span></a
+            >
+            <a
+              class="nav-link"
+              data-text="Get Quote"
+              data-transition-link
+              data-transition-label="Get Quote"
+              href="../get-quote.html"
+              ><span>Get Quote</span></a
+            >
           </div>
         </nav>
       </div>
     </header>
 
-    <main class="capabilities-export cap-v2">
+    <main class="capabilities-export">
+      <section id="cap-export-top" class="cap-export-hero section-anchor" data-header-surface="#070c26">
+        <div class="cap-export-container">
+          <h1>What We Do &mdash; And How We Do It.</h1>
+          <p>
+            Our capabilities are not a menu of separate services. They are a connected set of practices &mdash;
+            designed to address the full arc of a complex challenge, from the question to the answer, and from the
+            strategy to the result.
+          </p>
+        </div>
+      </section>
 
-      <!-- Floating section nav -->
-      <nav class="cap-export-nav" aria-label="Capabilities section navigation" aria-hidden="true">
+      <aside class="cap-export-nav" aria-label="Capabilities section navigation">
         <p>Capabilities</p>
         <button class="is-active" type="button" data-cap-export-filter="cap-export-top">Overview</button>
-        <button type="button" data-cap-export-filter="cap-export-research">Research</button>
+        <button type="button" data-cap-export-filter="cap-export-research">Research | Data</button>
         <button type="button" data-cap-export-filter="cap-export-content">Content</button>
-        <button type="button" data-cap-export-filter="cap-export-systems">Systems</button>
-        <button type="button" data-cap-export-filter="cap-export-strategy">Strategy</button>
-        <button type="button" data-cap-export-filter="cap-export-programmes">Programmes</button>
-        <button type="button" data-cap-export-filter="cap-export-groundwork">Groundwork</button>
+        <button type="button" data-cap-export-filter="cap-export-systems">Systems + Design</button>
+        <button type="button" data-cap-export-filter="cap-export-strategy">Strategy Consulting</button>
+        <button type="button" data-cap-export-filter="cap-export-programmes">Programme/Projects</button>
         <button type="button" data-cap-export-filter="cap-export-technology">Technology</button>
         <button type="button" data-cap-export-filter="cap-export-legal">Policy &amp; Legal</button>
-      </nav>
+      </aside>
 
-      <!-- ═══ HERO ═══ -->
-      <section id="cap-export-top" class="cv-hero section-anchor" data-header-surface="#08090d">
-        <div class="cv-hero-bg" aria-hidden="true">
-          <img src="../assets/w2.jpg" alt="" />
-        </div>
-        <div class="cv-hero-content">
-          <span class="cv-eyebrow">Our Capabilities</span>
-          <h1 class="cv-hero-h1">What We Do.<br /><em>How We Do It.</em></h1>
-          <p class="cv-hero-sub cv-hero-sub--lead">Our capabilities are not a menu of separate services.</p>
-          <p class="cv-hero-sub">They are a connected set of practices, designed to address the full arc of a complex challenge: from the question to the answer, from the strategy to the result.</p>
-          <div class="cv-hero-chips">
-            <a href="#cap-export-research">Research &amp; Data</a>
-            <a href="#cap-export-content">Content</a>
-            <a href="#cap-export-systems">Systems + Design</a>
-            <a href="#cap-export-strategy">Strategy</a>
-            <a href="#cap-export-programmes">Programmes</a>
-            <a href="#cap-export-groundwork">Groundwork</a>
-            <a href="#cap-export-technology">Technology</a>
-            <a href="#cap-export-legal">Policy &amp; Legal</a>
-          </div>
-        </div>
-      </section>
-
-      <!-- ═══ INTRO STRIP ═══ -->
-      <div class="cv-intro">
-        <p>Every engagement draws on the capabilities that the challenge actually requires.</p>
-      </div>
-
-      <!-- ═══ 01 RESEARCH ═══ -->
-      <section id="cap-export-research" class="cv-cap section-anchor" data-header-surface="#ffffff">
-        <div class="cv-cap-inner">
-          <div class="cv-cap-rule"><span class="cv-cap-num">01</span></div>
-          <div class="cv-cap-heading-block">
+      <section
+        id="cap-export-research"
+        class="cap-export-section cap-export-section--cream section-anchor"
+        data-header-surface="#f7f3ea"
+      >
+        <div class="cap-export-container cap-export-grid">
+          <div class="cap-export-copy">
+            <span class="cap-export-number">01</span>
             <h2>Research &amp; Data Analysis</h2>
-            <span class="cv-tagline">The right answer begins with the right evidence.</span>
+            <p class="cap-export-tagline">The right answer begins with the right evidence.</p>
+            <p>
+              The decisions that carry the most weight are made with the least reliable information. Berecons LLC
+              changes that. We design research programmes, manage data collection, conduct rigorous analysis
+              &mdash; qualitative and quantitative &mdash; and translate findings into intelligence that
+              decision-makers can actually use. We do not produce reports. We produce clarity.
+            </p>
           </div>
-          <div class="cv-cap-left">
-            <p class="cv-cap-desc">The decisions that carry the most weight are made with the least reliable information. Berecons changes that by designing research programmes, managing data collection, conducting rigorous analysis, and translating findings into intelligence that decision-makers can actually use. We do not produce reports. We produce clarity.</p>
-          </div>
-          <div class="cv-cap-right">
-            <ul class="cv-services">
-              <li>Research Design &amp; Methodology</li>
-              <li>Qualitative Research</li>
-              <li>Quantitative Analysis</li>
-              <li>Outcome Monitoring &amp; Impact Evaluation</li>
-              <li>Academic &amp; Professional Research Support</li>
+          <div class="cap-export-side">
+            <ul class="cap-export-list">
+              <li>
+                <strong>Research Design &amp; Methodology</strong>
+                <span>The framework before the fieldwork. Right questions, right methods, right controls.</span>
+              </li>
+              <li>
+                <strong>Qualitative Research</strong>
+                <span>Interviews, focus groups, ethnographic approaches, document analysis. We go beyond data to understand reality.</span>
+              </li>
+              <li>
+                <strong>Quantitative Analysis</strong>
+                <span>Statistical modelling, survey design, data visualisation, impact metrics. Numbers made meaningful.</span>
+              </li>
+              <li>
+                <strong>Outcome Monitoring &amp; Impact Evaluation</strong>
+                <span>We measure what matters, not what is easy to count.</span>
+              </li>
+              <li>
+                <strong>Academic &amp; Professional Research Support</strong>
+                <span>Expert partnership for researchers, students, and institutions where methodology is non-negotiable.</span>
+              </li>
             </ul>
-            <a class="cv-cta" href="../contact.html" data-transition-link data-transition-label="Contact">Discuss a research challenge <span aria-hidden="true">→</span></a>
+            <a class="cap-export-link" href="../contact.html" data-transition-link data-transition-label="Contact">
+              Discuss a research challenge
+              <span class="material-symbols-outlined" aria-hidden="true">arrow_forward</span>
+            </a>
           </div>
         </div>
       </section>
 
-      <!-- ═══ 02 CONTENT ═══ -->
-      <section id="cap-export-content" class="cv-cap section-anchor" data-header-surface="#f9f8f5">
-        <div class="cv-cap-inner">
-          <div class="cv-cap-rule"><span class="cv-cap-num">02</span></div>
-          <div class="cv-cap-heading-block">
+      <section
+        id="cap-export-content"
+        class="cap-export-section cap-export-section--slate section-anchor"
+        data-header-surface="#050d26"
+      >
+        <div class="cap-export-container cap-export-grid">
+          <div class="cap-export-copy">
+            <span class="cap-export-number">02</span>
             <h2>Content Development</h2>
-            <span class="cv-tagline">Language in service of strategy.</span>
+            <p class="cap-export-tagline">Language in service of strategy.</p>
+            <p>
+              Communication is not the final step in a consulting process &mdash; it is a discipline in itself. We
+              develop content that does exactly what it needs to do: inform, persuade, report, position, or explain.
+            </p>
+            <p>
+              Our work is human-authored with precision. Not because AI cannot produce words, but because the right
+              words &mdash; in the right register, for the right audience &mdash; require judgment that comes from
+              understanding your context, not just your brief.
+            </p>
+            <blockquote>
+              Precision language is not a luxury. It is the difference between a recommendation that lands and one
+              that does not.
+            </blockquote>
           </div>
-          <div class="cv-cap-left">
-            <p class="cv-cap-desc">Communication is not the final step in a consulting process; it is a discipline in itself. We develop content that does exactly what it needs to do: inform, persuade, report, position, or explain. Our work is human-authored with precision.</p>
-            <blockquote class="cv-quote">Precision language is not a luxury. It is the difference between a recommendation that lands and one that does not.</blockquote>
-          </div>
-          <div class="cv-cap-right">
-            <ul class="cv-services">
-              <li>Strategic &amp; Corporate Writing</li>
-              <li>Research Writing &amp; Academic Editing</li>
-              <li>Communications &amp; Brand Content</li>
-              <li>Document Control &amp; Production</li>
-              <li>Grant &amp; Proposal Writing</li>
+          <div class="cap-export-side">
+            <ul class="cap-export-list">
+              <li>
+                <strong>Strategic &amp; Corporate Writing</strong>
+                <span>Reports, proposals, policy documents, business plans. Written with the reader's decision in mind, not the writer's expertise.</span>
+              </li>
+              <li>
+                <strong>Research Writing &amp; Academic Editing</strong>
+                <span>Literature reviews, manuscripts, dissertations. Rigorous, properly referenced, publication-ready.</span>
+              </li>
+              <li>
+                <strong>Communications &amp; Brand Content</strong>
+                <span>Messaging frameworks, website copy, institutional narratives, stakeholder communications.</span>
+              </li>
+              <li>
+                <strong>Document Control &amp; Production</strong>
+                <span>Version management, formatting standards, and document governance across complex project lifecycles.</span>
+              </li>
+              <li>
+                <strong>Grant &amp; Proposal Writing</strong>
+                <span>Compelling, compliant proposals for funding bodies, institutional partners, and procurement panels.</span>
+              </li>
             </ul>
-            <a class="cv-cta" href="../contact.html" data-transition-link data-transition-label="Contact">Talk to us about your content needs <span aria-hidden="true">→</span></a>
+            <a class="cap-export-link" href="../contact.html" data-transition-link data-transition-label="Contact">
+              Talk to us about your content needs
+              <span class="material-symbols-outlined" aria-hidden="true">arrow_forward</span>
+            </a>
           </div>
         </div>
       </section>
 
-      <!-- ═══ 03 SYSTEMS ═══ -->
-      <section id="cap-export-systems" class="cv-cap section-anchor" data-header-surface="#ffffff">
-        <div class="cv-cap-inner">
-          <div class="cv-cap-rule"><span class="cv-cap-num">03</span></div>
-          <div class="cv-cap-heading-block">
-            <h2>Systems + Design Analysis</h2>
-            <span class="cv-tagline">Understand the system before you change it.</span>
+      <section
+        id="cap-export-systems"
+        class="cap-export-section cap-export-section--cream section-anchor"
+        data-header-surface="#f7f3ea"
+      >
+        <div class="cap-export-container cap-export-grid cap-export-grid--center">
+          <div class="cap-export-copy">
+            <span class="cap-export-number">03</span>
+            <h2>Systems + Design Thinking</h2>
+            <p class="cap-export-tagline">Understand the system before you change it.</p>
+            <p>
+              Most organisations do not have a strategy problem. They have a systems problem &mdash; a failure to
+              see how their parts connect, where the friction lives, and what change would actually change anything.
+            </p>
+            <p>
+              We apply systems thinking and design thinking as complementary lenses: mapping complexity, identifying
+              root causes, and designing interventions that address the system, not the symptom. This is diagnostic
+              and design work at the institutional level.
+            </p>
           </div>
-          <div class="cv-cap-left">
-            <p class="cv-cap-desc">Most organisations do not have a strategy problem. They have a systems problem: a failure to see how their parts connect, where the friction lives, and what change would actually change anything. We apply systems thinking and design thinking as complementary lenses, mapping complexity, identifying root causes, and designing interventions that address the system, not the symptom.</p>
-          </div>
-          <div class="cv-cap-right">
-            <ul class="cv-services">
-              <li>Systems Mapping &amp; Analysis</li>
-              <li>Design Thinking Facilitation</li>
-              <li>Process Review &amp; Redesign</li>
-              <li>Innovation Scoping</li>
-              <li>Institutional Diagnostics</li>
+          <div class="cap-export-side">
+            <ul class="cap-export-list">
+              <li>
+                <strong>Systems Mapping &amp; Analysis</strong>
+                <span>Diagramming and analysing complex systems: organisational, programmatic, technological, or market-level.</span>
+              </li>
+              <li>
+                <strong>Design Thinking Facilitation</strong>
+                <span>Structured problem framing, ideation, and solution prototyping. Workshop-based and consultant-led.</span>
+              </li>
+              <li>
+                <strong>Process Review &amp; Redesign</strong>
+                <span>Identifying inefficiencies, redundancies, and failure points &mdash; then designing better processes.</span>
+              </li>
+              <li>
+                <strong>Innovation Scoping</strong>
+                <span>For organisations exploring new products, services, or operating models. Structured divergence before disciplined convergence.</span>
+              </li>
+              <li>
+                <strong>Institutional Diagnostics</strong>
+                <span>Deep-dive assessment of organisational health, capability gaps, and structural misalignments.</span>
+              </li>
             </ul>
-            <a class="cv-cta" href="../contact.html" data-transition-link data-transition-label="Contact">Explore a systems challenge <span aria-hidden="true">→</span></a>
+            <div class="cap-export-diagram" aria-label="Systems diagram">
+              <svg viewBox="0 0 400 300" role="img">
+                <line stroke="#76767e" stroke-width="1" x1="50" x2="150" y1="150" y2="80"></line>
+                <line stroke="#76767e" stroke-width="1" x1="50" x2="150" y1="150" y2="220"></line>
+                <line stroke="#c8a96a" stroke-width="2" x1="150" x2="250" y1="80" y2="150"></line>
+                <line stroke="#76767e" stroke-width="1" x1="150" x2="250" y1="220" y2="150"></line>
+                <line stroke="#c8a96a" stroke-width="2" x1="250" x2="350" y1="150" y2="150"></line>
+                <circle cx="50" cy="150" fill="#050d26" r="6"></circle>
+                <circle cx="150" cy="80" fill="#050d26" r="6"></circle>
+                <circle cx="150" cy="220" fill="#050d26" r="6"></circle>
+                <circle cx="250" cy="150" fill="#c8a96a" r="8"></circle>
+                <circle cx="350" cy="150" fill="#050d26" r="6"></circle>
+                <text fill="#76767e" font-family="Manrope" font-size="10" x="40" y="175">INPUT</text>
+                <text fill="#c8a96a" font-family="Manrope" font-size="10" font-weight="700" x="235" y="135">
+                  LEVERAGE
+                </text>
+              </svg>
+            </div>
+            <a class="cap-export-link" href="../contact.html" data-transition-link data-transition-label="Contact">
+              Explore a systems challenge
+              <span class="material-symbols-outlined" aria-hidden="true">arrow_forward</span>
+            </a>
           </div>
         </div>
       </section>
 
-      <!-- ═══ 04 STRATEGY ═══ -->
-      <section id="cap-export-strategy" class="cv-cap section-anchor" data-header-surface="#f9f8f5">
-        <div class="cv-cap-inner">
-          <div class="cv-cap-rule"><span class="cv-cap-num">04</span></div>
-          <div class="cv-cap-heading-block">
+      <section
+        id="cap-export-strategy"
+        class="cap-export-section cap-export-section--slate section-anchor"
+        data-header-surface="#050d26"
+      >
+        <div class="cap-export-container cap-export-grid">
+          <div class="cap-export-copy">
+            <span class="cap-export-number">04</span>
             <h2>Strategy Consulting</h2>
-            <span class="cv-tagline">Direction that holds under scrutiny.</span>
+            <p class="cap-export-tagline">Direction that holds under scrutiny.</p>
+            <p>
+              Strategy is not a plan. It is a set of choices &mdash; about where to compete, what to build, what to
+              stop doing, and what to protect.
+            </p>
+            <p>
+              Our job is to help you make those choices with the clarity that comes from evidence, and the confidence
+              that comes from rigour. We provide independent strategic advisory to organisations navigating growth,
+              transformation, competition, or change.
+            </p>
+            <blockquote>
+              We do not tell clients what they want to hear. We tell them what the evidence says.
+            </blockquote>
           </div>
-          <div class="cv-cap-left">
-            <p class="cv-cap-desc">Strategy is not a plan. It is a set of choices: where to compete, what to build, what to stop doing, and what to protect. We provide independent strategic advisory to organisations navigating growth, transformation, competition, or change.</p>
-            <blockquote class="cv-quote">We do not tell clients what they want to hear. We tell them what the evidence says.</blockquote>
-          </div>
-          <div class="cv-cap-right">
-            <ul class="cv-services">
-              <li>Business Strategy &amp; Development</li>
-              <li>Organisational Strategy</li>
-              <li>Business Planning</li>
-              <li>Stakeholder &amp; Partnership Strategy</li>
-              <li>Market Entry &amp; Expansion</li>
+          <div class="cap-export-side">
+            <p>
+              Our recommendations are built to survive the pressures of implementation &mdash; not just presentation.
+            </p>
+            <ul class="cap-export-list">
+              <li>
+                <strong>Business Strategy &amp; Development</strong>
+                <span>Market analysis, competitive positioning, growth strategy. Grounded in evidence, pressure-tested against context.</span>
+              </li>
+              <li>
+                <strong>Organisational Strategy</strong>
+                <span>Structure, governance, capability alignment. What your organisation needs to become to do what you need it to do.</span>
+              </li>
+              <li>
+                <strong>Business Planning</strong>
+                <span>Plans that are realistic, fundable, and executable. Not produced for funders and filed.</span>
+              </li>
+              <li>
+                <strong>Stakeholder &amp; Partnership Strategy</strong>
+                <span>Who to work with, on what terms, and toward what end.</span>
+              </li>
+              <li>
+                <strong>Market Entry &amp; Expansion</strong>
+                <span>For organisations entering new markets or scaling operations, particularly within the West African and broader African context.</span>
+              </li>
             </ul>
-            <a class="cv-cta" href="../contact.html" data-transition-link data-transition-label="Contact">Talk strategy with us <span aria-hidden="true">→</span></a>
+            <a class="cap-export-link" href="../contact.html" data-transition-link data-transition-label="Contact">
+              Talk strategy with us
+              <span class="material-symbols-outlined" aria-hidden="true">arrow_forward</span>
+            </a>
           </div>
         </div>
       </section>
 
-      <!-- ═══ 05 PROGRAMMES ═══ -->
-      <section id="cap-export-programmes" class="cv-cap section-anchor" data-header-surface="#ffffff">
-        <div class="cv-cap-inner">
-          <div class="cv-cap-rule"><span class="cv-cap-num">05</span></div>
-          <div class="cv-cap-heading-block">
+      <section
+        id="cap-export-programmes"
+        class="cap-export-section cap-export-section--cream section-anchor"
+        data-header-surface="#f7f3ea"
+      >
+        <div class="cap-export-container cap-export-grid cap-export-grid--center">
+          <div class="cap-export-copy">
+            <span class="cap-export-number">05</span>
             <h2>Programme &amp; Projects</h2>
-            <span class="cv-tagline">From design to delivery: structured, monitored, accountable.</span>
+            <p class="cap-export-tagline">From design to delivery &mdash; structured, monitored, accountable.</p>
+            <p>
+              Ideas fail in execution. Not because the idea was wrong, but because the execution was under-managed
+              &mdash; unclear accountability, unrealistic timelines, monitoring systems that were never built.
+            </p>
+            <p>
+              We design programmes and projects with implementation in mind from the first day, not the last. We
+              manage the work. Not just the plan.
+            </p>
           </div>
-          <div class="cv-cap-left">
-            <p class="cv-cap-desc">Ideas fail in execution, not because the idea was wrong, but because the execution was under-managed. We design programmes and projects with implementation in mind from the first day, not the last. We manage the work, not just the plan.</p>
-          </div>
-          <div class="cv-cap-right">
-            <ul class="cv-services">
-              <li>Programme Design &amp; Development</li>
-              <li>Project Management</li>
-              <li>Monitoring, Evaluation &amp; Learning</li>
-              <li>Practicum Placement &amp; Coordination</li>
-              <li>Document Control &amp; Records Management</li>
+          <div class="cap-export-side">
+            <ul class="cap-export-list">
+              <li>
+                <strong>Programme Design &amp; Development</strong>
+                <span>From concept to operational blueprint. Logic models, theory of change, stakeholder mapping, risk frameworks.</span>
+              </li>
+              <li>
+                <strong>Project Management</strong>
+                <span>Active, structured management of complex multi-stakeholder projects. Adaptive and accountable.</span>
+              </li>
+              <li>
+                <strong>Monitoring, Evaluation &amp; Learning (MEL)</strong>
+                <span>Frameworks designed before implementation begins. Not retrofitted after something goes wrong.</span>
+              </li>
+              <li>
+                <strong>Practicum Placement &amp; Coordination</strong>
+                <span>Structured placement programmes for students and early-career professionals. Designed and managed end-to-end.</span>
+              </li>
+              <li>
+                <strong>Document Control &amp; Records Management</strong>
+                <span>Version control, filing governance, and document quality management across project lifecycles.</span>
+              </li>
             </ul>
-            <a class="cv-cta" href="../contact.html" data-transition-link data-transition-label="Contact">Discuss a programme or project <span aria-hidden="true">→</span></a>
+            <div class="cap-export-timeline" aria-label="Programme and project management process">
+              <div><span>1</span><strong>Design</strong></div>
+              <div><span>2</span><strong>Launch</strong></div>
+              <div><span>3</span><strong>Monitor</strong></div>
+              <div><span>4</span><strong>Evaluate</strong></div>
+              <div><span>5</span><strong>Adapt</strong></div>
+            </div>
+            <a class="cap-export-link" href="../contact.html" data-transition-link data-transition-label="Contact">
+              Discuss a programme or project
+              <span class="material-symbols-outlined" aria-hidden="true">arrow_forward</span>
+            </a>
           </div>
         </div>
       </section>
 
-      <!-- ═══ 06 GROUNDWORK ═══ -->
-      <section id="cap-export-groundwork" class="cv-cap section-anchor" data-header-surface="#f9f8f5">
-        <div class="cv-cap-inner">
-          <div class="cv-cap-rule"><span class="cv-cap-num">06</span></div>
-          <div class="cv-cap-heading-block">
-            <h2>Groundwork</h2>
-            <span class="cv-tagline">Your Investment. Your Property. Your Protection.</span>
-          </div>
-          <div class="cv-cap-left">
-            <p class="cv-cap-desc">Groundwork is Berecons LLC&rsquo;s dedicated protection service for clients making property, investment, relocation, and local execution decisions in Ghana. It is designed for those who need trusted local support before money moves, documents are signed, or projects begin.</p>
-            <blockquote class="cv-quote">Groundwork combines verification, legal coordination, local representation, and documented oversight before decisions become difficult to reverse.</blockquote>
-          </div>
-          <div class="cv-cap-right">
-            <ul class="cv-services">
-              <li>Land &amp; Property Acquisition Security</li>
-              <li>Due Diligence &amp; Forensic Research</li>
-              <li>Legal Advisory &amp; Compliance Support</li>
-              <li>Local Representation &amp; Project Oversight</li>
-              <li>Asset &amp; Property Registration Support</li>
-              <li>Relocation &amp; Concierge Settlement</li>
-              <li>Dispute Resolution &amp; Asset Recovery</li>
-              <li>Portfolio Asset Management</li>
-            </ul>
-            <a class="cv-cta" href="/groundwork/" data-transition-link data-transition-label="Groundwork">Explore the full Groundwork service <span aria-hidden="true">→</span></a>
-          </div>
-        </div>
-      </section>
-
-      <!-- ═══ 07 TECHNOLOGY ═══ -->
-      <section id="cap-export-technology" class="cv-cap section-anchor" data-header-surface="#ffffff">
-        <div class="cv-cap-inner">
-          <div class="cv-cap-rule"><span class="cv-cap-num">07</span></div>
-          <div class="cv-cap-heading-block">
+      <section
+        id="cap-export-technology"
+        class="cap-export-section cap-export-section--digital section-anchor"
+        data-header-surface="#050d26"
+      >
+        <div class="cap-export-container">
+          <div class="cap-export-digital-head">
+            <span class="cap-export-number">06</span>
             <h2>IT &amp; Digital Solutions</h2>
-            <span class="cv-tagline">Technology that serves your strategy, not the reverse.</span>
+            <p class="cap-export-tagline">Technology that serves your strategy &mdash; not the reverse.</p>
+            <p>
+              Digital transformation is not a technology project. It is a strategy project that technology enables.
+              Most organisations approach digital the wrong way: they choose the tool, then try to fit their strategy
+              to it.
+            </p>
+            <p>
+              Berecons LLC works in the opposite direction. We start with your objectives, your audience, your
+              operating context &mdash; and then design the digital solution that serves them.
+            </p>
+            <p>
+              We hold a particular depth of expertise in digital communications &mdash; the design, architecture,
+              and management of platforms that connect organisations with the people they serve.
+            </p>
+            <div class="cap-export-stats">
+              <div>
+                <strong>100%</strong>
+                <span>Digital Reach</span>
+              </div>
+              <div>
+                <strong>RT</strong>
+                <span>Real-Time Reporting</span>
+              </div>
+              <div>
+                <strong>0%</strong>
+                <span>Paper Required</span>
+              </div>
+            </div>
           </div>
-          <div class="cv-cap-left">
-            <p class="cv-cap-desc">Digital transformation is not a technology project. It is a strategy project that technology enables. Berecons starts with your objectives, your audience, and your operating context, then designs the system that communication, reporting, and operations can actually run through.</p>
+
+          <div class="cap-export-digital-grid">
+            <div class="cap-export-panels">
+              <article>
+                <h3>Digital Communications Design &amp; Architecture</h3>
+                <p>
+                  We design communications systems &mdash; not just channels &mdash; that integrate message,
+                  audience, platform, and governance into a coherent, manageable whole.
+                </p>
+              </article>
+              <article>
+                <h3>Digital Platform Development &amp; Web Presence</h3>
+                <p>
+                  A website is not a brochure. We design and build web presences that communicate with precision:
+                  the right architecture, the right content hierarchy, the right conversion points.
+                </p>
+              </article>
+              <article>
+                <h3>Database Design &amp; Information Systems</h3>
+                <p>
+                  We design and implement database systems that give organisations reliable, accessible, and
+                  structured records.
+                </p>
+              </article>
+              <article>
+                <h3>Digital Transformation Advisory</h3>
+                <p>
+                  We help organisations navigate transition with a structured framework: readiness assessment,
+                  roadmap design, change management support, and implementation oversight.
+                </p>
+              </article>
+            </div>
+
+            <div class="cap-export-dashboard" aria-label="Integrated Digital Communications Hub dashboard mockup">
+              <aside>
+                <span class="material-symbols-outlined is-active">dashboard</span>
+                <span class="material-symbols-outlined">analytics</span>
+                <span class="material-symbols-outlined">hub</span>
+                <span class="material-symbols-outlined">settings</span>
+              </aside>
+              <div class="cap-export-dashboard-main">
+                <div class="cap-export-dashboard-top">
+                  <h3>Integrated Digital Communications Hub</h3>
+                  <span></span>
+                </div>
+                <div class="cap-export-dashboard-metrics">
+                  <article>
+                    <i></i>
+                    <strong>Feed</strong>
+                    <span>Announcements</span>
+                  </article>
+                  <article>
+                    <i></i>
+                    <strong>Analytics</strong>
+                    <span>Engagement reporting</span>
+                  </article>
+                  <article>
+                    <i></i>
+                    <strong>Directory</strong>
+                    <span>Member segments</span>
+                  </article>
+                </div>
+                <div class="cap-export-status">
+                  <p><i></i> System Status: Optimal</p>
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                </div>
+              </div>
+            </div>
           </div>
-          <div class="cv-cap-right">
-            <ul class="cv-services">
-              <li>Communications Architecture</li>
-              <li>Platforms &amp; Web Presence</li>
-              <li>Data &amp; Information Systems</li>
-              <li>Transformation Advisory</li>
-            </ul>
-            <a class="cv-cta" href="../contact.html" data-transition-link data-transition-label="Contact">Let&rsquo;s design it together <span aria-hidden="true">→</span></a>
+
+          <div class="cap-export-problems">
+            <article>
+              <span class="material-symbols-outlined">repartition</span>
+              <h3>Fragmentation</h3>
+              <p>
+                Multiple channels with no central governance. Messages that contradict each other. We design unified
+                platforms where every communication is traceable, consistent, and coordinated.
+              </p>
+            </article>
+            <article>
+              <span class="material-symbols-outlined">trending_down</span>
+              <h3>Low Adoption</h3>
+              <p>
+                Platforms that members do not use because they were not designed for them. We conduct audience
+                research before any build decision.
+              </p>
+            </article>
+            <article>
+              <span class="material-symbols-outlined">bar_chart</span>
+              <h3>No Measurement</h3>
+              <p>
+                Communications without metrics are conversations without feedback. Every hub includes analytics
+                dashboards and performance indicators.
+              </p>
+            </article>
           </div>
+          <a class="cap-export-link cap-export-link--dark" href="../contact.html" data-transition-link data-transition-label="Contact">
+            Let&rsquo;s Design It Together
+            <span class="material-symbols-outlined" aria-hidden="true">arrow_forward</span>
+          </a>
         </div>
       </section>
 
-      <!-- ═══ 08 POLICY & LEGAL ═══ -->
-      <section id="cap-export-legal" class="cv-cap section-anchor" data-header-surface="#f9f8f5">
-        <div class="cv-cap-inner">
-          <div class="cv-cap-rule"><span class="cv-cap-num">08</span></div>
-          <div class="cv-cap-heading-block">
+      <section
+        id="cap-export-legal"
+        class="cap-export-section cap-export-section--slate section-anchor"
+        data-header-surface="#050d26"
+      >
+        <div class="cap-export-container cap-export-grid">
+          <div class="cap-export-copy">
+            <span class="cap-export-number">07</span>
             <h2>Policy &amp; Legal Advisory</h2>
-            <span class="cv-tagline">Navigating the frameworks that govern what&rsquo;s possible.</span>
+            <p class="cap-export-tagline">Navigating the frameworks that govern what&rsquo;s possible.</p>
+            <p>
+              Strategy that ignores the regulatory and policy environment is strategy that will fail at the
+              implementation stage. Berecons LLC provides advisory at the intersection of policy analysis and legal
+              framework navigation.
+            </p>
+            <p>
+              We are not a law firm. We are strategic advisors who understand how law and policy shape what
+              organisations can and cannot do.
+            </p>
+            <div class="cap-export-icons">
+              <div>
+                <span class="material-symbols-outlined">balance</span>
+                <small>Justice</small>
+              </div>
+              <div>
+                <span class="material-symbols-outlined">description</span>
+                <small>Policy</small>
+              </div>
+              <div>
+                <span class="material-symbols-outlined">account_balance</span>
+                <small>Statute</small>
+              </div>
+            </div>
           </div>
-          <div class="cv-cap-left">
-            <p class="cv-cap-desc">Strategy that ignores the regulatory and policy environment is strategy that will fail at the implementation stage. We provide advisory at the intersection of policy analysis and legal framework navigation, as strategic advisors who understand how law and policy shape what organisations can and cannot do.</p>
-            <p class="cv-note">Berecons LLC provides strategic advisory, not legal representation. For matters requiring legal counsel, we work alongside qualified legal practitioners.</p>
-          </div>
-          <div class="cv-cap-right">
-            <ul class="cv-services">
-              <li>Policy Analysis &amp; Environment Scanning</li>
-              <li>Compliance Framework Design</li>
-              <li>Regulatory Engagement Strategy</li>
-              <li>Legal Documentation Advisory</li>
-              <li>Policy Research &amp; Advocacy Support</li>
-              <li>Institutional Governance Advisory</li>
+          <div class="cap-export-side">
+            <ul class="cap-export-list">
+              <li>
+                <strong>Policy Analysis &amp; Environment Scanning</strong>
+                <span>Understanding the regulatory, legislative, and policy landscape relevant to your sector and jurisdiction.</span>
+              </li>
+              <li>
+                <strong>Compliance Framework Design</strong>
+                <span>Building operational processes that are compliant with applicable law and institutional policy requirements.</span>
+              </li>
+              <li>
+                <strong>Regulatory Engagement Strategy</strong>
+                <span>Supporting organisations in engaging with regulatory bodies, government agencies, and policy processes.</span>
+              </li>
+              <li>
+                <strong>Legal Documentation Advisory</strong>
+                <span>Review and advisory on contracts, MoUs, partnership agreements, and institutional frameworks.</span>
+              </li>
+              <li>
+                <strong>Policy Research &amp; Advocacy Support</strong>
+                <span>Evidence-based research for organisations engaged in policy advocacy, public affairs, or legislative engagement.</span>
+              </li>
+              <li>
+                <strong>Institutional Governance Advisory</strong>
+                <span>Supporting boards, committees, and leadership teams in understanding and meeting governance obligations.</span>
+              </li>
             </ul>
-            <a class="cv-cta" href="../contact.html" data-transition-link data-transition-label="Contact">Discuss a policy or governance challenge <span aria-hidden="true">→</span></a>
+            <p class="cap-export-note">
+              Berecons LLC provides strategic advisory, not legal representation. For matters requiring legal counsel,
+              we work alongside qualified legal practitioners.
+            </p>
+            <a class="cap-export-link" href="../contact.html" data-transition-link data-transition-label="Contact">
+              Discuss a policy or governance challenge
+              <span class="material-symbols-outlined" aria-hidden="true">arrow_forward</span>
+            </a>
           </div>
         </div>
       </section>
-
-      <!-- ═══ BOTTOM CTA ═══ -->
-      <section class="cv-bottom-cta">
-        <div class="cv-bottom-cta-inner">
-          <span class="cv-eyebrow" style="color: rgba(200,169,106,0.65)">Work With Us</span>
-          <h2>Ready to begin?<br /><em>Let&rsquo;s talk.</em></h2>
-          <p>Tell us about your challenge. We will tell you where we fit and where we do not.</p>
-          <div class="cv-bottom-cta-actions">
-            <a href="../get-quote.html" class="cv-btn-primary" data-transition-link data-transition-label="Get Quote">Get a Quote</a>
-            <a href="../contact.html" class="cv-btn-secondary" data-transition-link data-transition-label="Contact">Get in Touch &nbsp;&rarr;</a>
-          </div>
-        </div>
-      </section>
-
     </main>
 
-    <footer class="site-footer">
+    <footer class="site-footer cap-export-footer">
       <div class="container footer-inner">
         <div class="footer-top footer-animate">
           <a
@@ -367,35 +676,29 @@
             <section class="footer-links-group" aria-label="Footer menu">
               <p class="footer-links-title">Menu</p>
               <a href="../index.html?skipPreloader=1#home" data-transition-link>Home</a>
-              <a href="../about.html">About Us</a>
-              <a href="/teams/">Team</a>
-              <a href="/capabilities">Capabilities</a>
-              <a href="../get-quote.html">Get a Quote</a>
-              <a href="../contact.html">Contact</a>
-            </section>
-
-            <section class="footer-links-group" aria-label="Footer about">
-              <p class="footer-links-title">About</p>
-              <a href="../about/founder/leaparker/">Meet the Founder</a>
-              <a href="/teams/">Meet the Team</a>
               <a href="../about.html">Our Story</a>
-              <a href="../about.html#our-value">Our Standards</a>
+              <a href="/capabilities">Capabilities</a>
+              <a href="../get-quote.html">Get Quote</a>
+              <a href="../contact.html">Contact</a>
             </section>
 
             <section class="footer-links-group" aria-label="Footer socials">
               <p class="footer-links-title">Socials</p>
-              <a href="https://www.linkedin.com/company/bereconsllc" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+              <a
+                href="https://www.linkedin.com/company/bereconsllc"
+                target="_blank"
+                rel="noopener noreferrer"
+                >LinkedIn</a
+              >
             </section>
           </div>
         </div>
 
         <div class="footer-bottom footer-animate">
-          <p class="footer-copy">
-            &copy; <span data-current-year>2026</span> Berecons LLC. All rights reserved. | Engineered by Berecons LLC
-          </p>
+          <p class="footer-copy">&copy; <span data-current-year>2026</span> Berecons LLC. All rights reserved.</p>
           <p class="footer-services-line">
             Research | Data | Content | Systems + Design | Strategy Consulting | Programme/Projects | Policy &amp;
-            Legal | Technology | Groundwork
+            Legal | Technology
           </p>
         </div>
       </div>
@@ -403,90 +706,6 @@
 
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
-    <script src="../script.js?v=20260614-9"></script>
-    <script>
-    (function () {
-      function capAnims() {
-        if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
-        gsap.registerPlugin(ScrollTrigger);
-        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-
-        /* ── HERO ── */
-        const heroContent = document.querySelector('.cv-hero-content');
-        if (heroContent) {
-          const tl = gsap.timeline({ delay: 0.3 });
-          const eyebrow = heroContent.querySelector('.cv-eyebrow');
-          const h1      = heroContent.querySelector('.cv-hero-h1');
-          const sub     = heroContent.querySelector('.cv-hero-sub');
-          const chips   = heroContent.querySelectorAll('.cv-hero-chips a');
-          if (eyebrow) tl.from(eyebrow, { y: 28, opacity: 0, duration: 0.65, ease: 'power3.out' });
-          if (h1)      tl.from(h1,      { y: 72, opacity: 0, duration: 1.15, ease: 'power4.out' }, '-=0.25');
-          if (sub)     tl.from(sub,     { y: 34, opacity: 0, duration: 0.85, ease: 'power2.out' }, '-=0.65');
-          if (chips.length) tl.from(chips, { y: 20, opacity: 0, stagger: 0.09, duration: 0.5, ease: 'power2.out' }, '-=0.55');
-        }
-        /* Slow-drift hero bg */
-        const heroBg = document.querySelector('.cv-hero-bg img');
-        if (heroBg) gsap.to(heroBg, { scale: 1.06, duration: 18, ease: 'none', repeat: -1, yoyo: true });
-
-        /* ── INTRO ── */
-        const introP = document.querySelector('.cv-intro p');
-        if (introP) {
-          gsap.from(introP, {
-            scrollTrigger: { trigger: introP, start: 'top 88%', once: true },
-            y: 40, opacity: 0, scale: 0.97, duration: 1, ease: 'power3.out'
-          });
-        }
-
-        /* ── EACH CAPABILITY SECTION ── */
-        document.querySelectorAll('.cv-cap').forEach(function (section) {
-          var rule    = section.querySelector('.cv-cap-rule');
-          var num     = section.querySelector('.cv-cap-num');
-          var h2      = section.querySelector('h2');
-          var tagline = section.querySelector('.cv-tagline');
-          var desc    = section.querySelector('.cv-cap-desc');
-          var quote   = section.querySelector('.cv-quote');
-          var items   = section.querySelectorAll('.cv-services li');
-          var note    = section.querySelector('.cv-note');
-          var cta     = section.querySelector('.cv-cta');
-
-          var tl = gsap.timeline({
-            scrollTrigger: { trigger: section, start: 'top 76%', once: true }
-          });
-
-          if (rule)    tl.fromTo(rule, { scaleX: 0, transformOrigin: 'left center' }, { scaleX: 1, duration: 0.6, ease: 'power3.inOut' });
-          if (num)     tl.from(num,     { x: -20, opacity: 0, duration: 0.45, ease: 'back.out(2)' }, '-=0.3');
-          if (h2)      tl.from(h2,      { y: 56, opacity: 0, duration: 0.95, ease: 'power4.out' }, '-=0.3');
-          if (tagline) tl.from(tagline, { x: 28, opacity: 0, duration: 0.55, ease: 'power2.out' }, '-=0.6');
-          if (desc)    tl.from(desc,    { y: 28, opacity: 0, duration: 0.7,  ease: 'power2.out' }, '-=0.35');
-          if (quote)   tl.from(quote,   { x: -28, opacity: 0, duration: 0.6, ease: 'power2.out' }, '-=0.3');
-          if (items.length) tl.from(items, { y: 18, opacity: 0, stagger: 0.055, duration: 0.45, ease: 'power2.out' }, '-=0.4');
-          if (note)    tl.from(note,    { y: 16, opacity: 0, duration: 0.45, ease: 'power2.out' }, '-=0.25');
-          if (cta)     tl.from(cta,     { y: 18, opacity: 0, duration: 0.5,  ease: 'power2.out' }, '-=0.25');
-        });
-
-        /* ── BG PHOTO PARALLAX ── */
-        document.querySelectorAll('.cv-cap-bg img').forEach(function (img) {
-          gsap.to(img, {
-            yPercent: -22, ease: 'none',
-            scrollTrigger: {
-              trigger: img.closest('.cv-cap'),
-              start: 'top bottom', end: 'bottom top', scrub: 1.8
-            }
-          });
-        });
-
-        /* ── BOTTOM CTA ── */
-        var ctaSec = document.querySelector('.cv-bottom-cta');
-        if (ctaSec) {
-          var tlCta = gsap.timeline({ scrollTrigger: { trigger: ctaSec, start: 'top 78%', once: true } });
-          var kids  = ctaSec.querySelectorAll('.cv-eyebrow, h2, p, .cv-bottom-cta-actions > *');
-          tlCta.from(kids, { y: 38, opacity: 0, stagger: 0.13, duration: 0.8, ease: 'power4.out' });
-        }
-      }
-
-      if (document.readyState === 'complete') { capAnims(); }
-      else { window.addEventListener('load', capAnims); }
-    })();
-    </script>
+    <script src="../script.js?v=20260513-5"></script>
   </body>
 </html>
